@@ -1,0 +1,65 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.5.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+}
+
+group = 'dev.j.api'
+version = '0.0.1'
+sourceCompatibility = '1.8'
+
+configurations {
+	developmentOnly
+	runtimeClasspath {
+		extendsFrom developmentOnly
+	}
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+	jcenter {url 'http://oss.jfrog.org/artifactory/oss-snapshot-local/'}
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-starter-web'
+	implementation group: 'org.springframework.plugin', name: 'spring-plugin-core', version: '2.0.0.RELEASE'
+
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+
+	implementation 'org.mariadb.jdbc:mariadb-java-client:2.6.0'
+	implementation 'commons-dbcp:commons-dbcp:1.4'
+	implementation group: 'org.mybatis', name: 'mybatis', version: '3.5.4'
+	implementation group: 'org.mybatis.spring.boot', name: 'mybatis-spring-boot-starter', version: '2.1.2'
+
+	implementation 'commons-io:commons-io:2.6'
+	implementation 'commons-fileupload:commons-fileupload:1.4'
+
+	implementation 'org.jasypt:jasypt:1.9.3'
+	implementation 'io.springfox:springfox-swagger2:3.0.0-SNAPSHOT'
+	implementation 'io.springfox:springfox-swagger-ui:3.0.0-SNAPSHOT'
+	implementation 'io.springfox:springfox-data-rest:3.0.0-SNAPSHOT'
+	implementation 'io.springfox:springfox-bean-validators:3.0.0-SNAPSHOT'
+
+
+	implementation 'com.drewnoakes:metadata-extractor:2.9.1'
+
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
+
+}
+
+test {
+	useJUnitPlatform()
+}
