@@ -13,7 +13,7 @@ public class ControllerDummy {
 
     @GetMapping(value="/dummy")
     public String dummy(){
-        return "";
+        return "dummy";
     }
 
 }

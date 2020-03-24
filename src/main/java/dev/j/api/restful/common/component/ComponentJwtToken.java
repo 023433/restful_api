@@ -10,15 +10,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.SignatureException;
 
 @Component
 public class ComponentJwtToken {
-    
+
     @Value("${ENC_PWD}")
-	private String secretKey;
-    
+    private String secretKey;
+
     private long tokenValidMilisecond = 1000L * 60 * 60 * 12; // 토큰 유효 시간 (12시간)
 
     @PostConstruct
@@ -30,6 +32,7 @@ public class ComponentJwtToken {
         Claims claims = Jwts.claims().setSubject(userId);
         claims.put("roles", roles);
         Date now = new Date();
+        
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
@@ -37,4 +40,18 @@ public class ComponentJwtToken {
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
+
+	public boolean isValidToken(String jwtToken) {
+        try {
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
+        } catch (ExpiredJwtException e) {
+            return false;
+        } catch (SignatureException e) {
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
+
+		return true;
+	}
 }

@@ -1,16 +1,39 @@
 package dev.j.api.restful.common.component;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import dev.j.api.restful.Application;
+
+@SpringBootTest(classes = Application.class)
 public class JwtTokenTest {
 
-    @Test
-    public void createToken(){
+    @Autowired
+    private ComponentJwtToken componentJwtToken;
 
+    @Value("${ENC_PWD}")
+    private String secretKey;
+    
+    private String jwtToken;
+    
+    @BeforeEach
+    public void before(){
+        jwtToken = componentJwtToken.createToken("userId", null);
+    }
+
+    @Test
+    public void validToken(){
+        assertTrue(componentJwtToken.isValidToken(jwtToken));
+    }
+
+    @Test
+    public void invalidToken(){
+        assertFalse(componentJwtToken.isValidToken(jwtToken + "aaa"));
     }
 }
