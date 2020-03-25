@@ -1,6 +1,5 @@
 package dev.j.api.restful.common.converter.entity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -26,7 +25,7 @@ public class LocalDateTimeAttributeConverter implements AttributeConverter<Local
         if(StringUtils.isEmpty(dbData)) {
             return null;
         } else {
-            return LocalDate.parse(dbData, DateTimeFormatter.ISO_LOCAL_DATE).atStartOfDay();
+            return LocalDateTime.parse(dbData, DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
         }
 	}
 

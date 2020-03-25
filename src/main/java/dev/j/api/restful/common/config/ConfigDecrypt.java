@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import dev.j.api.restful.common.property.CommonProperties;
+import dev.j.api.restful.common.property.PropertyEncrypt;
 
 
 @Configuration
@@ -19,7 +19,7 @@ public class ConfigDecrypt {
 		StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
 
 		EnvironmentPBEConfig config = new EnvironmentPBEConfig();
-		config.setAlgorithm(CommonProperties.CONFIG_KEY_ENC_ALGORITHM);
+		config.setAlgorithm(PropertyEncrypt.ENC_ALGORITHM);
         config.setPassword(encryptorPassword);
 		encryptor.setConfig(config);
 		

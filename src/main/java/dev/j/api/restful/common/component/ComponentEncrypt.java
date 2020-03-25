@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import dev.j.api.restful.common.config.ConfigDecrypt;
-import dev.j.api.restful.common.property.CommonProperties;
+import dev.j.api.restful.common.property.PropertyEncrypt;
 
 @Component
 public class ComponentEncrypt {
@@ -45,7 +45,7 @@ public class ComponentEncrypt {
 		StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
 
 		EnvironmentPBEConfig config = new EnvironmentPBEConfig();
-		config.setAlgorithm(CommonProperties.CONFIG_KEY_ENC_ALGORITHM);
+		config.setAlgorithm(PropertyEncrypt.ENC_ALGORITHM);
 		config.setPassword(encryptorPassword);
 		encryptor.setConfig(config);
 
