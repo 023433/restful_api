@@ -7,7 +7,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.security.access.prepost.PreAuthorize;
 
 @RepositoryRestResource
-@PreAuthorize("hasRole('ROLE_ADMIN')")
+@PreAuthorize("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
 public interface RepositoryApiAccessHistory extends JpaRepository<ApiAccessHistory, Integer>, JpaSpecificationExecutor<ApiAccessHistory>{
 
 }

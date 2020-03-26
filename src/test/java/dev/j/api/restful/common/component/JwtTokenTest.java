@@ -24,7 +24,7 @@ public class JwtTokenTest {
     
     @BeforeEach
     public void before(){
-        jwtToken = componentJwtToken.createToken("userId", null);
+        jwtToken = componentJwtToken.createToken("userId");
         System.out.println(jwtToken);
     }
 

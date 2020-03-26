@@ -70,7 +70,7 @@ public class ConfigMariadb {
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 		em.setDataSource(dataSource());
-		em.setPackagesToScan(new String[] { "dev.j.api.restful.common.vo"});
+		em.setPackagesToScan(new String[] { "dev.j.api.restful.common.vo", "dev.j.api.restful.blog.vo"});
 
 		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		em.setJpaVendorAdapter(vendorAdapter);

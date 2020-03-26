@@ -24,34 +24,29 @@ public class SecurityTest {
     private ComponentJwtToken componentJwtToken;
 
     @Test
-    public void accessDenied() {
-        try {
-            mvc.perform(
-                MockMvcRequestBuilders
-                    .get("/apiAccessHistories")
-                    .accept(MediaType.APPLICATION_JSON)
-                    .header(PropertyJwtToken.STR_TOKEN, "values"))
-                .andExpect(status().is4xxClientError()
-            );
-        } catch (Exception e) {
-        }
+    public void accessDenied() throws Exception{
+        mvc.perform(
+            MockMvcRequestBuilders
+                .get("/apiAccessHistories")
+                .accept(MediaType.APPLICATION_JSON)
+                .header(PropertyJwtToken.STR_TOKEN, "values")
+            )
+            .andExpect(status().is4xxClientError());
+       
     }
     
     @Test
-    public void accept(){
-
-        try {
-            String token = componentJwtToken.createToken("userId", null);
-
-            mvc.perform(
-                MockMvcRequestBuilders
-                    .get("/apiAccessHistories")
-                    .accept(MediaType.APPLICATION_JSON)
-                    .header(PropertyJwtToken.STR_TOKEN, token))
-                .andExpect(status().isOk()
-            );
-        } catch (Exception e) {
-        }
+    public void accept() throws Exception{
+        String token = componentJwtToken.createToken("jhk7375");
+        mvc.perform(
+            MockMvcRequestBuilders
+                .get("/apiAccessHistories")
+                .accept(MediaType.APPLICATION_JSON)
+                .header(PropertyJwtToken.STR_TOKEN, token)
+            )
+            .andExpect(status().isOk());
+        
     }
+
 
 }
