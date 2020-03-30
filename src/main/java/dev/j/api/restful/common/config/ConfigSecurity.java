@@ -30,6 +30,8 @@ public class ConfigSecurity extends WebSecurityConfigurerAdapter{
 
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
+        http.authorizeRequests().antMatchers("/auth/**").permitAll();
+
         http.antMatcher("/**")
             .authorizeRequests()
             .anyRequest().authenticated()
