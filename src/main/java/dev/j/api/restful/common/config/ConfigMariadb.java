@@ -76,7 +76,7 @@ public class ConfigMariadb {
 		em.setJpaVendorAdapter(vendorAdapter);
 		
 		Properties properties = new Properties();
-		properties.setProperty("hibernate.hbm2ddl.auto", "update");
+		properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 		properties.setProperty("hibernate.show_sql", "true");
 		properties.setProperty("hibernate.format_sql", "true");
 		properties.setProperty("hibernate.jdbc.lob.non_contextual_creation", "true");

@@ -37,11 +37,11 @@ public class controllerAuthorize {
     @PostMapping("/login")
     public ResponseEntity<String> login(
         @ApiParam(value = "사용자 아이디", required = true) 
-        @RequestParam
+        @RequestParam(value = "userId", required = true)
         String userId, 
         
         @ApiParam(value = "사용자 비밀번호", required = true) 
-        @RequestParam
+        @RequestParam(value = "userPwd", required = true)
         String userPwd) {
 
         String jwtToken = serviceAuthorize.getJwtToken(userId, userPwd);

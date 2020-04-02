@@ -25,31 +25,32 @@ import lombok.ToString;
 public class User {
 
     @Id
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "b_user_id", nullable = false)
     @ApiModelProperty(notes = "userId", example = "userId")
     @JsonProperty("userId")
     private String userId;
 
-    @Column(name = "user_pw", nullable = false)
+    @Column(name = "b_user_pw", nullable = false)
     @ApiModelProperty(notes = "userPw", example = "userPw")
     @JsonProperty("userPw")
     private String userPw;
 
-    @Column(name = "user_name", length = 20, nullable = false)
+    @Column(name = "b_user_name", length = 20, nullable = false)
     @ApiModelProperty(notes = "userName", example = "userName")
     @JsonProperty("userName")
     private String userName;
     
-    @Column(name = "create_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", updatable = false)
+    @Column(name = "b_create_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", updatable = false)
     @JsonProperty("createDate")
     private LocalDateTime createDate;
 
     @JoinTable(
         name = "b_user_role",
-        joinColumns = @JoinColumn(name = "user_id", nullable = false)
+        
+        joinColumns = @JoinColumn(name = "b_user_id", nullable = false)
     )
     @ElementCollection(fetch = FetchType.EAGER)
-    @Column(name="role", nullable=false)
+    @Column(name="b_role", nullable=false)
     private List<String> roles = new ArrayList<>();
     
 }

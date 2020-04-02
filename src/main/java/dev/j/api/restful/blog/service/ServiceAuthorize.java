@@ -26,6 +26,11 @@ public class ServiceAuthorize {
 	}
 
 	public String getJwtToken(String userId, String userPw) {
+
+		if(userId.isEmpty() || userPw.isEmpty()){
+			return null;
+		}
+		
 		Optional<User> userOp = repositoryUser.findById(userId);
 
 		if(userOp.isEmpty()){
