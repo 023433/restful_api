@@ -53,4 +53,20 @@ public class CategoryTest {
         assertEquals(saved, secondChild.getParentNo());
         assertEquals(secondChild, thirdChild.getParentNo());
     }
+
+    @Test
+    public void firstChild(){
+
+        Category savedFirst = repositoryCategory.findById(saved.getNo()).get();
+
+        assertEquals(savedFirst.getChildCategory().size(), 1, "firstChild 1");
+    }
+
+    @Test
+    public void secondChild(){
+
+        Category savedSecond = repositoryCategory.findById(secondChild.getNo()).get();
+
+        assertEquals(savedSecond.getChildCategory().size(), 1, "secondChild 1");
+    }
 }

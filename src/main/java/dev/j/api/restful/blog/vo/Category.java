@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -21,7 +22,7 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"parentNo", "childCategory", "posts"})
 @Table(name = "b_category")
 public class Category {
 
@@ -32,17 +33,19 @@ public class Category {
     @Column(name = "b_no", nullable = false)
     private Long no;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "b_parent_no")
     private Category parentNo;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "parentNo", cascade = CascadeType.ALL)
     private List<Category> childCategory;
+
+    @ManyToMany(mappedBy = "categories")
+    private List<Post> posts;
 
     @ApiModelProperty(notes = "b_title", example = "title")
     @JsonProperty("b_title")
     @Column(name = "b_title", nullable = false)
     private String title;
-
 
 }
