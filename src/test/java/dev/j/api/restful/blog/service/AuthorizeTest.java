@@ -64,8 +64,8 @@ public class AuthorizeTest {
 
     @AfterEach
     public void after(){
-        repositoryUser.delete(admin);
-        repositoryUser.delete(user);
+        // repositoryUser.delete(admin);
+        // repositoryUser.delete(user);
     }
 
     @Test

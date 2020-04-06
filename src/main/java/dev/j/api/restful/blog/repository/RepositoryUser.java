@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-@RepositoryRestResource(exported = false)
+@RepositoryRestResource(exported = true)
 public interface RepositoryUser extends JpaRepository<User, String>, JpaSpecificationExecutor<User>{
 
 }

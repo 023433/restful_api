@@ -36,7 +36,11 @@ public class AuthenticationBlog implements JwtAuthenticationProvider {
         List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
 
         String jwtToken = request.getHeader(PropertyJwtToken.STR_TOKEN);
-
+System.out.println("aaaa");
+System.out.println(request.getHeader("Authorization"));
+System.out.println(request.getHeader("X_AUTH_TOKEN"));
+System.out.println(request.getHeader("accessToken"));
+jwtToken = request.getHeader("accessToken");
         if(componentJwtToken.isExpiredToken(jwtToken)){
             String guest = EnumRole.GUEST.label();
             grantedAuthorityList.add(new SimpleGrantedAuthority(guest));

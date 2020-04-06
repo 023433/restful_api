@@ -37,13 +37,20 @@ public class ConfigSecurity extends WebSecurityConfigurerAdapter{
             .anyRequest().authenticated()
             .and()
             .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
-
     }
 
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.addAllowedOrigin("*");
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        configuration.setAllowCredentials(true);
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+        source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
 }

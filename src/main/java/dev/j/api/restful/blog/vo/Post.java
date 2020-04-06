@@ -22,6 +22,7 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 @Entity
 @Getter
@@ -53,21 +54,28 @@ public class Post {
     private int viewCount;
 
     @ManyToOne
+    @RestResource(exported = false)
     @ApiModelProperty(notes = "b_author", example = "author")
     @JsonProperty("b_author")
     @JoinColumn(name = "b_author", nullable = false)
     private User author;
     
-    @Column(name = "b_create_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", updatable = false)
+    @Column(
+        name = "b_create_date", 
+        columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", 
+        updatable = false
+    )
     @JsonProperty("createDate")
     private LocalDateTime createDate;
 
-    @Column(name = "b_update_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @Column(
+        name = "b_update_date", 
+        columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+    )
     @JsonProperty("updateDate")
     private LocalDateTime updateDate;
 
-
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
         name = "b_post_category",
         joinColumns = @JoinColumn(name = "b_post_no", nullable = false),
@@ -75,7 +83,12 @@ public class Post {
     )
     private List<Category> categories = new ArrayList<>();
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy ="post", cascade = CascadeType.ALL, optional = false)
+    @OneToOne(
+        fetch = FetchType.LAZY, 
+        mappedBy ="post", 
+        cascade = CascadeType.ALL, 
+        optional = false
+    )
     private Summary summary;
 
 }

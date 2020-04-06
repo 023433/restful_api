@@ -18,7 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class PostTest {
 
     @Autowired
-    private RepositoryPost repositoryPost;
+    private PreAuthorizedRepositoryPost repositoryPost;
     
     @Autowired
     private RepositoryUser repositoryUser;
@@ -30,9 +30,7 @@ public class PostTest {
     private RepositoryCategory repositoryCategory;
 
     Post firstPost;
-    Post firstSavedPost;
     Summary firstSummary;
-    Summary firstSavedPostSummary;
     Category category;
     User user;
 
@@ -43,7 +41,7 @@ public class PostTest {
 
         category = repositoryCategory.findById((long) 1).get();
         categories.add(category);
-System.out.println("ssssccc : " + category);
+
         user = new User();
         
         user.setUserId("userId");
@@ -55,15 +53,11 @@ System.out.println("ssssccc : " + category);
         firstPost.setSubject("first");
         firstPost.setAuthor(user);
         firstPost.setViewCount(1);
-        
-        System.out.println(firstPost);
-
-        repositoryPost.save(firstPost);
-        System.out.println(firstPost);
-
         firstPost.getCategories().add(category);
-        firstPost.setViewCount(3);
+        
         repositoryPost.save(firstPost);
+        System.out.println(firstPost);
+
 
         firstSummary = new Summary();
 
@@ -71,21 +65,21 @@ System.out.println("ssssccc : " + category);
         firstSummary.setSummary("summary");
         firstSummary.setThumbnail("thumbnail");
 
-        firstSavedPostSummary = repositoryPostSummary.save(firstSummary);
+        repositoryPostSummary.save(firstSummary);
         
     }
 
     @Test
     public void firstPost(){
-        assertEquals(firstPost.getNo(), firstSavedPost.getNo());
+        assertEquals(firstPost.getNo(), firstPost.getNo());
     }
 
     @Test
     public void firstPostSummary(){
-        Post post = repositoryPost.findById(firstSavedPost.getNo()).get();
+        Post post = repositoryPost.findById(firstPost.getNo()).get();
 
         Summary summary = post.getSummary();
-        assertEquals(summary.getNo(), firstSavedPostSummary.getNo());
+        assertEquals(summary.getNo(), firstSummary.getNo());
     }
 
     

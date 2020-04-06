@@ -1,5 +1,6 @@
 package dev.j.api.restful.blog.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDateTime;
@@ -33,6 +34,7 @@ public class User {
     @Column(name = "b_user_pw", nullable = false)
     @ApiModelProperty(notes = "userPw", example = "userPw")
     @JsonProperty("userPw")
+    @JsonIgnore
     private String userPw;
 
     @Column(name = "b_user_name", length = 20, nullable = false)
@@ -40,13 +42,16 @@ public class User {
     @JsonProperty("userName")
     private String userName;
     
-    @Column(name = "b_create_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", updatable = false)
+    @Column(
+        name = "b_create_date", 
+        columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", 
+        updatable = false
+    )
     @JsonProperty("createDate")
     private LocalDateTime createDate;
 
     @JoinTable(
         name = "b_user_role",
-        
         joinColumns = @JoinColumn(name = "b_user_id", nullable = false)
     )
     @ElementCollection(fetch = FetchType.EAGER)
