@@ -29,7 +29,7 @@ public class ConfigSwagger {
                     .globalOperationParameters(
                         Arrays.asList(
                             new ParameterBuilder()
-                                .name("accessToken")
+                                .name("X-Auth-Token")
                                 .description("accessToken")
                                 .modelRef(new ModelRef("string"))
                                 .parameterType("header")

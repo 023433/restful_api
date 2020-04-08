@@ -1,9 +1,10 @@
 package dev.j.api.restful.blog.vo;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,6 +19,7 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 @Entity
 @Getter
@@ -33,18 +35,25 @@ public class Category {
     @Column(name = "b_no", nullable = false)
     private Long no;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
+    @ManyToOne(
+        fetch = FetchType.LAZY
+    )
     @JoinColumn(name = "b_parent_no")
+    @RestResource(exported = false)
     private Category parentNo;
 
     @OneToMany(
         fetch = FetchType.LAZY, 
-        cascade = CascadeType.DETACH,
         mappedBy = "parentNo"
     )
+    @JsonManagedReference
+    @RestResource(exported = false)
     private List<Category> childCategory;
 
     @ManyToMany(mappedBy = "categories")
+    @JsonManagedReference
+    @RestResource(exported = false)
     private List<Post> posts;
 
     @ApiModelProperty(notes = "b_title", example = "title")

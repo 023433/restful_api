@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 @Entity
 @Getter
@@ -32,6 +33,7 @@ public class Content {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "b_post_no")
+    @RestResource(exported = false)
     private Post post;
 
     @ApiModelProperty(notes = "b_main_image", example = "mainImage")

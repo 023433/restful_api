@@ -1,5 +1,7 @@
 package dev.j.api.restful.blog.vo;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import dev.j.api.restful.blog.vo.post.Summary;
 import io.swagger.annotations.ApiModelProperty;
@@ -28,6 +30,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 @Getter
 @Setter
 @ToString(exclude = {"author", "categories", "summary"})
+@JsonIgnoreProperties(value = {"summary"})
 @Table(name = "b_post")
 public class Post {
 
@@ -75,20 +78,26 @@ public class Post {
     @JsonProperty("updateDate")
     private LocalDateTime updateDate;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(
+        fetch = FetchType.LAZY,
+        cascade = CascadeType.DETACH
+    )
     @JoinTable(
         name = "b_post_category",
         joinColumns = @JoinColumn(name = "b_post_no", nullable = false),
         inverseJoinColumns = @JoinColumn(name = "b_category_no", nullable = false)
     )
+    @JsonBackReference
+    @RestResource(exported = false)
     private List<Category> categories = new ArrayList<>();
 
     @OneToOne(
         fetch = FetchType.LAZY, 
         mappedBy ="post", 
-        cascade = CascadeType.ALL, 
+        cascade = CascadeType.DETACH, 
         optional = false
     )
+    @RestResource(exported = false)
     private Summary summary;
 
 }

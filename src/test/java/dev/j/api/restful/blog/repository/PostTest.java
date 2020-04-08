@@ -18,7 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class PostTest {
 
     @Autowired
-    private PreAuthorizedRepositoryPost repositoryPost;
+    private RepositoryPost repositoryPost;
     
     @Autowired
     private RepositoryUser repositoryUser;
