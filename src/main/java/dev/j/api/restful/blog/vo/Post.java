@@ -2,7 +2,9 @@ package dev.j.api.restful.blog.vo;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import dev.j.api.restful.blog.vo.post.Content;
 import dev.j.api.restful.blog.vo.post.Summary;
 import io.swagger.annotations.ApiModelProperty;
 import java.time.LocalDateTime;
@@ -29,37 +31,37 @@ import org.springframework.data.rest.core.annotation.RestResource;
 @Entity
 @Getter
 @Setter
-@ToString(exclude = {"author", "categories", "summary"})
-@JsonIgnoreProperties(value = {"summary"})
+@ToString(exclude = {"author", "categories", "content"})
+@JsonIgnoreProperties(value = {"content"})
 @Table(name = "b_post")
 public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ApiModelProperty(notes = "b_no", example = "no")
-    @JsonProperty("b_no")
+    @ApiModelProperty(notes = "no", example = "no")
+    @JsonProperty("no")
     @Column(name = "b_no", nullable = false)
     private Long no;
 
-    @ApiModelProperty(notes = "b_subject", example = "subject")
-    @JsonProperty("b_subject")
+    @ApiModelProperty(notes = "subject", example = "subject")
+    @JsonProperty("subject")
     @Column(name = "b_subject", nullable = false)
     private String subject;
 
-    @ApiModelProperty(notes = "b_publish", example = "publish")
-    @JsonProperty("b_publish")
+    @ApiModelProperty(notes = "publish", example = "publish")
+    @JsonProperty("publish")
     @Column(name = "b_publish", nullable = false)
     private Boolean publish = true;
 
-    @ApiModelProperty(notes = "b_view_count", example = "view_count")
-    @JsonProperty("b_view_count")
+    @ApiModelProperty(notes = "viewCount", example = "viewCount")
+    @JsonProperty("viewCount")
     @Column(name = "b_view_count", nullable = false)
     private int viewCount;
 
     @ManyToOne
     @RestResource(exported = false)
-    @ApiModelProperty(notes = "b_author", example = "author")
-    @JsonProperty("b_author")
+    @ApiModelProperty(notes = "author", example = "author")
+    @JsonProperty("author")
     @JoinColumn(name = "b_author", nullable = false)
     private User author;
     
@@ -93,11 +95,20 @@ public class Post {
 
     @OneToOne(
         fetch = FetchType.LAZY, 
-        mappedBy ="post", 
-        cascade = CascadeType.DETACH, 
-        optional = false
+        mappedBy ="post"
     )
+    @JsonProperty("summary")
     @RestResource(exported = false)
+    @JsonManagedReference
     private Summary summary;
+
+    @OneToOne(
+        fetch = FetchType.LAZY, 
+        mappedBy ="post"
+    )
+    @JsonProperty("content")
+    @RestResource(exported = false)
+    @JsonManagedReference
+    private Content content;
 
 }

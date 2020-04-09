@@ -30,15 +30,15 @@ public class Category {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ApiModelProperty(notes = "b_no", example = "no")
-    @JsonProperty("b_no")
+    @ApiModelProperty(notes = "no", example = "no")
+    @JsonProperty("no")
     @Column(name = "b_no", nullable = false)
     private Long no;
 
-    @JsonBackReference
     @ManyToOne(
         fetch = FetchType.LAZY
     )
+    @JsonManagedReference
     @JoinColumn(name = "b_parent_no")
     @RestResource(exported = false)
     private Category parentNo;
@@ -47,17 +47,17 @@ public class Category {
         fetch = FetchType.LAZY, 
         mappedBy = "parentNo"
     )
-    @JsonManagedReference
+    @JsonBackReference
     @RestResource(exported = false)
     private List<Category> childCategory;
 
     @ManyToMany(mappedBy = "categories")
-    @JsonManagedReference
+    @JsonBackReference
     @RestResource(exported = false)
     private List<Post> posts;
 
-    @ApiModelProperty(notes = "b_title", example = "title")
-    @JsonProperty("b_title")
+    @ApiModelProperty(notes = "title", example = "title")
+    @JsonProperty("title")
     @Column(name = "b_title", nullable = false)
     private String title;
 
