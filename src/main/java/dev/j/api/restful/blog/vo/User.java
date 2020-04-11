@@ -21,7 +21,7 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"userPw", "roles"})
 @JsonIgnoreProperties(value = {"userPw", "roles"})
 @Table(name = "b_user")
 public class User {

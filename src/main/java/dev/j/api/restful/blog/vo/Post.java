@@ -1,7 +1,6 @@
 package dev.j.api.restful.blog.vo;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import dev.j.api.restful.blog.vo.post.Content;
@@ -23,6 +22,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -30,8 +30,7 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString(exclude = {"author", "categories", "content"})
-@JsonIgnoreProperties(value = {"content"})
+@ToString(exclude = {"author", "categories", "summary", "content"})
 @Table(name = "b_post")
 public class Post {
 
@@ -57,11 +56,15 @@ public class Post {
     @Column(name = "b_view_count", nullable = false)
     private int viewCount;
 
-    @ManyToOne
-    @ApiModelProperty(notes = "author", example = "author")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonBackReference
+    @JoinColumn(name = "b_author", nullable = false, insertable = false, updatable = false)
+    private User user;
+
+    @ApiModelProperty(notes = "author", example = "author", hidden = true)
     @JsonProperty("author")
-    @JoinColumn(name = "b_author", nullable = false)
-    private User author;
+    @Column(name = "b_author", nullable = false)
+    private String author;
     
     @Column(
         name = "b_create_date", 
@@ -90,19 +93,23 @@ public class Post {
     @JsonBackReference
     private List<Category> categories = new ArrayList<>();
 
+
     @OneToOne(
-        fetch = FetchType.LAZY, 
+        fetch = FetchType.LAZY,
         mappedBy ="post"
     )
     @JoinColumn(name = "b_post_no")
-    @JsonProperty("summary")
+    @JsonProperty(value = "summary")
     @JsonManagedReference
     private Summary summary;
+
 
     @OneToOne(
         fetch = FetchType.LAZY, 
         mappedBy ="post"
     )
+    @Transient
+    @JoinColumn(name = "b_post_no")
     @JsonProperty("content")
     @JsonManagedReference
     private Content content;

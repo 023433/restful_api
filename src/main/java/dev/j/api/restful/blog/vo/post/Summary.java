@@ -40,7 +40,7 @@ public class Summary {
 
     @ApiModelProperty(notes = "postNo", example = "postNo")
     @JsonProperty("postNo")
-    @Column(name = "b_post_no", nullable = false)
+    @Column(name = "b_post_no", nullable = false, unique = true)
     private Long postNo;
 
     @ApiModelProperty(notes = "thumbnail", example = "thumbnail")

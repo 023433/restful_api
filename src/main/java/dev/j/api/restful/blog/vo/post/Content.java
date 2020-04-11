@@ -39,8 +39,8 @@ public class Content {
 
     @ApiModelProperty(notes = "post_no", example = "post_no")
     @JsonProperty("postNo")
-    @Column(name = "b_post_no", nullable = false)
-    private String postNo;
+    @Column(name = "b_post_no", nullable = false, unique = true)
+    private Long postNo;
 
     @ApiModelProperty(notes = "main_image", example = "mainImage")
     @JsonProperty("mainImage")

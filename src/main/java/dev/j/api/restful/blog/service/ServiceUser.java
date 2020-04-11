@@ -25,5 +25,13 @@ public class ServiceUser extends AbstractService {
 
         return null;
     }
+
+	public void save(User user) {
+        String userPw = user.getUserPw();
+        userPw = componentEncrypt.encrypt(userPw);
+        user.setUserPw(userPw);
+        
+        repositoryUser.save(user);
+	}
     
 }

@@ -52,7 +52,7 @@ public class PostTest {
 
         firstPost = new Post();
         firstPost.setSubject("first");
-        firstPost.setAuthor(user);
+        firstPost.setAuthor(user.getUserId());
         firstPost.setViewCount(1);
         firstPost.getCategories().add(category);
         
