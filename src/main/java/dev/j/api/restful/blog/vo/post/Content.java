@@ -16,7 +16,6 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.rest.core.annotation.RestResource;
 
 @Entity
 @Getter
@@ -36,7 +35,6 @@ public class Content {
     @JoinColumn(name = "b_post_no", insertable = false, updatable = false)
     @JsonBackReference
     @JsonProperty("post")
-    @RestResource(exported = false)
     private Post post;
 
     @ApiModelProperty(notes = "post_no", example = "post_no")

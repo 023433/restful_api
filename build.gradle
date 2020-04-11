@@ -25,10 +25,9 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation group: 'org.springframework.plugin', name: 'spring-plugin-core', version: '2.0.0.RELEASE'
 
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -46,10 +45,8 @@ dependencies {
 	implementation 'commons-fileupload:commons-fileupload:1.4'
 
 	implementation 'org.jasypt:jasypt:1.9.3'
-	implementation 'io.springfox:springfox-swagger2:3.0.0-SNAPSHOT'
-	implementation 'io.springfox:springfox-swagger-ui:3.0.0-SNAPSHOT'
-	implementation 'io.springfox:springfox-data-rest:3.0.0-SNAPSHOT'
-	implementation 'io.springfox:springfox-bean-validators:3.0.0-SNAPSHOT'
+	implementation 'io.springfox:springfox-swagger2:2.9.2'
+	implementation 'io.springfox:springfox-swagger-ui:2.9.2'
 
 	implementation 'com.drewnoakes:metadata-extractor:2.9.1'
 
@@ -60,6 +57,8 @@ dependencies {
 	testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.6.1'
 	testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-params', version: '5.6.1'
 	testCompile group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.6.1'
+	testCompile group: 'org.springframework.security', name: 'spring-security-test', version: '5.3.1.RELEASE'
+
 }
 
 test {

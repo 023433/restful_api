@@ -16,7 +16,6 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.rest.core.annotation.RestResource;
 
 @Entity
 @Getter
@@ -37,13 +36,12 @@ public class Summary {
     @ApiModelProperty(notes = "postNo", example = "postNo")
     @JsonBackReference
     @JsonProperty("post")
-    @RestResource(exported = false)
     private Post post;
 
     @ApiModelProperty(notes = "postNo", example = "postNo")
     @JsonProperty("postNo")
     @Column(name = "b_post_no", nullable = false)
-    private String postNo;
+    private Long postNo;
 
     @ApiModelProperty(notes = "thumbnail", example = "thumbnail")
     @JsonProperty("thumbnail")

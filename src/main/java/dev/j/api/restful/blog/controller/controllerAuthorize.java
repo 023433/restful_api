@@ -28,7 +28,7 @@ public class controllerAuthorize {
     )
     @ApiImplicitParams({
         @ApiImplicitParam(
-            name = "accessToken", 
+            name = "X-Auth-Token", 
             required = false, 
             paramType = "header", 
             dataTypeClass = String.class

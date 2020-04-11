@@ -14,17 +14,15 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.rest.core.annotation.RestResource;
 
 @Entity
 @Getter
 @Setter
-@ToString(exclude = {"parentNo", "childCategory", "posts"})
+@ToString(exclude = {"parentNo", "posts"})
 @Table(name = "b_category")
 public class Category {
 
@@ -40,20 +38,10 @@ public class Category {
     )
     @JsonManagedReference
     @JoinColumn(name = "b_parent_no")
-    @RestResource(exported = false)
     private Category parentNo;
-
-    @OneToMany(
-        fetch = FetchType.LAZY, 
-        mappedBy = "parentNo"
-    )
-    @JsonBackReference
-    @RestResource(exported = false)
-    private List<Category> childCategory;
 
     @ManyToMany(mappedBy = "categories")
     @JsonBackReference
-    @RestResource(exported = false)
     private List<Post> posts;
 
     @ApiModelProperty(notes = "title", example = "title")

@@ -21,7 +21,7 @@ public class AuthorizeTest {
     public void dummyGet() {
         try {
             mockMvc.perform(MockMvcRequestBuilders.get("/auth/login").accept(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isOk());
+                    .andExpect(status().is4xxClientError());
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -2,21 +2,13 @@ package dev.j.api.restful.blog.service;
 
 import dev.j.api.restful.blog.repository.RepositoryUser;
 import dev.j.api.restful.blog.vo.User;
-import dev.j.api.restful.common.component.ComponentEncrypt;
-import dev.j.api.restful.common.component.ComponentJwtToken;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ServiceAuthorize {
-
-	@Autowired
-	private ComponentJwtToken componentJwtToken;
-
-	@Autowired
-	private ComponentEncrypt componentEncrypt;
+public class ServiceAuthorize extends AbstractService {
 
 	@Autowired
 	private RepositoryUser repositoryUser;

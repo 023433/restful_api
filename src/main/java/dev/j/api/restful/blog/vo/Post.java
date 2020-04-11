@@ -26,7 +26,6 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.rest.core.annotation.RestResource;
 
 @Entity
 @Getter
@@ -59,7 +58,6 @@ public class Post {
     private int viewCount;
 
     @ManyToOne
-    @RestResource(exported = false)
     @ApiModelProperty(notes = "author", example = "author")
     @JsonProperty("author")
     @JoinColumn(name = "b_author", nullable = false)
@@ -90,15 +88,14 @@ public class Post {
         inverseJoinColumns = @JoinColumn(name = "b_category_no", nullable = false)
     )
     @JsonBackReference
-    @RestResource(exported = false)
     private List<Category> categories = new ArrayList<>();
 
     @OneToOne(
         fetch = FetchType.LAZY, 
         mappedBy ="post"
     )
+    @JoinColumn(name = "b_post_no")
     @JsonProperty("summary")
-    @RestResource(exported = false)
     @JsonManagedReference
     private Summary summary;
 
@@ -107,7 +104,6 @@ public class Post {
         mappedBy ="post"
     )
     @JsonProperty("content")
-    @RestResource(exported = false)
     @JsonManagedReference
     private Content content;
 

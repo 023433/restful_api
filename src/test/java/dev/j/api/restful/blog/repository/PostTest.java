@@ -39,6 +39,7 @@ public class PostTest {
     @BeforeEach
     public void before(){
 
+
         category = repositoryCategory.findById((long) 1).get();
         categories.add(category);
 
@@ -62,6 +63,7 @@ public class PostTest {
         firstSummary = new Summary();
 
         firstSummary.setPost(firstPost);
+        firstSummary.setPostNo(firstPost.getNo());
         firstSummary.setSummary("summary");
         firstSummary.setThumbnail("thumbnail");
 
@@ -81,6 +83,4 @@ public class PostTest {
         Summary summary = post.getSummary();
         assertEquals(summary.getNo(), firstSummary.getNo());
     }
-
-    
 }

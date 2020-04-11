@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ServiceUser {
+public class ServiceUser extends AbstractService {
 
     @Autowired
     private RepositoryUser repositoryUser;
