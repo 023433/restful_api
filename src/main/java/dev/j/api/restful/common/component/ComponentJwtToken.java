@@ -125,6 +125,11 @@ public class ComponentJwtToken {
     }
     
     public boolean isExpiredToken(String jwtToken) {
+        
+        if(jwtToken == null || jwtToken.isEmpty()){
+            return true;
+        }
+
         return !isValidToken(jwtToken);
     }
 

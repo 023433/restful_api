@@ -67,10 +67,4 @@ public class PostTest {
 
     }
 
-    @Test
-    public void getPost(){
-        Post post = servicePost.getPost(postNo);
-
-        assertNotNull(post);
-    }
 }

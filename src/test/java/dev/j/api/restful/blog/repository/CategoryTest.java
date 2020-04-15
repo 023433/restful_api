@@ -14,44 +14,66 @@ public class CategoryTest {
     @Autowired
     private RepositoryCategory repositoryCategory;
 
-    private Category saved;
-    private Category secondChild;
-    private Category thirdChild;
+    private Category first;
+    private Category second;
+    private Category third;
 
     @BeforeEach
     public void before(){
-        Category category = new Category();
-        category.setTitle("first");
 
+        for(int i = 1; i <= 10; i++){
+            first = new Category();
+            String fTitle = i + "_f";
+            first.setTitle(fTitle);
+            repositoryCategory.save(first);
 
-        Category secondCategory = new Category();
-        secondCategory.setTitle("second");
-        secondCategory.setParentNo(category);
+            for(int j = 1; j <= 5; j++){
+                second = new Category();
+                String sTitle = fTitle + "_" + j + "_s";
+                second.setTitle(sTitle);
+                second.setParent(first);
+                second.setParentNo(first.getNo());
 
-        Category thirdCategory = new Category();
-        thirdCategory.setTitle("third");
-        thirdCategory.setParentNo(secondCategory);
+                repositoryCategory.save(second);
 
+                for(int c = 1; c <= 5; c++){
+                    String tTitle = sTitle + "_"  + c + "_t";
+                    third = new Category();
+                    third.setTitle(tTitle);
+                    third.setParent(second);
+                    third.setParentNo(second.getNo());
+                    repositoryCategory.save(third);
+                }
+            }
+        }
 
-        saved = repositoryCategory.save(category);
-        secondChild = repositoryCategory.save(secondCategory);
-        thirdChild = repositoryCategory.save(thirdCategory);
+        // second = new Category();
+        // second.setTitle("second");
+        // second.setParent(first);
+        // second.setParentNo(first.getNo());
+        // repositoryCategory.save(second);
+
+        // third = new Category();
+        // third.setTitle("third");
+        // third.setParent(second);
+        // third.setParentNo(second.getNo());
+        // repositoryCategory.save(third);
     }
 
     @Test
     public void oneDepth(){
-        assertEquals(saved.getParentNo(), null);
+        assertEquals(first.getParentNo(), null);
     }
 
     @Test
     public void twoDepth(){
-        assertEquals(secondChild.getParentNo(), saved);
+        assertEquals(second.getParent(), first);
     }
 
     @Test
     public void threeDepth(){
-        assertEquals(saved, secondChild.getParentNo());
-        assertEquals(secondChild, thirdChild.getParentNo());
+        assertEquals(first, second.getParent());
+        assertEquals(second, third.getParent());
     }
 
 }

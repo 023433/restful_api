@@ -1,7 +1,8 @@
 package dev.j.api.restful.blog.controller;
 
 import dev.j.api.restful.blog.service.ServicePost;
-import dev.j.api.restful.blog.vo.Post;
+import dev.j.api.restful.blog.vo.post.Content;
+import dev.j.api.restful.blog.vo.post.Summary;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -13,20 +14,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Api(description = "Controller Post")
 @RestController
-@RequestMapping(value = "/post")
 public class controllerPost {
 
     @Autowired
     private ServicePost servicePost;
-    
+
     @ApiOperation(
-        value = "포스트 요청",
+        value = "포스트 요약 정보 요청",
         response = ResponseEntity.class
     )
     @ApiImplicitParams({
@@ -37,22 +36,22 @@ public class controllerPost {
             dataTypeClass = String.class
         ) 
     })
-    @GetMapping
-    public ResponseEntity<Page<Post>> getPosts(
+    @GetMapping("/posts/summary")
+    public ResponseEntity<Page<Summary>> getPostsSummary(
         @ApiParam(value = "페이지 번호") 
         @RequestParam(value = "pageNo", defaultValue = "0")
         String pageNo, 
         
         @ApiParam(value = "한 페이지에 보여질 게시글 갯수") 
-        @RequestParam(value = "pageSize", defaultValue = "20")
+        @RequestParam(value = "pageSize", defaultValue = "10")
         String pageSize) {
             
-        return new ResponseEntity<Page<Post>>(servicePost.getPosts(pageNo, pageSize), HttpStatus.OK);
+        return new ResponseEntity<Page<Summary>>(servicePost.getPostsSummary(pageNo, pageSize), HttpStatus.OK);
     }
 
 
     @ApiOperation(
-        value = "포스트 요청",
+        value = "포스트 내용 요청",
         response = ResponseEntity.class
     )
     @ApiImplicitParams({
@@ -63,13 +62,13 @@ public class controllerPost {
             dataTypeClass = String.class
         ) 
     })
-    @GetMapping("/{postNo}")
-    public ResponseEntity<Post> getPost(
-        @ApiParam(value = "페이지 번호") 
+    @GetMapping("/post/content/{postNo}")
+    public ResponseEntity<Content> getPost(
+        @ApiParam(value = "포스트 번호") 
         @PathVariable(value = "postNo", required = true)
         String postNo) {
             
-        return new ResponseEntity<Post>(servicePost.getPost(Long.parseLong(postNo)), HttpStatus.OK);
+        return new ResponseEntity<Content>(servicePost.getPost(Long.parseLong(postNo)), HttpStatus.OK);
     }
     
     

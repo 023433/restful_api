@@ -2,8 +2,10 @@ package dev.j.api.restful.blog.service;
 
 import dev.j.api.restful.blog.repository.RepositoryPost;
 import dev.j.api.restful.blog.repository.post.RepositoryContent;
+import dev.j.api.restful.blog.repository.post.RepositorySummary;
 import dev.j.api.restful.blog.vo.Post;
 import dev.j.api.restful.blog.vo.post.Content;
+import dev.j.api.restful.blog.vo.post.Summary;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,31 +23,25 @@ public class ServicePost extends AbstractService {
     @Autowired
     private RepositoryContent repositoryContent;
 
-    public Page<Post> getPosts(Pageable pageable){
-        return repositoryPost.findAll(pageable);
-    }
-
-	public Page<Post> getPosts(String pageNo, String pageSize) {
+    @Autowired
+    private RepositorySummary repositorySummary;
+    
+    public Page<Summary> getPostsSummary(String pageNo, String pageSize) {
         int page = Integer.parseInt(pageNo);
         int size = Integer.parseInt(pageSize);
         Sort sort = Sort.by(Order.desc("no"));
-
-        Pageable pageable = PageRequest.of(page, size, sort);
         
-		return repositoryPost.findAllWithSummaryBy(pageable);
+        Pageable pageable = PageRequest.of(page, size, sort);
+  
+		return repositorySummary.findAllWithByPostPublish(pageable, true);
 	}
 
 	public void savePost(Post post) {
         repositoryPost.save(post);
 	}
 
-	public Post getPost(Long postNo) {
-        Content content = repositoryContent.findByPostNo(postNo);
-        Post post = content.getPost();
-
-        post.setContent(content);
-
-		return post;
+	public Content getPost(Long postNo) {
+        return repositoryContent.findOneByPostNoAndPostPublish(postNo, true);
 	}
 
 	public void saveContent(Content content) {

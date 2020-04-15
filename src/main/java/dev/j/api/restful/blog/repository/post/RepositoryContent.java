@@ -7,7 +7,10 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface RepositoryContent extends JpaRepository<Content, Long>, JpaSpecificationExecutor<Content>{
 
-    @EntityGraph(attributePaths = {"post"}, type = EntityGraph.EntityGraphType.FETCH)
-    Content findByPostNo(Long postNo);
+    @EntityGraph(attributePaths = {"post"}, type = EntityGraph.EntityGraphType.LOAD)
+    Content findOneByPostNo(Long postNo);
+
+    @EntityGraph(attributePaths = {"post"}, type = EntityGraph.EntityGraphType.LOAD)
+    Content findOneByPostNoAndPostPublish(Long postNo, Boolean publish);
     
 }

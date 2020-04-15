@@ -1,12 +1,14 @@
 package dev.j.api.restful.blog.repository;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import dev.j.api.restful.blog.repository.post.RepositoryContent;
+import dev.j.api.restful.blog.repository.post.RepositoryPostCategory;
 import dev.j.api.restful.blog.repository.post.RepositorySummary;
 import dev.j.api.restful.blog.vo.Category;
 import dev.j.api.restful.blog.vo.Post;
 import dev.j.api.restful.blog.vo.User;
+import dev.j.api.restful.blog.vo.post.Content;
 import dev.j.api.restful.blog.vo.post.Summary;
+import dev.j.api.restful.blog.vo.post.category.PostCategory;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,19 +31,22 @@ public class PostTest {
     @Autowired
     private RepositoryCategory repositoryCategory;
 
+    @Autowired
+    private RepositoryPostCategory repositoryPostCategory;
+
+    @Autowired
+    private RepositoryContent repositoryContent;
+
     Post firstPost;
     Summary firstSummary;
     Category category;
+    Content content;
     User user;
 
     List<Category> categories = new ArrayList<>();
     
     @BeforeEach
     public void before(){
-
-
-        category = repositoryCategory.findById((long) 1).get();
-        categories.add(category);
 
         user = new User();
         
@@ -50,37 +55,61 @@ public class PostTest {
         user.setUserPw("userPw");
         repositoryUser.save(user);
 
-        firstPost = new Post();
-        firstPost.setSubject("first");
-        firstPost.setAuthor(user.getUserId());
-        firstPost.setViewCount(1);
-        firstPost.getCategories().add(category);
+
+        for(int i = 1; i <= 10; i++){
+
+            for(int j = 1; j <= 310; j++){
+                category = repositoryCategory.findById((long) j).get();
+                categories.add(category);
+
+                String fTitle = i + "_post_" + j + "_cate";
+
+                firstPost = new Post();
+                firstPost.setSubject(fTitle);
+                firstPost.setAuthor(user.getUserId());
+                firstPost.setViewCount(1);
+                // firstPost.getCategories().add(category);
+                
+                repositoryPost.save(firstPost);
+
+
+
+                firstSummary = new Summary();
+                firstSummary.setPost(firstPost);
+                firstSummary.setPostNo(firstPost.getNo());
+                firstSummary.setSummary(fTitle + j + "_summary");
+                firstSummary.setThumbnail(fTitle + j + "_thumbnail");
         
-        repositoryPost.save(firstPost);
-        System.out.println(firstPost);
+                repositoryPostSummary.save(firstSummary);
+
+                content = new Content();
+                content.setPost(firstPost);
+                content.setPostNo(firstPost.getNo());
+                content.setContent(fTitle + j + "_content");
+                content.setMainImage(fTitle + j + "_mainimg");
+
+                repositoryContent.save(content);
 
 
-        firstSummary = new Summary();
+                PostCategory postCatogory = new PostCategory();
 
-        firstSummary.setPost(firstPost);
-        firstSummary.setPostNo(firstPost.getNo());
-        firstSummary.setSummary("summary");
-        firstSummary.setThumbnail("thumbnail");
+                postCatogory.setPostNo(firstPost.getNo());
+                postCatogory.setCategoryNo(category.getNo());
 
-        repositoryPostSummary.save(firstSummary);
+                repositoryPostCategory.save(postCatogory);
+
+            }
+        }
+
+
         
     }
+
 
     @Test
-    public void firstPost(){
-        assertEquals(firstPost.getNo(), firstPost.getNo());
+    public void test(){
+        
     }
 
-    @Test
-    public void firstPostSummary(){
-        Post post = repositoryPost.findById(firstPost.getNo()).get();
 
-        Summary summary = post.getSummary();
-        assertEquals(summary.getNo(), firstSummary.getNo());
-    }
 }
