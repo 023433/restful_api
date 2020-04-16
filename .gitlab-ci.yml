@@ -37,7 +37,7 @@ deploy:
   script:
     - echo "$DAEKGIL_SSH_KEY" > daekgil.ppk
     - chmod 400 daekgil.ppk
-    # - ssh daekgil@49.247.193.64 -T -p 222 -o StrictHostKeyChecking=no -i daekgil.ppk 
+    # - ssh daekgil@devj.io -T -p 222 -o StrictHostKeyChecking=no -i daekgil.ppk 
     #   "docker stop tomcat &&
     #   mv /home/daekgil/tomcat/temp/blog/ROOT.war /home/daekgil/tomcat/webapps/blog/ROOT.war &&
     #   docker start tomcat"
