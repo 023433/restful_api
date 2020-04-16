@@ -37,10 +37,14 @@ deploy:
   script:
     - echo "$DAEKGIL_SSH_KEY" > daekgil.ppk
     - chmod 400 daekgil.ppk
-    # - ssh daekgil@devj.io -T -p 222 -o StrictHostKeyChecking=no -i daekgil.ppk 
-    #   "docker stop tomcat &&
-    #   mv /home/daekgil/tomcat/temp/blog/ROOT.war /home/daekgil/tomcat/webapps/blog/ROOT.war &&
-    #   docker start tomcat"
+    - chmod +x -R build
+
+    - scp -P 222 -o StrictHostKeyChecking=no -i daekgil.ppk build/libs/restful-0.0.1.jar daekgil@devj.io:/home/daekgil/docker/restful_api/ROOT.war
+
+    - ssh daekgil@devj.io -T -p 222 -o StrictHostKeyChecking=no -i daekgil.ppk 
+      "cd /home/daekgil/docker/restful_api &&
+      docker-compose build &&
+      docker-compose up -d"
   only:
     - master    
   tags:
