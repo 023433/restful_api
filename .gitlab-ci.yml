@@ -42,7 +42,7 @@ deploy:
     - scp -P 221 -o StrictHostKeyChecking=no -i daekgil.ppk build/libs/restful-0.0.1.jar daekgil@devj.io:/home/daekgil/docker/restful_api/ROOT.jar
 
     - ssh daekgil@devj.io -T -p 221 -o StrictHostKeyChecking=no -i daekgil.ppk 
-      "cd /home/daekgil/docker/restful_api && ls && docker-compose up -d"
+      "cd /home/daekgil/docker/restful_api && docker-compose build && docker-compose up -d"
   only:
     - master    
   tags:
