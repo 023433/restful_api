@@ -79,6 +79,7 @@ public class ConfigMariadb {
 		properties.setProperty("hibernate.hbm2ddl.auto", "update");
 		// properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 		properties.setProperty("hibernate.show_sql", "false");
+		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
 		properties.setProperty("hibernate.format_sql", "true");
 		properties.setProperty("hibernate.jdbc.lob.non_contextual_creation", "true");
 		properties.setProperty("hibernate.default_schema", "temp");
