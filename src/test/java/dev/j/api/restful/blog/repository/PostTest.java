@@ -12,7 +12,6 @@ import dev.j.api.restful.blog.vo.post.category.PostCategory;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -105,11 +104,6 @@ public class PostTest {
         
     }
 
-
-    @Test
-    public void test(){
-        
-    }
 
 
 }

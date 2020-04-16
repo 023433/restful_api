@@ -1,0 +1,40 @@
+stages:
+  - deploy
+  - build
+
+before_script:
+#  - echo `pwd` # debug
+#  - echo "$CI_BUILD_NAME, $CI_BUILD_REF_NAME $CI_BUILD_STAGE" # debug
+  - export GRADLE_USER_HOME=`pwd`/.gradle
+
+cache:
+  paths:
+    - .gradle/wrapper
+    - .gradle/caches
+
+deploy:
+  image: java:8-jdk
+  stage: deploy
+  script:
+    - ./gradlew clean
+    - ./gradlew build
+  artifacts:
+    paths:
+      - build/libs/*.jar
+    expire_in: 1 week
+  only:
+    - master
+
+
+re_build:
+  stage: build
+
+  script:
+    - echo "$DAEKGIL_SSH_KEY" > daekgil.ppk
+    - chmod 400 daekgil.ppk
+    # - ssh daekgil@49.247.193.64 -T -p 222 -o StrictHostKeyChecking=no -i daekgil.ppk 
+    #   "docker stop tomcat &&
+    #   mv /home/daekgil/tomcat/temp/blog/ROOT.war /home/daekgil/tomcat/webapps/blog/ROOT.war &&
+    #   docker start tomcat"
+  tags:
+   - Shell    

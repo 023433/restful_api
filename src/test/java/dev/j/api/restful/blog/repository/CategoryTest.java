@@ -46,18 +46,6 @@ public class CategoryTest {
                 }
             }
         }
-
-        // second = new Category();
-        // second.setTitle("second");
-        // second.setParent(first);
-        // second.setParentNo(first.getNo());
-        // repositoryCategory.save(second);
-
-        // third = new Category();
-        // third.setTitle("third");
-        // third.setParent(second);
-        // third.setParentNo(second.getNo());
-        // repositoryCategory.save(third);
     }
 
     @Test
