@@ -1,6 +1,6 @@
 stages:
-  - deploy
   - build
+  - deploy
 
 before_script:
 #  - echo `pwd` # debug
@@ -12,9 +12,9 @@ cache:
     - .gradle/wrapper
     - .gradle/caches
 
-deploy:
+build:
   image: java:8-jdk
-  stage: deploy
+  stage: build
   script:
     - ./gradlew clean
     - ./gradlew build
@@ -24,10 +24,11 @@ deploy:
     expire_in: 1 week
   only:
     - master
+  tags:
+   - Docker    
 
-
-re_build:
-  stage: build
+deploy:
+  stage: deploy
 
   script:
     - echo "$DAEKGIL_SSH_KEY" > daekgil.ppk
@@ -36,5 +37,7 @@ re_build:
     #   "docker stop tomcat &&
     #   mv /home/daekgil/tomcat/temp/blog/ROOT.war /home/daekgil/tomcat/webapps/blog/ROOT.war &&
     #   docker start tomcat"
+  only:
+    - master    
   tags:
    - Shell    
