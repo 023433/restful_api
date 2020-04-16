@@ -24,8 +24,8 @@ public class ServiceAuthorize extends AbstractService {
 		}
 		
 		Optional<User> userOp = repositoryUser.findById(userId);
-
-		if(userOp.isEmpty()){
+		
+		if( !userOp.isPresent() ){
 			return null;
 		}
 
