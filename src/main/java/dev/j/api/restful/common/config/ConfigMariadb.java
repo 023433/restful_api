@@ -50,8 +50,8 @@ public class ConfigMariadb {
 		if(env == "PRD" || env.equals("PRD")){
 			// 운영 db 정보
 			basicDataSource.setUrl("jdbc:mariadb://mariadb/blog");
-			basicDataSource.setPassword(encryptor.decrypt("password"));
-			basicDataSource.setUsername(encryptor.decrypt("username"));
+			basicDataSource.setUsername(encryptor.decrypt("njRjmp15jEZmYCVlspcGjw=="));
+			basicDataSource.setPassword(encryptor.decrypt("2NJPGt3ZM0/hjP1MnRvWCmacfRdKo/tF"));
 
 		}else if(env == "DEV" || env.equals("DEV")){
 			// 개발 db 정보
