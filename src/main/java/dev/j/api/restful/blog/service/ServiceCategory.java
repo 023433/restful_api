@@ -20,7 +20,7 @@ public class ServiceCategory extends AbstractService {
         List<Category> rootCategories = new ArrayList<>();
         for (Category category : categories) {
             if(category.getParent() == null){
-                System.out.println(category);
+                rootCategories.add(category);
             }
         }
 		return rootCategories;
