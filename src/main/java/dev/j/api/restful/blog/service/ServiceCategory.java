@@ -16,14 +16,7 @@ public class ServiceCategory extends AbstractService {
 
 	public List<Category> getCategories() {
 
-        List<Category> categories = repositoryCategory.findAll();
-        List<Category> rootCategories = new ArrayList<>();
-        for (Category category : categories) {
-            if(category.getParent() == null){
-                rootCategories.add(category);
-            }
-        }
-		return rootCategories;
+		return repositoryCategory.findAll();
     }
     
     public Category getCategory(String id){
