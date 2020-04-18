@@ -1,6 +1,7 @@
 package dev.j.api.restful.blog.controller;
 
 import dev.j.api.restful.blog.service.ServicePost;
+import dev.j.api.restful.blog.vo.Post;
 import dev.j.api.restful.blog.vo.post.Content;
 import dev.j.api.restful.blog.vo.post.Summary;
 import io.swagger.annotations.Api;
@@ -23,6 +24,26 @@ public class controllerPost {
 
     @Autowired
     private ServicePost servicePost;
+
+
+    @ApiOperation(
+        value = "포스트 최신글 요청",
+        response = ResponseEntity.class
+    )
+    @ApiImplicitParams({
+        @ApiImplicitParam(
+            name = "X-Auth-Token", 
+            required = false, 
+            paramType = "header", 
+            dataTypeClass = String.class
+        ) 
+    })
+    @GetMapping("/posts/newest")
+    public ResponseEntity<Page<Post>> getPostsNewest() {
+            
+        return new ResponseEntity<Page<Post>>(servicePost.getPostsNewest(), HttpStatus.OK);
+    }
+
 
     @ApiOperation(
         value = "포스트 요약 정보 요청",

@@ -27,26 +27,34 @@ public class ServicePost extends AbstractService {
     private RepositorySummary repositorySummary;
     
     public Page<Summary> getPostsSummary(String pageNo, String pageSize) {
-        int page = Integer.parseInt(pageNo);
-        int size = Integer.parseInt(pageSize);
-        Sort sort = Sort.by(Order.desc("no"));
-        
-        Pageable pageable = PageRequest.of(page, size, sort);
-  
-		return repositorySummary.findAllWithByPostPublish(pageable, true);
-	}
+      int page = Integer.parseInt(pageNo);
+      int size = Integer.parseInt(pageSize);
+      Sort sort = Sort.by(Order.desc("no"));
+      
+      Pageable pageable = PageRequest.of(page, size, sort);
+    
+      return repositorySummary.findAllWithByPostPublish(pageable, true);
+    }
 
-	public void savePost(Post post) {
-        repositoryPost.save(post);
-	}
+    public void savePost(Post post) {
+      repositoryPost.save(post);
+    }
 
-	public Content getPost(Long postNo) {
-        return repositoryContent.findOneByPostNoAndPostPublish(postNo, true);
-	}
+    public Content getPost(Long postNo) {
+      return repositoryContent.findOneByPostNoAndPostPublish(postNo, true);
+    }
 
-	public void saveContent(Content content) {
-        repositoryContent.save(content);
-	}
+    public void saveContent(Content content) {
+      repositoryContent.save(content);
+    }
+
+    public Page<Post> getPostsNewest() {
+      Sort sort = Sort.by(Order.desc("no"));
+      
+      Pageable pageable = PageRequest.of(0, 5, sort);
+
+      return repositoryPost.findAll(pageable);
+    }
 
     
 }
