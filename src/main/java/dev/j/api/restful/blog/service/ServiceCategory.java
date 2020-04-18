@@ -2,7 +2,6 @@ package dev.j.api.restful.blog.service;
 
 import dev.j.api.restful.blog.repository.RepositoryCategory;
 import dev.j.api.restful.blog.vo.Category;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;

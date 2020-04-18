@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Api(description = "Controller Post")
 @RestController
-public class ControllerPost {
+public class controllerPost {
 
     @Autowired
     private ServicePost servicePost;
@@ -40,7 +40,6 @@ public class ControllerPost {
     })
     @GetMapping("/posts/newest")
     public ResponseEntity<Page<Post>> getPostsNewest() {
-            
         return new ResponseEntity<Page<Post>>(servicePost.getPostsNewest(), HttpStatus.OK);
     }
 

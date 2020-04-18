@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(description = "Controller Authorize")
 @RestController
 @RequestMapping(value = "/auth")
-public class ControllerAuthorize {
+public class controllerAuthorize {
 
     @Autowired
     private ServiceAuthorize serviceAuthorize;
