@@ -17,7 +17,7 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@ToString(exclude = {"parentNo"})
+@ToString
 @Table(name = "b_category")
 public class Category {
 

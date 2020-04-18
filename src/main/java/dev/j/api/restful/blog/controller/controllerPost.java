@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Api(description = "Controller Post")
 @RestController
-public class controllerPost {
+public class ControllerPost {
 
     @Autowired
     private ServicePost servicePost;
