@@ -10,15 +10,27 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 
 @Getter
 @Setter
 @Entity
+@ToString
 @Table(name = "b_post_category")
+@NoArgsConstructor
+@AllArgsConstructor
 public class PostCategory {
+
+    public PostCategory(Long categoryNo, Long count){
+        this.categoryNo = categoryNo;
+        this.count = count;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,5 +51,8 @@ public class PostCategory {
 
     @Column(name = "b_category_no", nullable = false)
     private Long categoryNo;
+
+    @Transient
+    private Long count;
 
 }

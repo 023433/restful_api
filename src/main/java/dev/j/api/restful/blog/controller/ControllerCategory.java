@@ -39,6 +39,26 @@ public class ControllerCategory {
         return new ResponseEntity<List<CategoryChildren>>(serviceCategory.getCategories(), HttpStatus.OK);
     }
 
+
+    @ApiOperation(
+        value = "카테고리 목록 요청",
+        notes = "등록된 포스트의 갯수를 포함한 카테고리 정보 반환",
+        response = ResponseEntity.class
+    )
+    @ApiImplicitParams({
+        @ApiImplicitParam(
+            name = "X-Auth-Token", 
+            required = false, 
+            paramType = "header", 
+            dataTypeClass = String.class
+        ) 
+    })
+    @GetMapping("/categories/count")
+    public ResponseEntity<List<CategoryChildren>> getCategoriesWithCount() {
+        return new ResponseEntity<List<CategoryChildren>>(serviceCategory.getCategoriesWithCount(), HttpStatus.OK);
+    }
+
+
     @ApiOperation(
         value = "카테고리 요청",
         response = ResponseEntity.class
