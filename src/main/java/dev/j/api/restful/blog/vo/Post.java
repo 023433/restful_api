@@ -1,6 +1,7 @@
 package dev.j.api.restful.blog.vo;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import dev.j.api.restful.blog.vo.post.category.PostCategory;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -40,8 +41,9 @@ public class Post {
     @Column(name = "b_view_count", nullable = false)
     private int viewCount;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "b_author", nullable = false, insertable = false, updatable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User user;
 
     @Column(name = "b_author", nullable = false)

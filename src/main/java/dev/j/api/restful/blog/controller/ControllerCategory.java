@@ -34,9 +34,8 @@ public class ControllerCategory {
             dataTypeClass = String.class
         ) 
     })
-    @GetMapping("/category")
+    @GetMapping("/categories")
     public ResponseEntity<List<CategoryChildren>> getCategories() {
-            
         return new ResponseEntity<List<CategoryChildren>>(serviceCategory.getCategories(), HttpStatus.OK);
     }
 

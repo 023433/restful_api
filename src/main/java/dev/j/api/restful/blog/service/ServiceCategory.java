@@ -5,7 +5,9 @@ import dev.j.api.restful.blog.repository.category.RepositoryCategoryParent;
 import dev.j.api.restful.blog.vo.post.category.CategoryChildren;
 import dev.j.api.restful.blog.vo.post.category.CategoryParent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,14 +28,29 @@ public class ServiceCategory extends AbstractService {
 
         List<CategoryChildren> root = new ArrayList<>();
         
-        for (CategoryChildren category : categories) {
-            CategoryChildren parent = category.getParent();
+        Map<Long, CategoryChildren> all = new HashMap<>();
 
-            if(parent == null){
-                root.add(category);
-            }
+        for (CategoryChildren category : categories) {
+            category.setChildren(null);
+            all.put(category.getNo(), category);
         }
 
+        for (CategoryChildren category : categories) {
+            category.setChildren(new ArrayList<>());
+            if(category.getParentNo() == null){
+                root.add(category);
+            }else{
+                CategoryChildren children = all.get(category.getParentNo());
+
+                List<CategoryChildren> childrens = children.getChildren();
+
+                if(childrens == null){
+                    childrens = new ArrayList<>();
+                }
+                childrens.add(category);
+            }
+        }
+        
 		return root;
     }
     

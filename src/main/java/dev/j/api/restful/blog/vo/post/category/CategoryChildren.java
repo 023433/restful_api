@@ -28,9 +28,8 @@ public class CategoryChildren extends AbstractCategory{
     private CategoryChildren parent;
     
     @OneToMany(
-        fetch = FetchType.LAZY, 
         mappedBy = "parent"
     )
     @JsonManagedReference
-    private List<CategoryChildren> child;
+    private List<CategoryChildren> children;
 }
