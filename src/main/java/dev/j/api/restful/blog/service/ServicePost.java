@@ -1,6 +1,6 @@
 package dev.j.api.restful.blog.service;
 
-import dev.j.api.restful.blog.repository.RepositoryPost;
+import dev.j.api.restful.blog.repository.post.RepositoryPost;
 import dev.j.api.restful.blog.repository.post.RepositoryContent;
 import dev.j.api.restful.blog.repository.post.RepositorySummary;
 import dev.j.api.restful.blog.vo.Post;

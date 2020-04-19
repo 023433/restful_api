@@ -1,4 +1,4 @@
-package dev.j.api.restful.blog.repository;
+package dev.j.api.restful.blog.repository.post;
 
 import dev.j.api.restful.blog.vo.Post;
 import org.springframework.data.jpa.repository.JpaRepository;

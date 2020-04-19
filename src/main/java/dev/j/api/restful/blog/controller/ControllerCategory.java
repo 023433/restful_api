@@ -1,7 +1,8 @@
 package dev.j.api.restful.blog.controller;
 
 import dev.j.api.restful.blog.service.ServiceCategory;
-import dev.j.api.restful.blog.vo.Category;
+import dev.j.api.restful.blog.vo.post.category.CategoryChildren;
+import dev.j.api.restful.blog.vo.post.category.CategoryParent;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -34,13 +35,13 @@ public class ControllerCategory {
         ) 
     })
     @GetMapping("/category")
-    public ResponseEntity<List<Category>> getCategories() {
+    public ResponseEntity<List<CategoryChildren>> getCategories() {
             
-        return new ResponseEntity<List<Category>>(serviceCategory.getCategories(), HttpStatus.OK);
+        return new ResponseEntity<List<CategoryChildren>>(serviceCategory.getCategories(), HttpStatus.OK);
     }
 
     @ApiOperation(
-        value = "카테고리 목록 요청",
+        value = "카테고리 요청",
         response = ResponseEntity.class
     )
     @ApiImplicitParams({
@@ -52,11 +53,11 @@ public class ControllerCategory {
         ) 
     })
     @GetMapping("/category/{id}")
-    public ResponseEntity<Category> getCategory(
+    public ResponseEntity<CategoryParent> getCategory(
         @PathVariable("id")
         String id
     ) {
             
-        return new ResponseEntity<Category>(serviceCategory.getCategory(id), HttpStatus.OK);
+        return new ResponseEntity<CategoryParent>(serviceCategory.getCategory(id), HttpStatus.OK);
     }
 }

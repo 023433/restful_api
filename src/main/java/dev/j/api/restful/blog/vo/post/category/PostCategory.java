@@ -1,7 +1,6 @@
 package dev.j.api.restful.blog.vo.post.category;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import dev.j.api.restful.blog.vo.Category;
 import dev.j.api.restful.blog.vo.Post;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,7 +32,7 @@ public class PostCategory {
 
     @ManyToOne
     @JoinColumn(name = "b_category_no", nullable = false, insertable = false, updatable = false)
-    private Category category;
+    private CategoryParent category;
        
     @Column(name = "b_post_no", nullable = false)
     private Long postNo;
