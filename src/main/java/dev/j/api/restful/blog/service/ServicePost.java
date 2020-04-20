@@ -17,44 +17,54 @@ import org.springframework.stereotype.Service;
 @Service
 public class ServicePost extends AbstractService {
 
-    @Autowired
-    private RepositoryPost repositoryPost;
+  @Autowired
+  private RepositoryPost repositoryPost;
 
-    @Autowired
-    private RepositoryContent repositoryContent;
+  @Autowired
+  private RepositoryContent repositoryContent;
 
-    @Autowired
-    private RepositorySummary repositorySummary;
+  @Autowired
+  private RepositorySummary repositorySummary;
+  
+  public Page<Summary> getPostsSummary(String pageNo, String pageSize) {
+    int page = Integer.parseInt(pageNo);
+    int size = Integer.parseInt(pageSize);
+    Sort sort = Sort.by(Order.desc("no"));
     
-    public Page<Summary> getPostsSummary(String pageNo, String pageSize) {
-      int page = Integer.parseInt(pageNo);
-      int size = Integer.parseInt(pageSize);
-      Sort sort = Sort.by(Order.desc("no"));
-      
-      Pageable pageable = PageRequest.of(page, size, sort);
+    Pageable pageable = PageRequest.of(page, size, sort);
+  
+    return repositorySummary.findAllWithByPostPublish(pageable, true);
+  }
+
+  public void savePost(Post post) {
+    repositoryPost.save(post);
+  }
+
+  public Content getPost(Long postNo) {
+    return repositoryContent.findOneByPostNoAndPostPublish(postNo, true);
+  }
+
+  public void saveContent(Content content) {
+    repositoryContent.save(content);
+  }
+
+  public Page<Post> getPostsNewest() {
+    Sort sort = Sort.by(Order.desc("no"));
     
-      return repositorySummary.findAllWithByPostPublish(pageable, true);
-    }
+    Pageable pageable = PageRequest.of(0, 5, sort);
 
-    public void savePost(Post post) {
-      repositoryPost.save(post);
-    }
+    return repositoryPost.findAll(pageable);
+  }
 
-    public Content getPost(Long postNo) {
-      return repositoryContent.findOneByPostNoAndPostPublish(postNo, true);
-    }
+	public Page<Post> getPostsNewestCategory(String category, String pageNo, String pageSize) {
+    int page = Integer.parseInt(pageNo);
+    int size = Integer.parseInt(pageSize);
+    Sort sort = Sort.by(Order.desc("no"));
+    
+    Pageable pageable = PageRequest.of(page, size, sort);
 
-    public void saveContent(Content content) {
-      repositoryContent.save(content);
-    }
-
-    public Page<Post> getPostsNewest() {
-      Sort sort = Sort.by(Order.desc("no"));
-      
-      Pageable pageable = PageRequest.of(0, 5, sort);
-
-      return repositoryPost.findAll(pageable);
-    }
+    return repositoryPost.findAllWithByCategoryCategoryNo(pageable, Long.valueOf(category));
+	}
 
     
 }

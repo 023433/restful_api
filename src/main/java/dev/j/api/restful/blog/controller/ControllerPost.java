@@ -26,6 +26,36 @@ public class ControllerPost {
     private ServicePost servicePost;
 
 
+
+    @ApiOperation(
+        value = "포스트 최신글 요청",
+        response = ResponseEntity.class
+    )
+    @ApiImplicitParams({
+        @ApiImplicitParam(
+            name = "X-Auth-Token", 
+            required = false, 
+            paramType = "header", 
+            dataTypeClass = String.class
+        ) 
+    })
+    @GetMapping("/posts/newest/{category}")
+    public ResponseEntity<Page<Post>> getPostsNewestCategory(
+        @ApiParam(value = "카테고리 번호") 
+        @PathVariable("category") 
+        String category,
+
+        @ApiParam(value = "페이지 번호") 
+        @RequestParam(value = "pageNo", defaultValue = "0")
+        String pageNo, 
+        
+        @ApiParam(value = "한 페이지에 보여질 게시글 갯수") 
+        @RequestParam(value = "pageSize", defaultValue = "5")
+        String pageSize) {
+        return new ResponseEntity<Page<Post>>(servicePost.getPostsNewestCategory(category, pageNo, pageSize), HttpStatus.OK);
+    }
+
+
     @ApiOperation(
         value = "포스트 최신글 요청",
         response = ResponseEntity.class
