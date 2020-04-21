@@ -1,6 +1,6 @@
 package dev.j.api.restful.blog.vo;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import dev.j.api.restful.blog.vo.post.category.PostCategory;
 import java.time.LocalDateTime;
@@ -62,9 +62,7 @@ public class Post {
     )
     private LocalDateTime updateDate;
 
-
     @OneToMany(mappedBy = "post")
-    @JsonManagedReference
+    @JsonBackReference
     private List<PostCategory> category = new ArrayList<>();
-
 }

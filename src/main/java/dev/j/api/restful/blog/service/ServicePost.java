@@ -60,7 +60,7 @@ public class ServicePost extends AbstractService {
     int page = Integer.parseInt(pageNo);
     int size = Integer.parseInt(pageSize);
     Sort sort = Sort.by(Order.desc("no"));
-    
+
     Pageable pageable = PageRequest.of(page, size, sort);
 
     return repositoryPost.findAllWithByCategoryCategoryNo(pageable, Long.valueOf(category));
