@@ -15,4 +15,7 @@ public interface RepositorySummary extends JpaRepository<Summary, Long>, JpaSpec
     @EntityGraph(attributePaths = {"post"}, type = EntityGraph.EntityGraphType.LOAD)
     Page<Summary> findAllWithByPostPublish(Pageable pageable, Boolean publish);
 
+    @EntityGraph(attributePaths = {"post"}, type = EntityGraph.EntityGraphType.LOAD)
+    Page<Summary> findAllWithByCategoryCategoryNo(Pageable pageable, Long categoryNo);
+
 }

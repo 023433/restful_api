@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -41,7 +42,7 @@ public class ControllerPost {
     })
     @GetMapping("/posts/newest/{category}")
     public ResponseEntity<Page<Post>> getPostsNewestCategory(
-        @ApiParam(value = "카테고리 번호") 
+        @ApiParam(value = "카테고리 번호", required = true) 
         @PathVariable("category") 
         String category,
 
@@ -97,6 +98,36 @@ public class ControllerPost {
         String pageSize) {
             
         return new ResponseEntity<Page<Summary>>(servicePost.getPostsSummary(pageNo, pageSize), HttpStatus.OK);
+    }
+
+
+    @ApiOperation(
+        value = "포스트 요약 정보 요청",
+        response = ResponseEntity.class
+    )
+    @ApiImplicitParams({
+        @ApiImplicitParam(
+            name = "X-Auth-Token", 
+            required = false, 
+            paramType = "header", 
+            dataTypeClass = String.class
+        ) 
+    })
+    @GetMapping("/posts/summary/category")
+    public ResponseEntity<Page<Summary>> getPostsSummary(
+        @ApiParam(value = "페이지 번호") 
+        @RequestParam(value = "pageNo", defaultValue = "0")
+        String pageNo, 
+        
+        @ApiParam(value = "한 페이지에 보여질 게시글 갯수") 
+        @RequestParam(value = "pageSize", defaultValue = "10")
+        String pageSize,
+        
+        @ApiParam(value = "카테고리 이름 : 리스트 형태, 상위에서 하위 순") 
+        @RequestParam(value = "categories", required = true)
+        List<String> categories) {
+            
+        return new ResponseEntity<Page<Summary>>(servicePost.getPostsSummaryWithCategory(pageNo, pageSize, categories), HttpStatus.OK);
     }
 
 
