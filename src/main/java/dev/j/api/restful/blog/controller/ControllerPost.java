@@ -176,7 +176,7 @@ public class ControllerPost {
     })
     @GetMapping("/post/content/{postNo}")
     public ResponseEntity<Content> getPost(
-        @ApiParam(value = "포스트 번호") 
+        @ApiParam(value = "포스트 번호", required = true) 
         @PathVariable(value = "postNo", required = true)
         String postNo) {
             
