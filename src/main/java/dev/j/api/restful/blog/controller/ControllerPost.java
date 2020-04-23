@@ -3,7 +3,8 @@ package dev.j.api.restful.blog.controller;
 import dev.j.api.restful.blog.service.ServicePost;
 import dev.j.api.restful.blog.vo.Post;
 import dev.j.api.restful.blog.vo.post.Content;
-import dev.j.api.restful.blog.vo.post.Summary;
+import dev.j.api.restful.blog.vo.post.summary.SummaryCategory;
+import dev.j.api.restful.blog.vo.post.summary.SummaryTag;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -88,7 +89,7 @@ public class ControllerPost {
         ) 
     })
     @GetMapping("/posts/summary")
-    public ResponseEntity<Page<Summary>> getPostsSummary(
+    public ResponseEntity<Page<SummaryCategory>> getPostsSummary(
         @ApiParam(value = "페이지 번호") 
         @RequestParam(value = "pageNo", defaultValue = "0")
         String pageNo, 
@@ -97,7 +98,7 @@ public class ControllerPost {
         @RequestParam(value = "pageSize", defaultValue = "10")
         String pageSize) {
             
-        return new ResponseEntity<Page<Summary>>(servicePost.getPostsSummary(pageNo, pageSize), HttpStatus.OK);
+        return new ResponseEntity<Page<SummaryCategory>>(servicePost.getPostsSummary(pageNo, pageSize), HttpStatus.OK);
     }
 
 
@@ -114,7 +115,7 @@ public class ControllerPost {
         ) 
     })
     @GetMapping("/posts/summary/category")
-    public ResponseEntity<Page<Summary>> getPostsSummary(
+    public ResponseEntity<Page<SummaryCategory>> getPostsSummary(
         @ApiParam(value = "페이지 번호") 
         @RequestParam(value = "pageNo", defaultValue = "0")
         String pageNo, 
@@ -123,11 +124,41 @@ public class ControllerPost {
         @RequestParam(value = "pageSize", defaultValue = "10")
         String pageSize,
         
-        @ApiParam(value = "카테고리 이름 : 리스트 형태, 상위에서 하위 순") 
+        @ApiParam(value = "카테고리 이름 : 리스트 형태, 상위에서 하위 순", required = true) 
         @RequestParam(value = "categories", required = true)
         List<String> categories) {
             
-        return new ResponseEntity<Page<Summary>>(servicePost.getPostsSummaryWithCategory(pageNo, pageSize, categories), HttpStatus.OK);
+        return new ResponseEntity<Page<SummaryCategory>>(servicePost.getPostsSummaryWithCategory(pageNo, pageSize, categories), HttpStatus.OK);
+    }
+
+
+    @ApiOperation(
+        value = "포스트 요약 정보 요청",
+        response = ResponseEntity.class
+    )
+    @ApiImplicitParams({
+        @ApiImplicitParam(
+            name = "X-Auth-Token", 
+            required = false, 
+            paramType = "header", 
+            dataTypeClass = String.class
+        ) 
+    })
+    @GetMapping("/posts/summary/tag/{tag}")
+    public ResponseEntity<Page<SummaryTag>> getPostsSummaryWithTag(
+        @ApiParam(value = "페이지 번호") 
+        @RequestParam(value = "pageNo", defaultValue = "0")
+        String pageNo, 
+        
+        @ApiParam(value = "한 페이지에 보여질 게시글 갯수") 
+        @RequestParam(value = "pageSize", defaultValue = "10")
+        String pageSize,
+
+        @ApiParam(value = "태그명") 
+        @PathVariable(value = "tag", required = true)
+        String tag) {
+            
+        return new ResponseEntity<Page<SummaryTag>>(servicePost.getPostsSummaryWithTag(pageNo, pageSize, tag), HttpStatus.OK);
     }
 
 

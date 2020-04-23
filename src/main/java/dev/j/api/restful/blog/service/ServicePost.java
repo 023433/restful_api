@@ -3,11 +3,13 @@ package dev.j.api.restful.blog.service;
 import dev.j.api.restful.blog.repository.category.RepositoryCategoryParent;
 import dev.j.api.restful.blog.repository.post.RepositoryContent;
 import dev.j.api.restful.blog.repository.post.RepositoryPost;
-import dev.j.api.restful.blog.repository.post.RepositorySummary;
+import dev.j.api.restful.blog.repository.post.RepositorySummaryCategory;
+import dev.j.api.restful.blog.repository.post.RepositorySummaryTag;
 import dev.j.api.restful.blog.vo.Post;
 import dev.j.api.restful.blog.vo.post.Content;
-import dev.j.api.restful.blog.vo.post.Summary;
 import dev.j.api.restful.blog.vo.post.category.CategoryParent;
+import dev.j.api.restful.blog.vo.post.summary.SummaryCategory;
+import dev.j.api.restful.blog.vo.post.summary.SummaryTag;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,19 +29,22 @@ public class ServicePost extends AbstractService {
   private RepositoryContent repositoryContent;
 
   @Autowired
-  private RepositorySummary repositorySummary;
+  private RepositorySummaryCategory repositorySummaryCategory;
+
+  @Autowired
+  private RepositorySummaryTag repositorySummaryTag;
 
   @Autowired
   private RepositoryCategoryParent repositoryContentCategoryParent;
   
-  public Page<Summary> getPostsSummary(String pageNo, String pageSize) {
+  public Page<SummaryCategory> getPostsSummary(String pageNo, String pageSize) {
     int page = Integer.parseInt(pageNo);
     int size = Integer.parseInt(pageSize);
     Sort sort = Sort.by(Order.desc("no"));
     
     Pageable pageable = PageRequest.of(page, size, sort);
   
-    return repositorySummary.findAllWithByPostPublish(pageable, true);
+    return repositorySummaryCategory.findAllWithByPostPublish(pageable, true);
   }
 
   public void savePost(Post post) {
@@ -72,7 +77,7 @@ public class ServicePost extends AbstractService {
     return repositoryPost.findAllWithByCategoryCategoryNo(pageable, Long.valueOf(category));
 	}
 
-	public Page<Summary> getPostsSummaryWithCategory(String pageNo, String pageSize, List<String> categories) {
+	public Page<SummaryCategory> getPostsSummaryWithCategory(String pageNo, String pageSize, List<String> categories) {
 
     int page = Integer.parseInt(pageNo);
     int size = Integer.parseInt(pageSize);
@@ -82,7 +87,20 @@ public class ServicePost extends AbstractService {
 
     CategoryParent category = repositoryContentCategoryParent.findByCategories(categories);
 
-    return repositorySummary.findAllWithByCategoryCategoryNo(pageable, category.getNo());
+    return repositorySummaryCategory.findAllWithByCategoryCategoryNo(pageable, category.getNo());
+	}
+
+	public Page<SummaryTag> getPostsSummaryWithTag(String pageNo, String pageSize, String tag) {
+
+    int page = Integer.parseInt(pageNo);
+    int size = Integer.parseInt(pageSize);
+    Sort sort = Sort.by(Order.desc("no"));
+
+    Pageable pageable = PageRequest.of(page, size, sort);
+
+    System.out.println(tag);
+
+		return repositorySummaryTag.findAllWithByTagTagTitle(pageable, tag);
 	}
 
     

@@ -3,6 +3,7 @@ package dev.j.api.restful.blog.vo.post;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import dev.j.api.restful.blog.vo.Post;
 import dev.j.api.restful.blog.vo.post.category.PostCategory;
+import dev.j.api.restful.blog.vo.post.summary.PostTag;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -50,4 +51,8 @@ public class Content {
     @OneToMany(mappedBy = "post")
     @JsonManagedReference
     private List<PostCategory> category = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post")
+    @JsonManagedReference
+    private List<PostTag> tag = new ArrayList<>();
 }
