@@ -1,7 +1,7 @@
 package dev.j.api.restful.blog.vo.post.summary;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import dev.j.api.restful.blog.vo.Post;
+import dev.j.api.restful.blog.vo.post.Post;
 import dev.j.api.restful.blog.vo.post.category.PostCategory;
 import java.util.ArrayList;
 import java.util.List;

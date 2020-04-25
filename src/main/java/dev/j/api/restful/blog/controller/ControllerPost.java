@@ -1,8 +1,8 @@
 package dev.j.api.restful.blog.controller;
 
 import dev.j.api.restful.blog.service.ServicePost;
-import dev.j.api.restful.blog.vo.Post;
 import dev.j.api.restful.blog.vo.post.Content;
+import dev.j.api.restful.blog.vo.post.Post;
 import dev.j.api.restful.blog.vo.post.summary.SummaryCategory;
 import dev.j.api.restful.blog.vo.post.summary.SummaryTag;
 import io.swagger.annotations.Api;
@@ -154,7 +154,7 @@ public class ControllerPost {
         @RequestParam(value = "pageSize", defaultValue = "10")
         String pageSize,
 
-        @ApiParam(value = "태그명") 
+        @ApiParam(value = "태그명", required = true) 
         @PathVariable(value = "tag", required = true)
         String tag) {
             

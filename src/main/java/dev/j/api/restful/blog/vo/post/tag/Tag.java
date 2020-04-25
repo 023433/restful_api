@@ -1,4 +1,4 @@
-package dev.j.api.restful.blog.vo;
+package dev.j.api.restful.blog.vo.post.tag;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

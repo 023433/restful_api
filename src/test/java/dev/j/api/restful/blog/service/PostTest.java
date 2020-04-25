@@ -2,9 +2,9 @@ package dev.j.api.restful.blog.service;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import dev.j.api.restful.blog.vo.Post;
 import dev.j.api.restful.blog.vo.User;
 import dev.j.api.restful.blog.vo.post.Content;
+import dev.j.api.restful.blog.vo.post.Post;
 import javax.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

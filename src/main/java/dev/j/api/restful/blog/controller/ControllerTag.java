@@ -1,7 +1,7 @@
 package dev.j.api.restful.blog.controller;
 
 import dev.j.api.restful.blog.service.ServiceTag;
-import dev.j.api.restful.blog.vo.Tag;
+import dev.j.api.restful.blog.vo.post.tag.Tag;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

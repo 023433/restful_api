@@ -1,6 +1,6 @@
 package dev.j.api.restful.blog.repository.post;
 
-import dev.j.api.restful.blog.vo.Post;
+import dev.j.api.restful.blog.vo.post.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,8 +1,9 @@
-package dev.j.api.restful.blog.vo;
+package dev.j.api.restful.blog.vo.post;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import dev.j.api.restful.blog.vo.post.category.PostCategory;
+import dev.j.api.restful.blog.vo.User;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

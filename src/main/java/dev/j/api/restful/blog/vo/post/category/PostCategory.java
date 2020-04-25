@@ -1,7 +1,7 @@
 package dev.j.api.restful.blog.vo.post.category;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import dev.j.api.restful.blog.vo.Post;
+import dev.j.api.restful.blog.vo.post.Post;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -5,11 +5,12 @@ import dev.j.api.restful.blog.repository.post.RepositoryContent;
 import dev.j.api.restful.blog.repository.post.RepositoryPost;
 import dev.j.api.restful.blog.repository.post.RepositorySummaryCategory;
 import dev.j.api.restful.blog.repository.post.RepositorySummaryTag;
-import dev.j.api.restful.blog.vo.Post;
 import dev.j.api.restful.blog.vo.post.Content;
+import dev.j.api.restful.blog.vo.post.Post;
 import dev.j.api.restful.blog.vo.post.category.CategoryParent;
 import dev.j.api.restful.blog.vo.post.summary.SummaryCategory;
 import dev.j.api.restful.blog.vo.post.summary.SummaryTag;
+import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -85,7 +86,19 @@ public class ServicePost extends AbstractService {
 
     Pageable pageable = PageRequest.of(page, size, sort);
 
-    CategoryParent category = repositoryContentCategoryParent.findByCategories(categories);
+    categories.removeAll(Collections.singleton(""));
+
+    CategoryParent category = null;
+
+    try {
+      category = repositoryContentCategoryParent.findByCategories(categories);
+    } catch (Exception e) {
+      return null;
+    }
+
+    if(category == null){
+      return null;
+    }
 
     return repositorySummaryCategory.findAllWithByCategoryCategoryNo(pageable, category.getNo());
 	}
@@ -97,8 +110,6 @@ public class ServicePost extends AbstractService {
     Sort sort = Sort.by(Order.desc("no"));
 
     Pageable pageable = PageRequest.of(page, size, sort);
-
-    System.out.println(tag);
 
 		return repositorySummaryTag.findAllWithByTagTagTitle(pageable, tag);
 	}
