@@ -1,8 +1,8 @@
 package dev.j.api.restful.blog.service;
 
-import dev.j.api.restful.blog.repository.category.RepositoryCategoryChildren;
-import dev.j.api.restful.blog.repository.category.RepositoryCategoryParent;
-import dev.j.api.restful.blog.repository.post.RepositoryPostCategory;
+import dev.j.api.restful.blog.repository.post.category.RepositoryCategoryChildren;
+import dev.j.api.restful.blog.repository.post.category.RepositoryCategoryParent;
+import dev.j.api.restful.blog.repository.post.category.RepositoryPostCategory;
 import dev.j.api.restful.blog.vo.post.category.CategoryChildren;
 import dev.j.api.restful.blog.vo.post.category.CategoryParent;
 import dev.j.api.restful.blog.vo.post.category.PostCategory;

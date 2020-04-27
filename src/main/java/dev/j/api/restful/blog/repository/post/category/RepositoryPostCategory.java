@@ -1,4 +1,4 @@
-package dev.j.api.restful.blog.repository.post;
+package dev.j.api.restful.blog.repository.post.category;
 
 import dev.j.api.restful.blog.vo.post.category.PostCategory;
 import java.util.List;

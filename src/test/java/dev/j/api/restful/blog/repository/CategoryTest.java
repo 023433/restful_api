@@ -2,7 +2,7 @@ package dev.j.api.restful.blog.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import dev.j.api.restful.blog.repository.category.RepositoryCategoryParent;
+import dev.j.api.restful.blog.repository.post.category.RepositoryCategoryParent;
 import dev.j.api.restful.blog.vo.post.category.CategoryParent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

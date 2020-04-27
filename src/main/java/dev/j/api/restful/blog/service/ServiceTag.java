@@ -1,6 +1,6 @@
 package dev.j.api.restful.blog.service;
 
-import dev.j.api.restful.blog.repository.tag.RepositoryTag;
+import dev.j.api.restful.blog.repository.post.tag.RepositoryTag;
 import dev.j.api.restful.blog.vo.post.tag.Tag;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

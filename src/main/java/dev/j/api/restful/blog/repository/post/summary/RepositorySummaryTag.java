@@ -1,4 +1,4 @@
-package dev.j.api.restful.blog.repository.post;
+package dev.j.api.restful.blog.repository.post.summary;
 
 import dev.j.api.restful.blog.vo.post.summary.SummaryTag;
 import org.springframework.data.domain.Page;
