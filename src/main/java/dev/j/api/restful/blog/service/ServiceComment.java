@@ -37,6 +37,18 @@ public class ServiceComment extends AbstractService{
         return repositoryComment.findAllWithByPostPublish(pageable, true);
     }
 
+    
+    public Page<Comment> getComments(String postNo, String pageNo, String pageSize) {
+        int page = Integer.parseInt(pageNo);
+        int size = Integer.parseInt(pageSize);
+        Sort sort = Sort.by(Order.desc("createDate"));
+        
+        Pageable pageable = PageRequest.of(page, size, sort);
+      
+        return repositoryComment.findAllWithByPostNoAndPostPublish(pageable, Long.valueOf(postNo), true);
+    }
+
+
 
     @Transactional
 	public Comment saveCommentWithUser(Comment comment) {

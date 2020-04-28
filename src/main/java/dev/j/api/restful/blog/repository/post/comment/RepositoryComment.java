@@ -10,4 +10,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 public interface RepositoryComment extends JpaRepository<Comment, Long>, JpaSpecificationExecutor<Comment>{
     @EntityGraph(attributePaths = {"auth", "guest"}, type = EntityGraph.EntityGraphType.LOAD)
     Page<Comment> findAllWithByPostPublish(Pageable pageable, Boolean publish);
+
+    @EntityGraph(attributePaths = {"auth", "guest"}, type = EntityGraph.EntityGraphType.LOAD)
+    Page<Comment> findAllWithByPostNoAndPostPublish(Pageable pageable, Long postNo, Boolean publish);
 }

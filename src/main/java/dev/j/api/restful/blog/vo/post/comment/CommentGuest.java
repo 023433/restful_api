@@ -21,6 +21,7 @@ import lombok.ToString;
 @ToString(exclude = "comment")
 @Table(name = "b_comment_guest")
 public class CommentGuest {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "b_no", nullable = false)

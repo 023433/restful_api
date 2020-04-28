@@ -81,4 +81,12 @@ public class CommentTest {
         assertNotNull(commentUser.getAuth());
     }
 
+    @Test
+    public void getComment(){
+        Page<Comment> comments = serviceComment.getComments(String.valueOf(post.getNo()), "0", "10");
+        System.out.println(comments);
+        assertNotNull(comments.getContent());
+
+    }
+
 }

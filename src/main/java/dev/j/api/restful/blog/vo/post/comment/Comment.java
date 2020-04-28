@@ -32,6 +32,9 @@ public class Comment {
 
     @Column(name = "b_parent_no")
     private Long parentNo;
+
+    @Column(name = "b_content", nullable = false, length = 1000)
+    private String content;
     
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "b_post_no", insertable = false, updatable = false)
@@ -47,12 +50,12 @@ public class Comment {
     @Column(name = "b_secret", nullable = false)
     private Boolean secret = true;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "comment")
     @JoinColumn(name = "b_no", insertable = false, updatable = false)
     @JsonManagedReference
     private CommentUser auth;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "comment")
     @JoinColumn(name = "b_no", insertable = false, updatable = false)
     @JsonManagedReference
     private CommentGuest guest;
