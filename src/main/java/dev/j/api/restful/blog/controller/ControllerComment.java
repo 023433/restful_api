@@ -51,4 +51,22 @@ public class ControllerComment {
             
         return new ResponseEntity<Page<Comment>>(serviceComment.getComments(postNo, pageNo, pageSize), HttpStatus.OK);
     }
+
+    @ApiOperation(
+        value = "최신 댓글 목록 요청",
+        response = ResponseEntity.class
+    )
+    @ApiImplicitParams({
+        @ApiImplicitParam(
+            name = "X-Auth-Token", 
+            required = false, 
+            paramType = "header", 
+            dataTypeClass = String.class
+        ) 
+    })
+    @GetMapping("/comments/newest")
+    public ResponseEntity<Page<Comment>> getCommentsNewest() {
+        return new ResponseEntity<Page<Comment>>(serviceComment.getCommentsNewest(), HttpStatus.OK);
+    }
+
 }

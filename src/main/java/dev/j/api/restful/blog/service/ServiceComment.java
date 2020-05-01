@@ -137,4 +137,14 @@ public class ServiceComment extends AbstractService{
 
         return comment;
 	}
+
+
+	public Page<Comment> getCommentsNewest() {
+
+        Sort sort = Sort.by(Order.desc("createDate"), Order.desc("no"));
+        
+        Pageable pageable = PageRequest.of(0, 5, sort);
+      
+        return repositoryComment.findAllWithByPostPublish(pageable, true);
+	}
 }
