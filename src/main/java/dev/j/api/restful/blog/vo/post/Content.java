@@ -8,11 +8,10 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.MapsId;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -28,17 +27,14 @@ import lombok.ToString;
 public class Content {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "b_no", nullable = false)
-    private Long no;
+    @Column(name = "b_post_no", nullable = false, unique = true)
+    private Long postNo;
 
+    @MapsId
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "b_post_no", insertable = false, updatable = false)
     @JsonManagedReference
     private Post post;
-
-    @Column(name = "b_post_no", nullable = false, unique = true)
-    private Long postNo;
 
     @Column(name = "b_main_image", nullable = false)
     private String mainImage;

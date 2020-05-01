@@ -44,6 +44,15 @@ public class Comment {
     @Column(name = "b_post_no", nullable = false)
     private Long postNo;
 
+    @Column(name = "b_group_no", nullable = false)
+    private int groupNo;
+
+    @Column(name = "b_depth_no", nullable = false)
+    private int depthNo;
+
+    @Column(name = "b_order_no", nullable = false)
+    private int orderNo;
+
     @Column(name = "b_publish", nullable = false)
     private Boolean publish = true;
 

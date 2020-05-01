@@ -41,7 +41,7 @@ public class ServicePost extends AbstractService {
   public Page<SummaryCategory> getPostsSummary(String pageNo, String pageSize) {
     int page = Integer.parseInt(pageNo);
     int size = Integer.parseInt(pageSize);
-    Sort sort = Sort.by(Order.desc("no"));
+    Sort sort = Sort.by(Order.desc("postNo"));
     
     Pageable pageable = PageRequest.of(page, size, sort);
   
@@ -82,7 +82,7 @@ public class ServicePost extends AbstractService {
 
     int page = Integer.parseInt(pageNo);
     int size = Integer.parseInt(pageSize);
-    Sort sort = Sort.by(Order.desc("no"));
+    Sort sort = Sort.by(Order.desc("postNo"));
 
     Pageable pageable = PageRequest.of(page, size, sort);
 
@@ -107,7 +107,7 @@ public class ServicePost extends AbstractService {
 
     int page = Integer.parseInt(pageNo);
     int size = Integer.parseInt(pageSize);
-    Sort sort = Sort.by(Order.desc("no"));
+    Sort sort = Sort.by(Order.desc("postNo"));
 
     Pageable pageable = PageRequest.of(page, size, sort);
 

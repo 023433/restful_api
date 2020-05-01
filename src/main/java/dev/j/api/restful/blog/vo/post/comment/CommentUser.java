@@ -1,6 +1,7 @@
 package dev.j.api.restful.blog.vo.post.comment;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.CascadeType;
 import dev.j.api.restful.blog.vo.User;
@@ -22,6 +23,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(exclude = "comment")
+@JsonIgnoreProperties(value = {"no", "commentNo"})
 @Table(name = "b_comment_user")
 public class CommentUser {
 

@@ -24,7 +24,7 @@ public class ControllerComment {
     private ServiceComment serviceComment;
 
     @ApiOperation(
-        value = "포스트 요약 정보 요청",
+        value = "댓글 목록 요청",
         response = ResponseEntity.class
     )
     @ApiImplicitParams({
@@ -35,8 +35,8 @@ public class ControllerComment {
             dataTypeClass = String.class
         ) 
     })
-    @GetMapping("/comment/{postNo}")
-    public ResponseEntity<Page<Comment>> getPostsSummary(
+    @GetMapping("/comments/{postNo}")
+    public ResponseEntity<Page<Comment>> getComments(
         @ApiParam(value = "페이지 번호") 
         @RequestParam(value = "pageNo", defaultValue = "0")
         String pageNo, 

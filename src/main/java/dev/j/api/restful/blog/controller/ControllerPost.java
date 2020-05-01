@@ -115,7 +115,7 @@ public class ControllerPost {
         ) 
     })
     @GetMapping("/posts/summary/category")
-    public ResponseEntity<Page<SummaryCategory>> getPostsSummary(
+    public ResponseEntity<Page<SummaryCategory>> getPostsSummaryWithCategory(
         @ApiParam(value = "페이지 번호") 
         @RequestParam(value = "pageNo", defaultValue = "0")
         String pageNo, 
