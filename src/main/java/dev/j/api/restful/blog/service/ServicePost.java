@@ -100,7 +100,7 @@ public class ServicePost extends AbstractService {
       return null;
     }
 
-    return repositorySummaryCategory.findAllWithByCategoryCategoryNo(pageable, category.getNo());
+    return repositorySummaryCategory.findAllWithByPostPublishAndCategoryCategoryNo(pageable, true, category.getNo());
 	}
 
 	public Page<SummaryTag> getPostsSummaryWithTag(String pageNo, String pageSize, String tag) {
@@ -111,7 +111,17 @@ public class ServicePost extends AbstractService {
 
     Pageable pageable = PageRequest.of(page, size, sort);
 
-		return repositorySummaryTag.findAllWithByTagTagTitle(pageable, tag);
+		return repositorySummaryTag.findAllWithByPostPublishAndTagTagTitle(pageable, true, tag);
+	}
+
+	public Page<SummaryCategory> getPostsSummaryWithSearch(String pageNo, String pageSize, String searchVal) {
+    int page = Integer.parseInt(pageNo);
+    int size = Integer.parseInt(pageSize);
+    Sort sort = Sort.by(Order.desc("postNo"));
+
+    Pageable pageable = PageRequest.of(page, size, sort);
+
+		return repositorySummaryCategory.findAllWithByPostPublishAndPostSubjectContains(pageable, true, searchVal);
 	}
 
     

@@ -10,6 +10,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 public interface RepositorySummaryTag extends JpaRepository<SummaryTag, Long>, JpaSpecificationExecutor<SummaryTag>{
 
     @EntityGraph(attributePaths = {"post"}, type = EntityGraph.EntityGraphType.LOAD)
-    Page<SummaryTag> findAllWithByTagTagTitle(Pageable pageable, String title);
+    Page<SummaryTag> findAllWithByPostPublishAndTagTagTitle(Pageable pageable, Boolean publish, String title);
 
 }

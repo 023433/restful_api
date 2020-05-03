@@ -10,12 +10,11 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 public interface RepositorySummaryCategory extends JpaRepository<SummaryCategory, Long>, JpaSpecificationExecutor<SummaryCategory>{
 
     @EntityGraph(attributePaths = {"post"}, type = EntityGraph.EntityGraphType.LOAD)
-    Page<SummaryCategory> findAllWithPostBy(Pageable pageable);
-
-    @EntityGraph(attributePaths = {"post"}, type = EntityGraph.EntityGraphType.LOAD)
     Page<SummaryCategory> findAllWithByPostPublish(Pageable pageable, Boolean publish);
 
     @EntityGraph(attributePaths = {"post"}, type = EntityGraph.EntityGraphType.LOAD)
-    Page<SummaryCategory> findAllWithByCategoryCategoryNo(Pageable pageable, Long categoryNo);
+    Page<SummaryCategory> findAllWithByPostPublishAndCategoryCategoryNo(Pageable pageable, Boolean publish, Long categoryNo);
 
+    @EntityGraph(attributePaths = {"post"}, type = EntityGraph.EntityGraphType.LOAD)
+    Page<SummaryCategory> findAllWithByPostPublishAndPostSubjectContains(Pageable pageable, Boolean publish, String subject);
 }

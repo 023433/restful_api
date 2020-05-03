@@ -163,6 +163,37 @@ public class ControllerPost {
 
 
     @ApiOperation(
+        value = "포스트 요약 정보 요청",
+        response = ResponseEntity.class
+    )
+    @ApiImplicitParams({
+        @ApiImplicitParam(
+            name = "X-Auth-Token", 
+            required = false, 
+            paramType = "header", 
+            dataTypeClass = String.class
+        ) 
+    })
+    @GetMapping("/posts/summary/search/{searchVal}")
+    public ResponseEntity<Page<SummaryCategory>> getPostsSummaryWithSearch(
+        @ApiParam(value = "페이지 번호") 
+        @RequestParam(value = "pageNo", defaultValue = "0")
+        String pageNo, 
+        
+        @ApiParam(value = "한 페이지에 보여질 게시글 갯수") 
+        @RequestParam(value = "pageSize", defaultValue = "10")
+        String pageSize,
+
+        @ApiParam(value = "검색어", required = true) 
+        @PathVariable(value = "searchVal", required = true)
+        String searchVal) {
+            
+        return new ResponseEntity<Page<SummaryCategory>>(servicePost.getPostsSummaryWithSearch(pageNo, pageSize, searchVal), HttpStatus.OK);
+    }
+
+
+
+    @ApiOperation(
         value = "포스트 내용 요청",
         response = ResponseEntity.class
     )
