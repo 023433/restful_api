@@ -6,7 +6,9 @@ import dev.j.api.restful.blog.repository.post.comment.RepositoryCommentUser;
 import dev.j.api.restful.blog.vo.post.comment.Comment;
 import dev.j.api.restful.blog.vo.post.comment.CommentGuest;
 import dev.j.api.restful.blog.vo.post.comment.CommentUser;
+import dev.j.api.restful.common.property.PropertyJwtToken;
 import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,17 +29,6 @@ public class ServiceComment extends AbstractService{
 
     @Autowired
     private RepositoryCommentUser repositoryCommentUser;
-
-    public Page<Comment> getComments(String pageNo, String pageSize) {
-        int page = Integer.parseInt(pageNo);
-        int size = Integer.parseInt(pageSize);
-        Sort sort = Sort.by(Order.asc("groupNo"), Order.asc("orderNo"));
-        
-        Pageable pageable = PageRequest.of(page, size, sort);
-      
-        return repositoryComment.findAllWithByPostPublish(pageable, true);
-    }
-
     
     public Page<Comment> getComments(String postNo, String pageNo, String pageSize) {
         int page = Integer.parseInt(pageNo);
@@ -50,54 +41,25 @@ public class ServiceComment extends AbstractService{
     }
 
 
+    public Page<Comment> getCommentsNewest() {
 
-    @Transactional
-	public Comment saveCommentWithUser(Comment comment) {
-
-        CommentUser auth = comment.getAuth();
-        comment.setAuth(null);
-        repositoryComment.save(comment);
-
-        auth.setComment(comment);
-        auth.setCommentNo(comment.getNo());
-
-        repositoryCommentUser.save(auth);
+        Sort sort = Sort.by(Order.desc("createDate"), Order.desc("no"));
         
-        comment.setAuth(auth);
-        
-        return comment;
+        Pageable pageable = PageRequest.of(0, 5, sort);
+      
+        return repositoryComment.findAllWithByPostPublish(pageable, true);
 	}
 
-    @Transactional
-	public Comment saveCommentWithGuest(Comment comment) {
-
-        CommentGuest guest = comment.getGuest();
-
-        comment.setGuest(null);
-        repositoryComment.save(comment);
-
-        String pw = guest.getPw();
-
-        guest.setPw(componentEncrypt.encrypt(pw));
-        guest.setComment(comment);
-        guest.setCommentNo(comment.getNo());
-
-        repositoryCommentGuest.save(guest);
-
-        comment.setGuest(guest);
-
-        return comment;
-    }
-    
 
     @Transactional
-	public Comment saveComment(Comment comment) {
-
+	public Comment saveComment(HttpServletRequest request, Comment comment) {
+        System.out.println(comment);
         Comment parent = new Comment();
 
         int depthNo = 0;
         int orderNo = 0;
         int groupNo = 0;
+        Long postNo = 0L;
 
         Long parentNo = comment.getParentNo();
 
@@ -109,6 +71,7 @@ public class ServiceComment extends AbstractService{
                 depthNo = parent.getDepthNo();
                 orderNo = parent.getOrderNo();
                 groupNo = parent.getGroupNo();
+                postNo = parent.getPostNo();
             }
 
             orderNo = repositoryComment.getMinOrderNo(groupNo, orderNo, depthNo);
@@ -116,6 +79,10 @@ public class ServiceComment extends AbstractService{
 
         if(orderNo == 0){
             orderNo = repositoryComment.getMaxOrderNo(groupNo) + 1;
+        }
+
+        if(comment.getPostNo() == null){
+            comment.setPostNo(postNo);
         }
 
         comment.setOrderNo(orderNo);
@@ -126,6 +93,10 @@ public class ServiceComment extends AbstractService{
             repositoryComment.updateOrderNo(groupNo, orderNo);
         }
 
+        CommentGuest guest = comment.getGuest();
+
+        comment.setGuest(null);
+
         repositoryComment.save(comment);
 
         if(parentNo == null){
@@ -135,16 +106,83 @@ public class ServiceComment extends AbstractService{
             repositoryComment.save(comment);
         }
 
+        if(guest != null){
+            guest.setComment(comment);
+            guest.setCommentNo(comment.getNo());
+            guest.setIpAddress(request.getRemoteAddr());
+            
+            repositoryCommentGuest.save(guest);
+    
+            comment.setGuest(guest);
+
+            return comment;
+        }
+        
+        String jwtToken = request.getHeader(PropertyJwtToken.STR_TOKEN);
+        String userId = componentJwtToken.getUserId(jwtToken);
+
+        if(userId != null){
+            CommentUser auth = new CommentUser();
+
+            auth.setAuthor(userId);
+            auth.setComment(comment);
+            auth.setCommentNo(comment.getNo());
+    
+            repositoryCommentUser.save(auth);
+            
+            comment.setAuth(auth);
+        }
+
+      
         return comment;
+
 	}
 
 
-	public Page<Comment> getCommentsNewest() {
+    @Transactional
+	public Comment updateComment(HttpServletRequest request, Comment comment) {
 
-        Sort sort = Sort.by(Order.desc("createDate"), Order.desc("no"));
-        
-        Pageable pageable = PageRequest.of(0, 5, sort);
-      
-        return repositoryComment.findAllWithByPostPublish(pageable, true);
+        System.out.println(comment);
+        Comment savedComment = new Comment();
+        CommentGuest guest = comment.getGuest();
+
+        Optional<Comment> saved = repositoryComment.findById(comment.getNo());
+
+        if(saved.isPresent()){
+            savedComment = saved.get();
+        }else{
+            return null;
+        }
+
+        if(guest != null){
+            String pw = guest.getPw();
+            String savedPw = savedComment.getGuest().getPw();
+
+            if( !componentEncrypt.matches(pw, savedPw)){
+                return null;
+            }
+  
+        }
+
+
+        String jwtToken = request.getHeader(PropertyJwtToken.STR_TOKEN);
+        String userId = componentJwtToken.getUserId(jwtToken);
+
+        if(userId != null){
+            CommentUser auth = savedComment.getAuth();
+
+            String savedUserId = auth.getAuthor();
+
+            if( !userId.equals(savedUserId)){
+                return null;
+            }
+        }
+
+        savedComment.setContent(comment.getContent());
+        savedComment.setSecret(comment.getSecret());
+
+        repositoryComment.save(savedComment);
+
+		return savedComment;
 	}
 }

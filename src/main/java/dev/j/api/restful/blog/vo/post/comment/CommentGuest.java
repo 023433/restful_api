@@ -39,6 +39,9 @@ public class CommentGuest {
 
     @Column(name = "b_name", nullable = false)
     private String name;
+
+    @Column(name = "b_ip_address", nullable = false)
+    private String ipAddress;
     
     @Column(name = "b_pw", nullable = false)
     private String pw;

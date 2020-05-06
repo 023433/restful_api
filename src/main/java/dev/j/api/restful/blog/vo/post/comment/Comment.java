@@ -13,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.PostLoad;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -81,4 +82,15 @@ public class Comment {
         columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
     )
     private LocalDateTime updateDate;
+
+    @PostLoad
+    private void postLoad(){
+        if(!publish){
+            content = "관리자 삭제된 댓글입니다.";
+        }
+
+        if(secret){
+            content = "비밀 댓글 입니다";
+        }
+    }
 }

@@ -2,11 +2,13 @@ package dev.j.api.restful.blog.controller;
 
 import dev.j.api.restful.blog.service.ServiceComment;
 import dev.j.api.restful.blog.vo.post.comment.Comment;
+import dev.j.api.restful.blog.vo.post.comment.CommentGuest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -75,7 +77,7 @@ public class ControllerComment {
 
 
     @ApiOperation(
-        value = "댓글 등록",
+        value = "대댓글 등록",
         response = ResponseEntity.class
     )
     @ApiImplicitParams({
@@ -87,7 +89,9 @@ public class ControllerComment {
         ) 
     })
     @PostMapping("/comment/reply")
-    public ResponseEntity<String> commentReply(
+    public ResponseEntity<Comment> commentReply(
+        HttpServletRequest request,
+
         @ApiParam(value = "이름", required = false) 
         @RequestParam(value = "name", required = false)
         String name, 
@@ -110,15 +114,20 @@ public class ControllerComment {
 
             
 
-        System.out.println(name);
-        System.out.println(no);
-        System.out.println(password);
-        System.out.println(content);
-        System.out.println(secret);
-        HttpStatus http = HttpStatus.OK;
+        Comment comment = new Comment();
+        comment.setContent(content);
+        comment.setParentNo(Long.parseLong(no));
+        comment.setSecret(Boolean.parseBoolean(secret));
 
+        if(!name.isEmpty()){
+            CommentGuest guest = new CommentGuest();
+            guest.setName(name);
+            guest.setPw(password);
 
-        return new ResponseEntity<>(http);
+            comment.setGuest(guest);
+        }
+
+        return new ResponseEntity<Comment>(serviceComment.saveComment(request, comment), HttpStatus.OK);
         
     }
 
@@ -136,7 +145,9 @@ public class ControllerComment {
         ) 
     })
     @PutMapping("/comment")
-    public ResponseEntity<String> commentModify(
+    public ResponseEntity<Comment> commentModify(
+        HttpServletRequest request,
+
         @ApiParam(value = "이름", required = false) 
         @RequestParam(value = "name", required = false)
         String name, 
@@ -158,16 +169,20 @@ public class ControllerComment {
         String secret) {
 
             
+        Comment comment = new Comment();
+        comment.setContent(content);
+        comment.setNo(Long.parseLong(no));
+        comment.setSecret(Boolean.parseBoolean(secret));
 
-        System.out.println(name);
-        System.out.println(no);
-        System.out.println(password);
-        System.out.println(content);
-        System.out.println(secret);
-        HttpStatus http = HttpStatus.OK;
+        if(!name.isEmpty()){
+            CommentGuest guest = new CommentGuest();
+            guest.setName(name);
+            guest.setPw(password);
 
+            comment.setGuest(guest);
+        }
 
-        return new ResponseEntity<>(http);
+        return new ResponseEntity<Comment>(serviceComment.updateComment(request, comment), HttpStatus.OK);
         
     }
 
@@ -185,7 +200,9 @@ public class ControllerComment {
         ) 
     })
     @PostMapping("/comment")
-    public ResponseEntity<String> commentInsert(
+    public ResponseEntity<Comment> commentInsert(
+        HttpServletRequest request,
+
         @ApiParam(value = "이름", required = false) 
         @RequestParam(value = "name", required = false)
         String name, 
@@ -193,6 +210,10 @@ public class ControllerComment {
         @ApiParam(value = "비밀번호", required = false) 
         @RequestParam(value = "password", required = false)
         String password,
+
+        @ApiParam(value = "글 번호", required = false) 
+        @RequestParam(value = "postNo", required = false)
+        String postNo,
 
         @ApiParam(value = "내용", required = true) 
         @RequestParam(value = "content", required = true)
@@ -202,21 +223,26 @@ public class ControllerComment {
         @RequestParam(value = "secret", required = true)
         String secret) {
 
+        Comment comment = new Comment();
+        comment.setContent(content);
+        comment.setPostNo(Long.parseLong(postNo));
+        comment.setSecret(Boolean.parseBoolean(secret));
 
-        System.out.println(name);
-        System.out.println(password);
-        System.out.println(content);
-        System.out.println(secret);
-        HttpStatus http = HttpStatus.OK;
+        if(!name.isEmpty()){
+            CommentGuest guest = new CommentGuest();
+            guest.setName(name);
+            guest.setPw(password);
 
+            comment.setGuest(guest);
+        }
 
-        return new ResponseEntity<>(http);
+        return new ResponseEntity<Comment>(serviceComment.saveComment(request, comment), HttpStatus.OK);
         
     }
 
 
     @ApiOperation(
-        value = "댓글 등록",
+        value = "댓글 삭제",
         response = ResponseEntity.class
     )
     @ApiImplicitParams({

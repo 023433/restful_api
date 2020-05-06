@@ -49,34 +49,9 @@ public class CommentTest {
         servicePost.savePost(post);
 
         comment = new Comment();
-        CommentGuest guest = new CommentGuest();
-        guest.setName("name");
-        guest.setPw("pw");
 
-        comment.setPost(post);
-        comment.setPostNo(post.getNo());
-        comment.setGuest(guest);
-        comment.setContent("content");
-        commentGuest = serviceComment.saveCommentWithGuest(comment);
-
-        comment = new Comment();
-        CommentUser cuser = new CommentUser();
-        cuser.setAuthor(user.getUserId());
-        cuser.setUser(user);
-
-        comment.setPost(post);
-        comment.setPostNo(post.getNo());
-        comment.setAuth(cuser);
-        comment.setContent("content");
-
-        commentUser = serviceComment.saveCommentWithUser(comment);
     }
     
-    @Test
-    public void getComments(){
-        Page<Comment> comments = serviceComment.getComments("0", "10");
-        assertNotNull(comments.getContent());
-    }
 
     @Test
     public void getCommentUserNotNull(){
