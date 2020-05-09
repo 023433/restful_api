@@ -79,6 +79,10 @@ public class ComponentJwtToken {
     public Claims getData(String jwtToken){
         Jws<Claims> claims;
 
+        if(jwtToken != null && jwtToken.equals("undefined")){
+            return null;
+        }
+
         try {
             claims = Jwts
                         .parser()

@@ -2,9 +2,11 @@ package dev.j.api.restful.blog.service;
 
 import dev.j.api.restful.blog.repository.post.comment.RepositoryComment;
 import dev.j.api.restful.blog.repository.post.comment.RepositoryCommentGuest;
+import dev.j.api.restful.blog.repository.post.comment.RepositoryCommentPostLoad;
 import dev.j.api.restful.blog.repository.post.comment.RepositoryCommentUser;
 import dev.j.api.restful.blog.vo.post.comment.Comment;
 import dev.j.api.restful.blog.vo.post.comment.CommentGuest;
+import dev.j.api.restful.blog.vo.post.comment.CommentPostLoad;
 import dev.j.api.restful.blog.vo.post.comment.CommentUser;
 import dev.j.api.restful.common.property.PropertyJwtToken;
 import java.util.Optional;
@@ -25,29 +27,32 @@ public class ServiceComment extends AbstractService{
     private RepositoryComment repositoryComment;
     
     @Autowired
+    private RepositoryCommentPostLoad repositoryCommentPostLoad;
+
+    @Autowired
     private RepositoryCommentGuest repositoryCommentGuest;
 
     @Autowired
     private RepositoryCommentUser repositoryCommentUser;
     
-    public Page<Comment> getComments(String postNo, String pageNo, String pageSize) {
+    public Page<CommentPostLoad> getComments(String postNo, String pageNo, String pageSize) {
         int page = Integer.parseInt(pageNo);
         int size = Integer.parseInt(pageSize);
         Sort sort = Sort.by(Order.asc("groupNo"), Order.asc("orderNo"));
         
         Pageable pageable = PageRequest.of(page, size, sort);
       
-        return repositoryComment.findAllWithByPostNoAndPostPublish(pageable, Long.valueOf(postNo), true);
+        return repositoryCommentPostLoad.findAllWithByPostNoAndPostPublish(pageable, Long.valueOf(postNo), true);
     }
 
 
-    public Page<Comment> getCommentsNewest() {
+    public Page<CommentPostLoad> getCommentsNewest() {
 
         Sort sort = Sort.by(Order.desc("createDate"), Order.desc("no"));
         
         Pageable pageable = PageRequest.of(0, 5, sort);
       
-        return repositoryComment.findAllWithByPostPublish(pageable, true);
+        return repositoryCommentPostLoad.findAllWithByPostPublish(pageable, true);
 	}
 
 
@@ -143,7 +148,6 @@ public class ServiceComment extends AbstractService{
     @Transactional
 	public Comment updateComment(HttpServletRequest request, Comment comment) {
 
-        System.out.println(comment);
         Comment savedComment = new Comment();
         CommentGuest guest = comment.getGuest();
 
@@ -185,5 +189,50 @@ public class ServiceComment extends AbstractService{
         repositoryComment.save(savedComment);
 
 		return savedComment;
+	}
+
+
+	public Comment getComment(HttpServletRequest request, String no, String password) {
+        System.out.println("getComment");
+        System.out.println(no);
+        System.out.println(password);
+
+        Optional<Comment> saved = repositoryComment.findById(Long.parseLong(no));
+        
+        if( !saved.isPresent()){
+		    return null;
+        }
+
+        Comment savedComment = saved.get();
+
+        String jwtToken = request.getHeader(PropertyJwtToken.STR_TOKEN);
+        String userId = componentJwtToken.getUserId(jwtToken);
+
+        if(
+            (password == null || password.isEmpty()) &&
+            userId != null && !userId.isEmpty()){
+            CommentUser auth = savedComment.getAuth();
+
+            if(auth == null){
+                return null;
+            }
+
+            String savedUserId = auth.getAuthor();
+
+            if( !userId.equals(savedUserId)){
+                return null;
+            }
+
+            return savedComment;
+        }
+
+        CommentGuest guest = savedComment.getGuest();
+        String savedPwd = guest.getPw();
+
+        if(componentEncrypt.matches(password, savedPwd)){
+            return savedComment;
+        }
+
+		return null;
 	}
 }

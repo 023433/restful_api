@@ -3,6 +3,7 @@ package dev.j.api.restful.blog.controller;
 import dev.j.api.restful.blog.service.ServiceComment;
 import dev.j.api.restful.blog.vo.post.comment.Comment;
 import dev.j.api.restful.blog.vo.post.comment.CommentGuest;
+import dev.j.api.restful.blog.vo.post.comment.CommentPostLoad;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -41,7 +42,7 @@ public class ControllerComment {
         ) 
     })
     @GetMapping("/comments/{postNo}")
-    public ResponseEntity<Page<Comment>> getComments(
+    public ResponseEntity<Page<CommentPostLoad>> getComments(
         @ApiParam(value = "페이지 번호") 
         @RequestParam(value = "pageNo", defaultValue = "0")
         String pageNo, 
@@ -54,7 +55,7 @@ public class ControllerComment {
         @PathVariable(value = "postNo", required = true) 
         String postNo) {
             
-        return new ResponseEntity<Page<Comment>>(serviceComment.getComments(postNo, pageNo, pageSize), HttpStatus.OK);
+        return new ResponseEntity<Page<CommentPostLoad>>(serviceComment.getComments(postNo, pageNo, pageSize), HttpStatus.OK);
     }
 
     @ApiOperation(
@@ -70,8 +71,8 @@ public class ControllerComment {
         ) 
     })
     @GetMapping("/comments/newest")
-    public ResponseEntity<Page<Comment>> getCommentsNewest() {
-        return new ResponseEntity<Page<Comment>>(serviceComment.getCommentsNewest(), HttpStatus.OK);
+    public ResponseEntity<Page<CommentPostLoad>> getCommentsNewest() {
+        return new ResponseEntity<Page<CommentPostLoad>>(serviceComment.getCommentsNewest(), HttpStatus.OK);
     }
 
 
@@ -271,6 +272,36 @@ public class ControllerComment {
 
         return new ResponseEntity<>(http);
         
+    }
+
+
+
+    @ApiOperation(
+        value = "댓글 요청",
+        response = ResponseEntity.class
+    )
+    @ApiImplicitParams({
+        @ApiImplicitParam(
+            name = "X-Auth-Token", 
+            required = false, 
+            paramType = "header", 
+            dataTypeClass = String.class
+        ) 
+    })
+    @GetMapping("/comment/{no}")
+    public ResponseEntity<Comment> getComment(
+        @ApiParam(value = "비밀번호", required = false) 
+        @RequestParam(value = "password", required = false)
+        String password,
+
+        @ApiParam(value = "댓글 번호", required = true) 
+        @PathVariable(value = "no", required = true)
+        String no,
+
+        HttpServletRequest request) {
+
+
+        return new ResponseEntity<Comment>(serviceComment.getComment(request, no, password), HttpStatus.OK);
     }
 
 
