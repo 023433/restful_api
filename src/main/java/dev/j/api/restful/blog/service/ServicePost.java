@@ -7,9 +7,11 @@ import dev.j.api.restful.blog.repository.post.summary.RepositorySummaryCategory;
 import dev.j.api.restful.blog.repository.post.summary.RepositorySummaryTag;
 import dev.j.api.restful.blog.vo.post.Content;
 import dev.j.api.restful.blog.vo.post.Post;
+import dev.j.api.restful.blog.vo.post.PostCount;
 import dev.j.api.restful.blog.vo.post.category.CategoryParent;
 import dev.j.api.restful.blog.vo.post.summary.SummaryCategory;
 import dev.j.api.restful.blog.vo.post.summary.SummaryTag;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,6 +124,29 @@ public class ServicePost extends AbstractService {
     Pageable pageable = PageRequest.of(page, size, sort);
 
 		return repositorySummaryCategory.findAllWithByPostPublishAndPostSubjectContains(pageable, true, searchVal);
+	}
+
+	public List<PostCount> getCountGroupByCreateDate(String date) {
+		return repositoryPost.findGroupByCreateDate(date);
+	}
+
+	public Page<SummaryCategory> getPostsByCreateDate(String pageNo, String pageSize, String date) {
+    int page = Integer.parseInt(pageNo);
+    int size = Integer.parseInt(pageSize);
+    Sort sort = Sort.by(Order.desc("postNo"));
+    
+    Pageable pageable = PageRequest.of(page, size, sort);
+
+    String[] temp = date.split("-");
+
+    int year = Integer.parseInt(temp[0]);
+    int month = Integer.parseInt(temp[1]);
+    int dayOfMonth = Integer.parseInt(temp[2]);
+
+    LocalDateTime start = LocalDateTime.of(year, month, dayOfMonth, 0, 0);
+    LocalDateTime end = LocalDateTime.of(year, month, dayOfMonth, 23, 59);
+    
+    return repositorySummaryCategory.findAllWithByPostPublishAndPostCreateDateBetween(pageable, true, start, end);
 	}
 
     

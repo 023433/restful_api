@@ -110,6 +110,7 @@ public class ServiceComment extends AbstractService{
             guest.setComment(comment);
             guest.setCommentNo(comment.getNo());
             guest.setIpAddress(request.getRemoteAddr());
+            guest.setPw(componentEncrypt.encrypt(guest.getPw()));
             
             repositoryCommentGuest.save(guest);
     
@@ -153,6 +154,7 @@ public class ServiceComment extends AbstractService{
         }else{
             return null;
         }
+        System.out.println(savedComment);
 
         if(guest != null){
             String pw = guest.getPw();
@@ -164,11 +166,10 @@ public class ServiceComment extends AbstractService{
   
         }
 
-
         String jwtToken = request.getHeader(PropertyJwtToken.STR_TOKEN);
         String userId = componentJwtToken.getUserId(jwtToken);
 
-        if(userId != null){
+        if(userId != null && !userId.isEmpty()){
             CommentUser auth = savedComment.getAuth();
 
             String savedUserId = auth.getAuthor();

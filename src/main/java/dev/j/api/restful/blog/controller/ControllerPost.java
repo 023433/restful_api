@@ -3,6 +3,7 @@ package dev.j.api.restful.blog.controller;
 import dev.j.api.restful.blog.service.ServicePost;
 import dev.j.api.restful.blog.vo.post.Content;
 import dev.j.api.restful.blog.vo.post.Post;
+import dev.j.api.restful.blog.vo.post.PostCount;
 import dev.j.api.restful.blog.vo.post.summary.SummaryCategory;
 import dev.j.api.restful.blog.vo.post.summary.SummaryTag;
 import io.swagger.annotations.Api;
@@ -212,6 +213,58 @@ public class ControllerPost {
         String postNo) {
             
         return new ResponseEntity<Content>(servicePost.getPost(Long.parseLong(postNo)), HttpStatus.OK);
+    }
+
+
+    @ApiOperation(
+        value = "포스트 일별 작성 정보 요청",
+        response = ResponseEntity.class
+    )
+    @ApiImplicitParams({
+        @ApiImplicitParam(
+            name = "X-Auth-Token", 
+            required = false, 
+            paramType = "header", 
+            dataTypeClass = String.class
+        ) 
+    })
+    @GetMapping("/post/count/{date}")
+    public ResponseEntity<List<PostCount>> getPostCountGroupByCreateDate(
+        @ApiParam(value = "검색 날짜 (yyyy-mm)", required = true) 
+        @PathVariable(value = "date", required = true)
+        String date) {
+            
+        return new ResponseEntity<List<PostCount>>(servicePost.getCountGroupByCreateDate(date), HttpStatus.OK);
+    }
+
+
+    @ApiOperation(
+        value = "포스트 요약 정보 요청",
+        response = ResponseEntity.class
+    )
+    @ApiImplicitParams({
+        @ApiImplicitParam(
+            name = "X-Auth-Token", 
+            required = false, 
+            paramType = "header", 
+            dataTypeClass = String.class
+        ) 
+    })
+    @GetMapping("/posts/summary/day/{date}")
+    public ResponseEntity<Page<SummaryCategory>> getPostsByCreateDate(
+        @ApiParam(value = "페이지 번호") 
+        @RequestParam(value = "pageNo", defaultValue = "0")
+        String pageNo, 
+        
+        @ApiParam(value = "한 페이지에 보여질 게시글 갯수") 
+        @RequestParam(value = "pageSize", defaultValue = "10")
+        String pageSize,
+
+        @ApiParam(value = "검색 날짜 (yyyy-mm-dd)", required = true) 
+        @PathVariable(value = "date", required = true)
+        String date) {
+            
+        return new ResponseEntity<Page<SummaryCategory>>(servicePost.getPostsByCreateDate(pageNo, pageSize, date), HttpStatus.OK);
     }
     
     

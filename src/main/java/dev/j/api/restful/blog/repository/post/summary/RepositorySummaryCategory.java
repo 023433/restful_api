@@ -1,6 +1,7 @@
 package dev.j.api.restful.blog.repository.post.summary;
 
 import dev.j.api.restful.blog.vo.post.summary.SummaryCategory;
+import java.time.LocalDateTime;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -17,4 +18,7 @@ public interface RepositorySummaryCategory extends JpaRepository<SummaryCategory
 
     @EntityGraph(attributePaths = {"post"}, type = EntityGraph.EntityGraphType.LOAD)
     Page<SummaryCategory> findAllWithByPostPublishAndPostSubjectContains(Pageable pageable, Boolean publish, String subject);
+
+    @EntityGraph(attributePaths = {"post"}, type = EntityGraph.EntityGraphType.LOAD)
+    Page<SummaryCategory> findAllWithByPostPublishAndPostCreateDateBetween(Pageable pageable, Boolean publish, LocalDateTime start, LocalDateTime end);
 }
