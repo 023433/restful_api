@@ -13,6 +13,8 @@ import org.springframework.data.repository.query.Param;
 public interface RepositoryPost extends JpaRepository<Post, Long>, JpaSpecificationExecutor<Post>{
     Page<Post> findAllWithByCategoryCategoryNo(Pageable pageable, Long categoryNo);
 
+    Page<Post> findAllByPublish(Pageable pageable, Boolean publish);
+
     @Query("SELECT " +
             "  new dev.j.api.restful.blog.vo.post.PostCount( " +
             "    p.createDate, " +

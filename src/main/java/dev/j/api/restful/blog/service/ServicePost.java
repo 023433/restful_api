@@ -93,7 +93,7 @@ public class ServicePost extends AbstractService {
     
     Pageable pageable = PageRequest.of(0, 5, sort);
 
-    return repositoryPost.findAll(pageable);
+    return repositoryPost.findAllByPublish(pageable, true);
   }
 
 	public Page<Post> getPostsNewestCategory(String category, String pageNo, String pageSize) {
