@@ -1,6 +1,6 @@
 package dev.j.api.restful.blog.repository.post;
 
-import dev.j.api.restful.blog.vo.post.Content;
+import dev.j.api.restful.blog.vo.post.content.Content;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

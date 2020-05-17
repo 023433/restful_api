@@ -1,19 +1,20 @@
 package dev.j.api.restful.blog.service;
 
-import dev.j.api.restful.blog.repository.post.category.RepositoryCategoryParent;
 import dev.j.api.restful.blog.repository.post.RepositoryContent;
 import dev.j.api.restful.blog.repository.post.RepositoryPost;
+import dev.j.api.restful.blog.repository.post.category.RepositoryCategoryParent;
 import dev.j.api.restful.blog.repository.post.summary.RepositorySummaryCategory;
 import dev.j.api.restful.blog.repository.post.summary.RepositorySummaryTag;
-import dev.j.api.restful.blog.vo.post.Content;
 import dev.j.api.restful.blog.vo.post.Post;
 import dev.j.api.restful.blog.vo.post.PostCount;
 import dev.j.api.restful.blog.vo.post.category.CategoryParent;
+import dev.j.api.restful.blog.vo.post.content.Content;
 import dev.j.api.restful.blog.vo.post.summary.SummaryCategory;
 import dev.j.api.restful.blog.vo.post.summary.SummaryTag;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -147,6 +148,21 @@ public class ServicePost extends AbstractService {
     LocalDateTime end = LocalDateTime.of(year, month, dayOfMonth, 23, 59);
     
     return repositorySummaryCategory.findAllWithByPostPublishAndPostCreateDateBetween(pageable, true, start, end);
+	}
+
+	public Page<Post> addPost(HttpServletRequest request) {
+    System.out.println("addPost");
+    System.out.println(request.getParameter("subject"));
+    System.out.println(request.getParameter("chipData"));
+    System.out.println(request.getParameter("content"));
+    System.out.println(request.getParameter("category"));
+    System.out.println(request.getParameter("publish"));
+    System.out.println(request.getParameter("mainimageOriginalName"));
+    System.out.println(request.getParameter("mainimageSaveName"));
+    System.out.println(request.getParameter("thumbnailOriginalName"));
+    System.out.println(request.getParameter("thumbnailSaveName"));
+
+		return null;
 	}
 
     
