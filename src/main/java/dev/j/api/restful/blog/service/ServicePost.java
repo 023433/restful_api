@@ -177,8 +177,6 @@ public class ServicePost extends AbstractService {
 
   @Transactional
 	public String addPost(HttpServletRequest request, PostParam postParam) {
-    System.out.println("addPost");
-
     String jwtToken = request.getHeader(PropertyJwtToken.STR_TOKEN);
     String userId = componentJwtToken.getUserId(jwtToken);
     
@@ -218,11 +216,12 @@ public class ServicePost extends AbstractService {
 
     resSummary = resSummary.substring(0, lastIdx);
 
-    String thumbnailSavePath = PropertyPath.POST + postNo + PropertyPath.POST_THUMBNAIL;
+    String thumbnailSavePath = "";
     String thumbnailSaveName = postParam.getThumbnailSaveName();
     String tempThumbnailSavePath = postParam.getThumbnailSavePath();
 
     if(isNotNullOrEmpty(thumbnailSaveName)){
+      thumbnailSavePath = PropertyPath.POST + postNo + PropertyPath.POST_THUMBNAIL;
       String source = tempThumbnailSavePath + thumbnailSaveName;
       String destination = thumbnailSavePath + thumbnailSaveName;
 
@@ -243,11 +242,12 @@ public class ServicePost extends AbstractService {
     repositorySummary.save(summary);
 
 
-    String mainimageSavePath = PropertyPath.POST + postNo + PropertyPath.POST_MAIN_IMAGE;
+    String mainimageSavePath = "";
     String mainimageSaveName = postParam.getMainimageSaveName();
     String tempMainimageSavePath = postParam.getMainimageSavePath();
 
     if(isNotNullOrEmpty(mainimageSaveName)){
+      mainimageSavePath = PropertyPath.POST + postNo + PropertyPath.POST_MAIN_IMAGE;
       String source = tempMainimageSavePath + mainimageSaveName;
       String destination = mainimageSavePath + mainimageSaveName;
 
