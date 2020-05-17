@@ -10,7 +10,8 @@ import org.springframework.stereotype.Service;
 public class ServiceTag extends AbstractService{
 
     @Autowired
-    private RepositoryTag repositoryTag;
+	private RepositoryTag repositoryTag;
+	
 	public List<Tag> getTags() {
 		return repositoryTag.findAll();
 	}

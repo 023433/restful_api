@@ -6,6 +6,7 @@ import dev.j.api.restful.blog.vo.post.category.PostCategory;
 import dev.j.api.restful.blog.vo.post.tag.PostTag;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -32,13 +33,16 @@ public class Content {
     private Long postNo;
 
     @MapsId
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "b_post_no", insertable = false, updatable = false)
     @JsonManagedReference
     private Post post;
 
     @Column(name = "b_main_image", nullable = false)
     private String mainImage;
+
+    @Column(name = "b_save_path", nullable = false)
+    private String savePath;
 
     @Lob
     @Column(name = "b_content", nullable = false)

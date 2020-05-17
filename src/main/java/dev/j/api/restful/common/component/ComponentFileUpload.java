@@ -11,6 +11,7 @@ import java.util.Locale;
 import java.util.UUID;
 import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
@@ -56,7 +57,7 @@ public class ComponentFileUpload {
         mkDirs(DIR_IMG_PATH + File.separator + savePath);
 
         File saveFile = new File(DIR_IMG_PATH + File.separator + savePath, saveName);
-
+        
         try {
             file.transferTo(saveFile);
         } catch (IOException e) {
@@ -65,6 +66,19 @@ public class ComponentFileUpload {
         }
 
         return saveName;
+    }
+
+    public Boolean moveTo(String source, String destination){
+        try {
+            File sourceFile = new File(DIR_IMG_PATH + source);
+            File destinationFile = new File(DIR_IMG_PATH + destination);
+
+            FileUtils.moveFile(sourceFile, destinationFile);
+            return true;
+        } catch (IOException e) {
+            log.error(marker, "ComponentFileUpload.moveTo.IOException : " + e.getMessage());
+            return false;
+        }
     }
 
     private void mkDirs(String path){

@@ -2,6 +2,7 @@ package dev.j.api.restful.blog.vo.post.summary;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import dev.j.api.restful.blog.vo.post.Post;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -21,17 +22,20 @@ public class AbstractSummary {
 
     @Id
     @Column(name = "b_post_no", nullable = false, unique = true)
-    private Long postNo;
+    protected Long postNo;
 
     @MapsId
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "b_post_no", insertable = false, updatable = false)
     @JsonManagedReference
-    private Post post;
+    protected Post post;
 
     @Column(name = "b_thumbnail", nullable = false)
-    private String thumbnail;
+    protected String thumbnail;
+
+    @Column(name = "b_save_path", nullable = false)
+    protected String savePath;
 
     @Column(name = "b_summary", nullable = false)
-    private String summary;
+    protected String summary;
 }

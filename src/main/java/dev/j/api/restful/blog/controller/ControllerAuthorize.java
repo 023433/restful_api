@@ -1,14 +1,17 @@
 package dev.j.api.restful.blog.controller;
 
 import dev.j.api.restful.blog.service.ServiceAuthorize;
+import dev.j.api.restful.common.property.PropertyJwtToken;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,6 +57,30 @@ public class ControllerAuthorize {
 
         return new ResponseEntity<>(jwtToken, http);
         
+    }
+
+    @ApiOperation(
+        value = "권한 확인",
+        response = ResponseEntity.class
+    )
+    @ApiImplicitParams({
+        @ApiImplicitParam(
+            name = "X-Auth-Token", 
+            required = true, 
+            paramType = "header", 
+            dataTypeClass = String.class
+        ) 
+    })
+    @GetMapping("/validate/admin")
+    public ResponseEntity<String> validate(HttpServletRequest request) {
+
+        String jwtToken = request.getHeader(PropertyJwtToken.STR_TOKEN);
+
+        if(serviceAuthorize.validateAdmin(request)){
+            return new ResponseEntity<String>(jwtToken, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<String>(jwtToken, HttpStatus.BAD_REQUEST);
     }
     
 }

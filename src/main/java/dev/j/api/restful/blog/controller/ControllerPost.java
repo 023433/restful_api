@@ -3,6 +3,7 @@ package dev.j.api.restful.blog.controller;
 import dev.j.api.restful.blog.service.ServicePost;
 import dev.j.api.restful.blog.vo.post.Post;
 import dev.j.api.restful.blog.vo.post.PostCount;
+import dev.j.api.restful.blog.vo.post.PostParam;
 import dev.j.api.restful.blog.vo.post.content.Content;
 import dev.j.api.restful.blog.vo.post.summary.SummaryCategory;
 import dev.j.api.restful.blog.vo.post.summary.SummaryTag;
@@ -284,10 +285,18 @@ public class ControllerPost {
         ) 
     })
     @PostMapping("/post")
-    public ResponseEntity<Page<Post>> addPost(
-        HttpServletRequest request) {
+    public ResponseEntity<String> addPost(
+        HttpServletRequest request,
+
+        @ApiParam(value = "포스트 입력 내용", required = true) 
+        PostParam post) {
+
+        if(servicePost.addPostValidate(request, post)){
+            return new ResponseEntity<String>(servicePost.addPost(request, post), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<String>("", HttpStatus.BAD_REQUEST);
             
-        return new ResponseEntity<Page<Post>>(servicePost.addPost(request), HttpStatus.OK);
     }
     
     

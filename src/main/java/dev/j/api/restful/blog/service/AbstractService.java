@@ -15,5 +15,23 @@ public class AbstractService {
 
     @Autowired
     protected ComponentFileUpload componentFileUpload;
+
+    protected Boolean isNullOrEmpty(String str){
+        return str == null || str.isBlank() || str.isEmpty();
+    }
+
+    protected Boolean isNullOrEmpty(String[] str){
+        return str == null || str.length == 0;
+    }
+
+    protected Boolean isNotNullOrEmpty(String[] str){
+        return !isNullOrEmpty(str);
+    }
+
+    protected Boolean isNotNullOrEmpty(String str){
+        return !isNullOrEmpty(str);
+    }
+
+    
     
 }

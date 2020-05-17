@@ -2,8 +2,11 @@ package dev.j.api.restful.blog.service;
 
 import dev.j.api.restful.blog.repository.RepositoryUser;
 import dev.j.api.restful.blog.vo.User;
+import dev.j.api.restful.common.enums.EnumRole;
+import dev.j.api.restful.common.property.PropertyJwtToken;
 import java.util.List;
 import java.util.Optional;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +42,22 @@ public class ServiceAuthorize extends AbstractService {
 		}
 
 		return null;
+	}
+
+	public boolean validateAdmin(HttpServletRequest request) {
+        String jwtToken = request.getHeader(PropertyJwtToken.STR_TOKEN);
+		String userId = componentJwtToken.getUserId(jwtToken);
+		
+		Optional<User> userOp = repositoryUser.findById(userId);
+		
+		if( !userOp.isPresent() ){
+			return false;
+		}
+		
+		User user = userOp.get();
+		List<String> roles = user.getRoles();
+
+		return roles.contains(EnumRole.ADMIN.label());
 	}
 
 }
