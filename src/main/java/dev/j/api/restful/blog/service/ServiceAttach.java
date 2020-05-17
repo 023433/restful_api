@@ -3,6 +3,7 @@ package dev.j.api.restful.blog.service;
 import dev.j.api.restful.blog.vo.post.content.MainImage;
 import dev.j.api.restful.blog.vo.post.summary.Thumbnail;
 import dev.j.api.restful.common.property.PropertyLog;
+import dev.j.api.restful.common.property.PropertyPath;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Marker;
@@ -23,7 +24,7 @@ public class ServiceAttach extends AbstractService {
         String url = componentFileUpload.getUrl();
 
         String originalFileName = attachImage.getOriginalFilename();
-        String savePath = "/thumbnail/" + today + "/";
+        String savePath = PropertyPath.TEMP + "thumbnail/" + today + "/";
 
         String saveFileName = componentFileUpload.saveImageFile(savePath, attachImage);
   
@@ -45,7 +46,7 @@ public class ServiceAttach extends AbstractService {
         String url = componentFileUpload.getUrl();
 
         String originalFileName = attachImage.getOriginalFilename();
-        String savePath = "/mainimage/" + today + "/";
+        String savePath = PropertyPath.TEMP + "mainimage/" + today + "/";
 
         String saveFileName = componentFileUpload.saveImageFile(savePath, attachImage);
 
