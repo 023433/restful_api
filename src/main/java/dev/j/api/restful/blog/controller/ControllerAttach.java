@@ -92,10 +92,10 @@ public class ControllerAttach {
     @PostMapping("/post/image")
     public PostImage attachPostImage(
         @ApiParam(value = "첨부파일(이미지)", required = true) 
-        @RequestParam(name = "upload") MultipartFile attachImage, 
+        @RequestParam(name = "upload") MultipartFile upload, 
         
         HttpServletRequest request) {
             
-        return serviceAttach.attachPostImage(request, attachImage);
+        return serviceAttach.attachPostImage(request, upload);
     }
 }
