@@ -258,6 +258,7 @@ public class ServicePost extends AbstractService {
       }
     }
 
+    System.out.println(strContent);
     Content content = new Content();
     content.setPost(post);
     content.setPostNo(postNo);
