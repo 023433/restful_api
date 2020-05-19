@@ -1,7 +1,6 @@
 package dev.j.api.restful.blog.controller;
 
 import dev.j.api.restful.blog.service.ServiceAttach;
-import dev.j.api.restful.blog.vo.post.content.MainImage;
 import dev.j.api.restful.blog.vo.post.content.PostImage;
 import dev.j.api.restful.blog.vo.post.summary.Thumbnail;
 import io.swagger.annotations.Api;
@@ -50,29 +49,6 @@ public class ControllerAttach {
         HttpServletRequest request) {
             
         return new ResponseEntity<Thumbnail>(serviceAttach.attachThumbnail(request, attachImage), HttpStatus.OK);
-    }
-
-    @ApiOperation(
-        value = "메인 이미지 업로드",
-        response = ResponseEntity.class
-    )
-    @ApiImplicitParams({
-        @ApiImplicitParam(
-            name = "X-Auth-Token", 
-            required = true, 
-            paramType = "header", 
-            dataTypeClass = String.class
-        ) 
-    })
-    @PreAuthorize ("hasRole('ROLE_ADMIN')")
-    @PostMapping("/mainimage")
-    public ResponseEntity<MainImage> attachMainImage(
-        @ApiParam(value = "첨부파일(이미지)", required = true) 
-        @RequestParam MultipartFile attachImage, 
-        
-        HttpServletRequest request) {
-            
-        return new ResponseEntity<MainImage>(serviceAttach.attachMainImage(request, attachImage), HttpStatus.OK);
     }
 
 

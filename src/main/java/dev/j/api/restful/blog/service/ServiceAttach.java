@@ -1,6 +1,5 @@
 package dev.j.api.restful.blog.service;
 
-import dev.j.api.restful.blog.vo.post.content.MainImage;
 import dev.j.api.restful.blog.vo.post.content.PostImage;
 import dev.j.api.restful.blog.vo.post.summary.Thumbnail;
 import dev.j.api.restful.common.property.PropertyPath;
@@ -29,23 +28,7 @@ public class ServiceAttach extends AbstractService {
 		return thumbnail;
 	}
 
-	public MainImage attachMainImage(HttpServletRequest request, MultipartFile attachImage) {
-        String today = componentFileUpload.getToday();
-        String url = componentFileUpload.getUrl();
 
-        String originalFileName = attachImage.getOriginalFilename();
-        String savePath = PropertyPath.TEMP + "mainimage/" + today + "/";
-
-        String saveFileName = componentFileUpload.saveImageFile(savePath, attachImage);
-
-		MainImage mainImage = new MainImage();
-   
-        mainImage.setOriginalFileName(originalFileName);
-        mainImage.setSaveFileName(saveFileName);
-        mainImage.setSavePath(savePath);
-        mainImage.setUrl(url);
-		return mainImage;
-	}
 
 	public PostImage attachPostImage(HttpServletRequest request, MultipartFile attachImage) {
 		String today = componentFileUpload.getToday();

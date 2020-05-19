@@ -242,29 +242,10 @@ public class ServicePost extends AbstractService {
     repositorySummary.save(summary);
 
 
-    String mainimageSavePath = "";
-    String mainimageSaveName = postParam.getMainimageSaveName();
-    String tempMainimageSavePath = postParam.getMainimageSavePath();
-
-    if(isNotNullOrEmpty(mainimageSaveName)){
-      mainimageSavePath = PropertyPath.POST + postNo + PropertyPath.POST_MAIN_IMAGE;
-      String source = tempMainimageSavePath + mainimageSaveName;
-      String destination = mainimageSavePath + mainimageSaveName;
-
-      Boolean result = componentFileUpload.moveTo(source, destination);
-
-      if( !result ){
-        mainimageSavePath = "";
-      }
-    }
-
-    System.out.println(strContent);
     Content content = new Content();
     content.setPost(post);
     content.setPostNo(postNo);
     content.setContent(strContent);
-    content.setMainImage(mainimageSaveName);
-    content.setSavePath(mainimageSavePath);
 
     repositoryContent.save(content);
 

@@ -38,12 +38,6 @@ public class Content {
     @JsonManagedReference
     private Post post;
 
-    @Column(name = "b_main_image", nullable = false)
-    private String mainImage;
-
-    @Column(name = "b_save_path", nullable = false)
-    private String savePath;
-
     @Lob
     @Column(name = "b_content", nullable = false)
     private String content;

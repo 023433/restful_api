@@ -18,9 +18,6 @@ public class PostParam {
     private String content;
     private String[] category;
     private String publish;
-    private String mainimageOriginalName;
-    private String mainimageSaveName;
-    private String mainimageSavePath;
     private String thumbnailOriginalName;
     private String thumbnailSaveName;
     private String thumbnailSavePath;

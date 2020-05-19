@@ -43,7 +43,6 @@ public class PostTest {
 
         content.setPost(post);
         content.setContent("content");
-        content.setMainImage("mainImage");
         content.setPostNo(post.getNo());
         servicePost.saveContent(content);
 
