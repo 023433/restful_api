@@ -75,6 +75,8 @@ public class ActuatorMemory {
         try {
             InputStream inputStream = Runtime.getRuntime().exec(exec).getInputStream();
             String text = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+        System.out.println("executor " + exec + " : " + text);
+
             text = text.replaceAll("[^0-9]", "");
             return Double.valueOf(text);
         } catch (IOException e) {
