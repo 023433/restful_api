@@ -56,7 +56,6 @@ public class ActuatorMemory {
     private double getLinuxTotalMemory(){
         String[] cmd = {"/bin/sh", "-c", "cat /proc/meminfo | grep 'MemTotal'"};
         double memory = executor(cmd);
-        System.out.println("getLinuxTotalMemory : " + memory);
 
         double e = Math.floor(Math.log(memory)/Math.log(1024));
 
@@ -67,17 +66,26 @@ public class ActuatorMemory {
         String[] cmd = {"/bin/sh", "-c", "cat /proc/meminfo | grep 'MemFree'"};
         double memory = executor(cmd);
 
-        System.out.println("getLinuxFreeMemory : " + memory);
         double e = Math.floor(Math.log(memory)/Math.log(1024));
 
         return (memory/Math.pow(1024, Math.floor(e)));
     }
+    private double executor(String exec) {
+        try {
+            InputStream inputStream = Runtime.getRuntime().exec(exec).getInputStream();
+            String text = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
 
+            text = text.replaceAll("[^0-9]", "");
+            return Double.valueOf(text);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
     private double executor(String ...exec) {
         try {
             InputStream inputStream = Runtime.getRuntime().exec(exec).getInputStream();
             String text = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
-        System.out.println("executor " + exec + " : " + text);
 
             text = text.replaceAll("[^0-9]", "");
             return Double.valueOf(text);
