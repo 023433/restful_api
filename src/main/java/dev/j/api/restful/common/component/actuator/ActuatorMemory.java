@@ -54,7 +54,7 @@ public class ActuatorMemory {
     }
 
     private double getLinuxTotalMemory(){
-        double memory = executor("cat /proc/meminfo \\| grep \\'MemTotal\\'");
+        double memory = executor("cat /proc/meminfo | grep \"MemTotal\"");
         System.out.println("getLinuxTotalMemory : " + memory);
 
         double e = Math.floor(Math.log(memory)/Math.log(1024));
@@ -63,7 +63,7 @@ public class ActuatorMemory {
     }
 
     private double getLinuxFreeMemory(){
-        double memory = executor("cat /proc/meminfo \\| grep \\'MemFree\\'");
+        double memory = executor("cat /proc/meminfo | grep \"MemFree\"");
 
         System.out.println("getLinuxFreeMemory : " + memory);
         double e = Math.floor(Math.log(memory)/Math.log(1024));
