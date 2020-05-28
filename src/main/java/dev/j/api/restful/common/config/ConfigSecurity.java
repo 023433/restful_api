@@ -2,6 +2,7 @@ package dev.j.api.restful.common.config;
 
 import dev.j.api.restful.common.config.security.JwtAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -32,11 +33,14 @@ public class ConfigSecurity extends WebSecurityConfigurerAdapter{
 
         http.authorizeRequests().antMatchers("/auth/**").permitAll();
 
+        http.authorizeRequests().requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("ADMIN");
+
         http.antMatcher("/**")
             .authorizeRequests()
             .anyRequest().authenticated()
             .and()
             .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
+
     }
 
     @Bean
