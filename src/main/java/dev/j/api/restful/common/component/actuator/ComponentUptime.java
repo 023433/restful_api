@@ -25,7 +25,7 @@ public class ComponentUptime extends AbstractComponent {
   }
 
   private double getLinuxUptime(){
-    String[] cmd = {"sh", "-c", "/usr/bin/uptime -s"};
+    String[] cmd = {"/bin/sh", "-c", "ll --time-style=long-iso /var/log/dmesg | awk '{print $6\" \"$7}'"};
     System.out.println("1");
     String uptime = executorToString(cmd);
     System.out.println("2");
@@ -43,7 +43,7 @@ public class ComponentUptime extends AbstractComponent {
     String day = uptime.substring(6, 8);
     String hour = uptime.substring(8, 10);
     String min = uptime.substring(10, 12);
-    String sec = uptime.substring(12, 14);
+    String sec = "00";
 
     Calendar calendar = Calendar.getInstance();
 
