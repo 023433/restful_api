@@ -28,7 +28,8 @@ public class ComponentUptime extends AbstractComponent {
     String[] cmd = {"/bin/sh", "uptime", "-s"};
     String uptime = executorToString(cmd);
     System.out.println(uptime);
-    return extracted(uptime);
+    return 0;
+    // return extracted(uptime);
   }
 
   private double extracted(String uptime) {
