@@ -44,8 +44,7 @@ deploy:
     - ssh daekgil@devj.io -T -p 221 -o StrictHostKeyChecking=no -i daekgil.ppk 
       "cd /home/daekgil/docker/restful_api 
        && docker-compose build 
-       && docker-compose up -d
-       && docker restart nginx"
+       && docker-compose up -d"
   only:
     - master    
   tags:
