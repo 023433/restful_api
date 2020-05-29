@@ -36,7 +36,7 @@ public class ComponentUptime extends AbstractComponent {
 
   private double extracted(String uptime) {
     uptime = uptime.replaceAll("[^0-9]", "");
-    uptime = uptime.substring(0, 14);
+    uptime = uptime.substring(0, 12);
 
     String year = uptime.substring(0, 4);
     String month = uptime.substring(4, 6);
