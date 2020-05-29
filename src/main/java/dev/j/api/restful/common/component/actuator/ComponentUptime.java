@@ -25,7 +25,7 @@ public class ComponentUptime extends AbstractComponent {
   }
 
   private double getLinuxUptime(){
-    String[] cmd = {"/bin/sh", "-c", "ll --time-style=long-iso /var/log/dmesg | awk '{print $6\" \"$7}'"};
+    String[] cmd = {"/bin/sh", "-c", "uptime --since"};
     System.out.println("1");
     String uptime = executorToString(cmd);
     System.out.println("2");
