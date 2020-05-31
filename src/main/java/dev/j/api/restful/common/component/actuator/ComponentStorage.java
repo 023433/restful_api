@@ -11,7 +11,7 @@ public class ComponentStorage extends AbstractComponent {
         if (isWindows()) {
 
         } else if (isUnix()) {
-            String[] cmd = { "/bin/sh", "-c", "cd", dir, "du -s"};
+            String[] cmd = { "/bin/sh", "-c", "cd " + dir, "du -s"};
             size = executorToString(cmd);
         }
 
