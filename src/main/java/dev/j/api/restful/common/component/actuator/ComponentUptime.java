@@ -15,10 +15,6 @@ public class ComponentUptime extends AbstractComponent {
     return 0;
   }
 
-  private int parseInt(String str){
-    return Integer.parseInt(str);
-  }
-
   private double getWinUptime(){
     String uptime = executorToString("wmic os get lastbootuptime");
     uptime = uptime.replaceAll("[^0-9]", "");
