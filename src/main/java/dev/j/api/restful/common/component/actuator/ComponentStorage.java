@@ -16,12 +16,12 @@ public class ComponentStorage extends AbstractComponent {
         if (isWindows()) {
 
         } else if (isUnix()) {
-            String Command = "du -s"; // Bash Command
             // create a process and execute
             try {
             System.out.println("aaaa : " + dir);
+            String[] cmd = { "/bin/sh", "-c", "(du -s)"};
 
-                Process p = Runtime.getRuntime().exec(Command, null, new File(dir));
+                Process p = Runtime.getRuntime().exec(cmd, null, new File(dir));
                 InputStream inputStream = p.getInputStream();
                 return IOUtils.toString(inputStream, StandardCharsets.UTF_8);
             } catch (IOException e) {
@@ -29,6 +29,7 @@ public class ComponentStorage extends AbstractComponent {
             }
             System.out.println("sss : " + dir);
             String[] cmd = { "/bin/sh", "-c", "(du -s '" + dir + "')"};
+
             size = executorToString(cmd);
         }
 
