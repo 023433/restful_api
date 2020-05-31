@@ -11,7 +11,6 @@ public class ComponentStorage extends AbstractComponent {
         if (isWindows()) {
 
         } else if (isUnix()) {
-            System.out.println("sss : " + dir);
             String[] cmd = { "/bin/sh", "-c", "(du -s " + dir + ")"};
             size = executorToString(cmd);
             System.out.println(size);
