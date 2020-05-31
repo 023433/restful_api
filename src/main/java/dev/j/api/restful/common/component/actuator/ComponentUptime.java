@@ -21,22 +21,6 @@ public class ComponentUptime extends AbstractComponent {
 
   private double getWinUptime(){
     String uptime = executorToString("wmic os get lastbootuptime");
-    return extracted(uptime);
-  }
-
-  private double getLinuxUptime(){
-    String[] cmd = { "/bin/sh", "-c", " cat /proc/uptime"};
-    String uptime = executorToString(cmd);
-
-    uptime = uptime.substring(0, uptime.indexOf("."));
-    Calendar calendar = Calendar.getInstance();
-
-    calendar.add(Calendar.SECOND, -parseInt(uptime));
-
-    return calendar.getTimeInMillis();
-  }
-
-  private double extracted(String uptime) {
     uptime = uptime.replaceAll("[^0-9]", "");
     uptime = uptime.substring(0, 12);
 
@@ -55,6 +39,18 @@ public class ComponentUptime extends AbstractComponent {
     calendar.set(Calendar.HOUR_OF_DAY, parseInt(hour));
     calendar.set(Calendar.MINUTE, parseInt(min));
     calendar.set(Calendar.SECOND, parseInt(sec));
+
+    return calendar.getTimeInMillis();
+  }
+
+  private double getLinuxUptime(){
+    String[] cmd = { "/bin/sh", "-c", " cat /proc/uptime"};
+    String uptime = executorToString(cmd);
+
+    uptime = uptime.substring(0, uptime.indexOf("."));
+    Calendar calendar = Calendar.getInstance();
+
+    calendar.add(Calendar.SECOND, -parseInt(uptime));
 
     return calendar.getTimeInMillis();
   }
