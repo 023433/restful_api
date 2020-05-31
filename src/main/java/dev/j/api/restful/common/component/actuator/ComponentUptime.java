@@ -25,14 +25,15 @@ public class ComponentUptime extends AbstractComponent {
   }
 
   private double getLinuxUptime(){
-    // String[] cmd = {"/bin/sh", "-c", "date \"+%Y%m%d%H%M%S\" -d \"$(uptime -s)\""};
     String[] cmd = { "/bin/sh", "-c", " cat /proc/uptime"};
-    System.out.println("1");
     String uptime = executorToString(cmd);
-    System.out.println("2");
-    System.out.println(uptime);
-    System.out.println("3");
-    return extracted(uptime);
+
+    uptime = uptime.substring(0, uptime.indexOf("."));
+    Calendar calendar = Calendar.getInstance();
+
+    calendar.add(Calendar.SECOND, -parseInt(uptime));
+
+    return calendar.getTimeInMillis();
   }
 
   private double extracted(String uptime) {
