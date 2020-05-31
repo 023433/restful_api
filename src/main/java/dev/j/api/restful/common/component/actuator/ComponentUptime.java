@@ -1,5 +1,9 @@
 package dev.j.api.restful.common.component.actuator;
 
+import io.micrometer.core.instrument.util.IOUtils;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import org.springframework.stereotype.Component;
 
@@ -11,27 +15,46 @@ public class ComponentUptime extends AbstractComponent {
       return getWinUptime();
     } else if (isUnix()) {
       return getLinuxUptime();
-    } 
+    }
     return 0;
   }
 
-  private int parseInt(String str){
+  private int parseInt(String str) {
     return Integer.parseInt(str);
   }
 
-  private double getWinUptime(){
+  private double getWinUptime() {
     String uptime = executorToString("wmic os get lastbootuptime");
     return extracted(uptime);
   }
 
-  private double getLinuxUptime(){
-    // String[] cmd = {"/bin/sh", "-c", "date \"+%Y%m%d%H%M%S\" -d \"$(uptime -s)\""};
-    String[] cmd = {"/bin/sh", "-c", "who", "-b"};
+  private double getLinuxUptime() {
+    // String[] cmd = {"/bin/sh", "-c", "date \"+%Y%m%d%H%M%S\" -d \"$(uptime
+    // -s)\""};
+    String[] cmd = { "/bin/sh", "-c", "who", "-b" };
     System.out.println("1");
-    String uptime = executorToString(cmd);
-    System.out.println("2");
-    System.out.println(uptime);
-    return extracted(uptime);
+
+    Process pro;
+    try {
+      pro = Runtime.getRuntime().exec(cmd);
+      InputStream inputStream = pro.getInputStream();
+      pro.waitFor();
+
+      String uptime = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
+      System.out.println("2");
+      System.out.println(uptime);
+    } catch (IOException e) {
+      e.printStackTrace();
+      System.out.println("ioe");
+    } catch (InterruptedException e) {
+      System.out.println("ine");
+      e.printStackTrace();
+    }
+
+    
+
+
+    return 0;
   }
 
   private double extracted(String uptime) {
