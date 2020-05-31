@@ -14,6 +14,7 @@ public class ComponentStorage extends AbstractComponent {
             String[] cmd = { "/bin/sh", "-c", "(du -s " + dir + ")"};
             size = executorToString(cmd);
             size = size.substring(0, size.indexOf("/"));
+            size = size.replaceAll("[^0-9]", "");
         }
 
 		return size;
