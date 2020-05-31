@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -22,7 +23,7 @@ import dev.j.api.restful.common.component.ComponentEncrypt;
 @Configuration
 public class ConfigMariadb {
 
-    @Autowired
+  @Autowired
 	private ComponentEncrypt encryptor;
 
 	@Value("${ENV}")
@@ -32,7 +33,10 @@ public class ConfigMariadb {
 	public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
 		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
 		sqlSessionFactoryBean.setDataSource(dataSource);
+		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+		sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath:/mapper/*.xml"));
 		return sqlSessionFactoryBean.getObject();
+
 	}
 
 	@Bean
@@ -40,33 +44,33 @@ public class ConfigMariadb {
 		return new SqlSessionTemplate(sqlSessionFactory);
 	}
 
-    @Bean
-    public DataSource dataSource(){
-        
-        BasicDataSource basicDataSource = new BasicDataSource();
-		
-		basicDataSource.setDriverClassName("org.mariadb.jdbc.Driver");
+  @Bean
+  public DataSource dataSource(){
+      
+    BasicDataSource basicDataSource = new BasicDataSource();
+  
+    basicDataSource.setDriverClassName("org.mariadb.jdbc.Driver");
 
-		if(env == "PRD" || env.equals("PRD")){
-			// 운영 db 정보
-			basicDataSource.setUrl("jdbc:mariadb://mariadb/blog");
-			basicDataSource.setUsername(encryptor.decrypt("njRjmp15jEZmYCVlspcGjw=="));
-			basicDataSource.setPassword(encryptor.decrypt("2NJPGt3ZM0/hjP1MnRvWCmacfRdKo/tF"));
+    if(env == "PRD" || env.equals("PRD")){
+      // 운영 db 정보
+      basicDataSource.setUrl("jdbc:mariadb://mariadb/blog");
+      basicDataSource.setUsername(encryptor.decrypt("njRjmp15jEZmYCVlspcGjw=="));
+      basicDataSource.setPassword(encryptor.decrypt("2NJPGt3ZM0/hjP1MnRvWCmacfRdKo/tF"));
 
-		}else if(env == "DEV" || env.equals("DEV")){
-			// 개발 db 정보
-			basicDataSource.setUrl("jdbc:mariadb://127.0.0.1:3306/blog");
-			basicDataSource.setPassword("1234");
-			basicDataSource.setUsername("root");
-		}
-
-		
-		basicDataSource.setDefaultAutoCommit(false);
-
-		return basicDataSource;
+    }else if(env == "DEV" || env.equals("DEV")){
+      // 개발 db 정보
+      basicDataSource.setUrl("jdbc:mariadb://127.0.0.1:3306/blog");
+      basicDataSource.setPassword("1234");
+      basicDataSource.setUsername("root");
     }
 
-    @Bean
+    
+    basicDataSource.setDefaultAutoCommit(false);
+
+    return basicDataSource;
+  }
+
+  @Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 		em.setDataSource(dataSource());

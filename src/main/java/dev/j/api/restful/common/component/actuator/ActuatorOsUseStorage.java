@@ -1,11 +1,13 @@
 package dev.j.api.restful.common.component.actuator;
 
 
+import dev.j.api.restful.common.dao.DaoDbStatus;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.web.annotation.RestControllerEndpoint;
@@ -23,8 +25,11 @@ public class ActuatorOsUseStorage {
     @Autowired
     private ComponentStorage componentStorage;
 
+    @Autowired
+    private DaoDbStatus daoDbStatus;
+
     @ApiOperation(
-        value = "사용량 요청",
+        value = "폴더별 사용량 요청",
         response = ResponseEntity.class
     )
     @ApiImplicitParams({
@@ -52,6 +57,27 @@ public class ActuatorOsUseStorage {
         }
 
         return new ResponseEntity<Map<String, String>>(map, HttpStatus.OK);
+    }
+
+
+    @ApiOperation(
+        value = "DB 사용량 요청",
+        response = ResponseEntity.class
+    )
+    @ApiImplicitParams({
+        @ApiImplicitParam(
+            name = "X-Auth-Token", 
+            required = true, 
+            paramType = "header", 
+            dataTypeClass = String.class
+        ) 
+    })
+    @GetMapping("/db")
+    public @ResponseBody ResponseEntity<List<Map<String, Object>>> getDbTableStatus() {
+
+        List<Map<String, Object>> map = daoDbStatus.getDbTableStatus();
+
+        return new ResponseEntity<List<Map<String, Object>>>(map, HttpStatus.OK);
     }
 
 }
