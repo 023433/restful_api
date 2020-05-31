@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.endpoint.web.annotation.RestControllerEndpoint;
 import org.springframework.http.HttpStatus;
@@ -34,21 +36,22 @@ public class ActuatorOsUseStorage {
         ) 
     })
     @GetMapping("/storage")
-    public @ResponseBody ResponseEntity<String> getServerInfo(
+    public @ResponseBody ResponseEntity<Map<String, String>> getServerInfo(
         @ApiParam(value = "폴더명", required = true) 
         @RequestParam(value = "dir", required = true)
         String[] dir) {
 
+        Map<String, String> map = new HashMap<>();
+
         if(dir == null){
-            return  new ResponseEntity<String>("err", HttpStatus.BAD_REQUEST);
-        }
-        
-        for (String str : dir) {
-            System.out.println(str);
-            System.out.println(componentStorage.getDirSize(str));
+            return new ResponseEntity<Map<String, String>>(map, HttpStatus.BAD_REQUEST);
         }
 
-        return  new ResponseEntity<String>("REST end point", HttpStatus.OK);
+        for (String str : dir) {
+            map.put(str, componentStorage.getDirSize(str));
+        }
+
+        return new ResponseEntity<Map<String, String>>(map, HttpStatus.OK);
     }
 
 }
