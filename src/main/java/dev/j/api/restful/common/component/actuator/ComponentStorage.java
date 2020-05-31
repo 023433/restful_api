@@ -19,7 +19,7 @@ public class ComponentStorage extends AbstractComponent {
             // create a process and execute
             try {
             System.out.println("aaaa : " + dir);
-            String[] cmd = { "/bin/sh", "-c", "(du -s)"};
+            String[] cmd = { "bash", "-c", "(du -s)"};
 
                 Process p = Runtime.getRuntime().exec(cmd, null, new File(dir));
                 InputStream inputStream = p.getInputStream();
