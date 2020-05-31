@@ -13,6 +13,7 @@ public class ComponentStorage extends AbstractComponent {
         } else if (isUnix()) {
             String[] cmd = { "/bin/sh", "-c", "(du -s " + dir + ")"};
             size = executorToString(cmd);
+            size = size.substring(0, size.indexOf(" "));
             System.out.println(size);
         }
 
