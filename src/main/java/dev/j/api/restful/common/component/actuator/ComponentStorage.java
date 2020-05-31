@@ -23,7 +23,7 @@ public class ComponentStorage extends AbstractComponent {
             Process p;
 
             try {
-                String command="du -s";
+                String command="/bin/du -s";
                 File dir2 = new File("/home/user/project");//path
                 p = Runtime.getRuntime().exec(command,null,dir2);
                 p.waitFor();
