@@ -1,9 +1,9 @@
 package dev.j.api.restful.common.component.actuator;
 
-import io.micrometer.core.instrument.util.IOUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import org.apache.commons.io.IOUtils;
 
 public class AbstractComponent {
 
