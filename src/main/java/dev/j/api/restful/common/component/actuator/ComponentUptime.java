@@ -38,7 +38,6 @@ public class ComponentUptime extends AbstractComponent {
     try {
       pro = Runtime.getRuntime().exec(cmd);
       InputStream inputStream = pro.getInputStream();
-      pro.waitFor();
 
       String uptime = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
       System.out.println("2");
@@ -46,9 +45,6 @@ public class ComponentUptime extends AbstractComponent {
     } catch (IOException e) {
       e.printStackTrace();
       System.out.println("ioe");
-    } catch (InterruptedException e) {
-      System.out.println("ine");
-      e.printStackTrace();
     }
 
     
