@@ -35,14 +35,14 @@ deploy:
   stage: deploy
 
   script:
-    - echo "$DAEKGIL_SSH_KEY" > daekgil.ppk
-    - chmod 400 daekgil.ppk
+    - echo "$DEVJ_SSH_KEY" > devj.ppk
+    - chmod 400 devj.ppk
     - chmod +x -R build
 
-    - scp -P 221 -o StrictHostKeyChecking=no -i daekgil.ppk build/libs/restful-0.0.1.jar daekgil@devj.io:/home/daekgil/docker/restful_api/ROOT.jar
+    - scp -P 221 -o StrictHostKeyChecking=no -i devj.ppk build/libs/restful-0.0.1.jar devj@devj.io:/home/devj/docker/restful_api/ROOT.jar
 
-    - ssh daekgil@devj.io -T -p 221 -o StrictHostKeyChecking=no -i daekgil.ppk 
-      "cd /home/daekgil/docker/restful_api 
+    - ssh devj@devj.io -T -p 221 -o StrictHostKeyChecking=no -i devj.ppk 
+      "cd /home/devj/docker/restful_api 
        && docker-compose build 
        && docker-compose up -d"
   only:
