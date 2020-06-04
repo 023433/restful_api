@@ -264,11 +264,7 @@ public class ControllerComment {
         @RequestParam(value = "no", required = true)
         String no) {
 
-
-        System.out.println(no);
-        System.out.println(password);
         HttpStatus http = HttpStatus.OK;
-
 
         return new ResponseEntity<>(http);
         
