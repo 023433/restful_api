@@ -5,8 +5,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class ComponentStorage extends AbstractComponent {
 
-	public String getDirSize(String dir) {
-        String size = "";
+	public int getDirSize(String dir) {
+        String size = "0";
 
         if (isWindows()) {
 
@@ -16,8 +16,8 @@ public class ComponentStorage extends AbstractComponent {
             size = size.substring(0, size.indexOf("\t"));
             size = size.replaceAll("[^0-9]", "");
         }
-
-		return size;
+        
+		return parseInt(size);
 	}
     
 }

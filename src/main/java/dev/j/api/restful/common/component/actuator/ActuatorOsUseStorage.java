@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,22 +42,26 @@ public class ActuatorOsUseStorage {
         ) 
     })
     @GetMapping("/storage")
-    public @ResponseBody ResponseEntity<Map<String, String>> getServerInfo(
+    public @ResponseBody ResponseEntity<List<Map<String, Object>>> getServerInfo(
         @ApiParam(value = "폴더명", required = true) 
         @RequestParam(value = "dir", required = true)
         String[] dir) {
 
-        Map<String, String> map = new HashMap<>();
+        List<Map<String, Object>> result = new ArrayList<>();
 
         if(dir == null){
-            return new ResponseEntity<Map<String, String>>(map, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<List<Map<String, Object>>>(result, HttpStatus.BAD_REQUEST);
         }
 
         for (String str : dir) {
-            map.put(str, componentStorage.getDirSize(str));
+            Map<String, Object> tMap = new HashMap<>();
+            tMap.put("size", componentStorage.getDirSize(str));
+            tMap.put("name", str);
+
+            result.add(tMap);
         }
 
-        return new ResponseEntity<Map<String, String>>(map, HttpStatus.OK);
+        return new ResponseEntity<List<Map<String, Object>>>(result, HttpStatus.OK);
     }
 
 
