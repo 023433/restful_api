@@ -11,20 +11,20 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface RepositoryPost extends JpaRepository<Post, Long>, JpaSpecificationExecutor<Post>{
-    Page<Post> findAllWithByCategoryCategoryNo(Pageable pageable, Long categoryNo);
+  Page<Post> findAllWithByCategoryCategoryNo(Pageable pageable, Long categoryNo);
 
-    Page<Post> findAllByPublish(Pageable pageable, Boolean publish);
+  Page<Post> findAllByPublish(Pageable pageable, Boolean publish);
 
-    @Query("SELECT " +
-            "  new dev.j.api.restful.blog.vo.post.PostCount( " +
-            "    p.createDate, " +
-            "    COUNT(p.createDate) " +
-            "  ) " +
-            "FROM " +
-            "  Post p " +
-            "WHERE p.publish = 1 " +
-            "AND DATE_FORMAT(p.createDate,'%Y-%m') = :date " +
-            "GROUP BY " +
-            "  DATE_FORMAT(p.createDate,'%Y-%m-%d')")
-    List<PostCount> findGroupByCreateDate(@Param("date") String date);
+  @Query("SELECT " +
+          "  new dev.j.api.restful.blog.vo.post.PostCount( " +
+          "    p.createDate, " +
+          "    COUNT(p.createDate) " +
+          "  ) " +
+          "FROM " +
+          "  Post p " +
+          "WHERE p.publish = 1 " +
+          "AND DATE_FORMAT(p.createDate,'%Y-%m') = :date " +
+          "GROUP BY " +
+          "  DATE_FORMAT(p.createDate,'%Y-%m-%d')")
+  List<PostCount> findGroupByCreateDate(@Param("date") String date);
 }

@@ -24,46 +24,46 @@ import org.springframework.stereotype.Component;
 @Component(value = "authenticationBlog")
 public class AuthenticationBlog implements JwtAuthenticationProvider {
 
-    @Autowired
-    private ComponentJwtToken componentJwtToken;
+  @Autowired
+  private ComponentJwtToken componentJwtToken;
 
-    @Autowired
-    private ServiceUser serviceUser;
+  @Autowired
+  private ServiceUser serviceUser;
 
-    private Marker marker = MarkerFactory.getMarker(PropertyLog.MARKER_BLOG);
+  private Marker marker = MarkerFactory.getMarker(PropertyLog.MARKER_BLOG);
 
-	public Authentication getAuthentication(HttpServletRequest request) {
-        List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
+  public Authentication getAuthentication(HttpServletRequest request) {
+      List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
 
-        String jwtToken = request.getHeader(PropertyJwtToken.STR_TOKEN);
+      String jwtToken = request.getHeader(PropertyJwtToken.STR_TOKEN);
 
-        if(componentJwtToken.isExpiredToken(jwtToken)){
-            String guest = EnumRole.GUEST.label();
-            grantedAuthorityList.add(new SimpleGrantedAuthority(guest));
-            return new UsernamePasswordAuthenticationToken(guest, null, grantedAuthorityList);
-        }
+      if(componentJwtToken.isExpiredToken(jwtToken)){
+        String guest = EnumRole.GUEST.label();
+        grantedAuthorityList.add(new SimpleGrantedAuthority(guest));
+        return new UsernamePasswordAuthenticationToken(guest, null, grantedAuthorityList);
+      }
 
-        String userId = componentJwtToken.getUserId(jwtToken);
-        List<String> roles = serviceUser.getUserRoles(userId);
+      String userId = componentJwtToken.getUserId(jwtToken);
+      List<String> roles = serviceUser.getUserRoles(userId);
 
-        try {
-            grantedAuthorityList = roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
-        } catch (Exception e) {
-            log.error(marker, "getAuthentication.Exception : " + userId + " / " + e.getMessage());
-        }
+      try {
+        grantedAuthorityList = roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+      } catch (Exception e) {
+        log.error(marker, "getAuthentication.Exception : " + userId + " / " + e.getMessage());
+      }
 
-		return new UsernamePasswordAuthenticationToken(userId, null, grantedAuthorityList);
-	}
+    return new UsernamePasswordAuthenticationToken(userId, null, grantedAuthorityList);
+  }
 
-    @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        return null;
-    }
+  @Override
+  public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    return null;
+  }
 
-    @Override
-    public boolean supports(Class<?> authentication) {
-        return false;
-    }
+  @Override
+  public boolean supports(Class<?> authentication) {
+    return false;
+  }
 
-    
+
 }

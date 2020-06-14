@@ -7,16 +7,16 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 public interface RepositoryPostCategory extends JpaRepository<PostCategory, Long>, JpaSpecificationExecutor<PostCategory>{
-    @Query("SELECT " +
-            "  new dev.j.api.restful.blog.vo.post.category.PostCategory( " +
-            "    ps.categoryNo, " +
-            "    COUNT(ps.categoryNo) " +
-            "  ) " +
-            "FROM " +
-            "  PostCategory ps " +
-            "  INNER JOIN Post p on p.no = ps.postNo " +
-            "WHERE p.publish = 1 " +
-            "GROUP BY " +
-            "  ps.categoryNo")
-    List<PostCategory> findPostCount();
+  @Query("SELECT " +
+          "  new dev.j.api.restful.blog.vo.post.category.PostCategory( " +
+          "    ps.categoryNo, " +
+          "    COUNT(ps.categoryNo) " +
+          "  ) " +
+          "FROM " +
+          "  PostCategory ps " +
+          "  INNER JOIN Post p on p.no = ps.postNo " +
+          "WHERE p.publish = 1 " +
+          "GROUP BY " +
+          "  ps.categoryNo")
+  List<PostCategory> findPostCount();
 }

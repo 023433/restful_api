@@ -19,11 +19,11 @@ import lombok.ToString;
 @Table(name = "b_post_summary")
 public class SummaryTag extends AbstractSummary {
 
-    @OneToMany(mappedBy = "post")
-    @JsonManagedReference
-    private List<PostTag> tag = new ArrayList<>();
+  @OneToMany(mappedBy = "post")
+  @JsonManagedReference
+  private List<PostTag> tag = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post")
-    @JsonManagedReference
-    private List<PostCategory> category = new ArrayList<>();
+  @OneToMany(mappedBy = "post")
+  @JsonManagedReference
+  private List<PostCategory> category = new ArrayList<>();
 }

@@ -24,29 +24,29 @@ import lombok.ToString;
 @Table(name = "b_user")
 public class User {
 
-    @Id
-    @Column(name = "b_user_id", nullable = false)
-    private String userId;
+  @Id
+  @Column(name = "b_user_id", nullable = false)
+  private String userId;
 
-    @Column(name = "b_user_pw", nullable = false)
-    private String userPw;
+  @Column(name = "b_user_pw", nullable = false)
+  private String userPw;
 
-    @Column(name = "b_user_name", length = 20, nullable = false)
-    private String userName;
-    
-    @Column(
-        name = "b_create_date", 
-        columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", 
-        updatable = false
-    )
-    private LocalDateTime createDate;
+  @Column(name = "b_user_name", length = 20, nullable = false)
+  private String userName;
 
-    @JoinTable(
-        name = "b_user_role",
-        joinColumns = @JoinColumn(name = "b_user_id", nullable = false)
-    )
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Column(name="b_role", nullable=false)
-    private List<String> roles = new ArrayList<>();
+  @Column(
+    name = "b_create_date", 
+    columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", 
+    updatable = false
+  )
+  private LocalDateTime createDate;
+
+  @JoinTable(
+    name = "b_user_role",
+    joinColumns = @JoinColumn(name = "b_user_id", nullable = false)
+  )
+  @ElementCollection(fetch = FetchType.EAGER)
+  @Column(name="b_role", nullable=false)
+  private List<String> roles = new ArrayList<>();
     
 }

@@ -13,12 +13,12 @@ import lombok.ToString;
 @AllArgsConstructor
 public class PostParam {
 
-    private String subject;
-    private String[] tags;
-    private String content;
-    private String[] category;
-    private String publish;
-    private String thumbnailOriginalName;
-    private String thumbnailSaveName;
-    private String thumbnailSavePath;
+  private String subject;
+  private String[] tags;
+  private String content;
+  private String[] category;
+  private String publish;
+  private String thumbnailOriginalName;
+  private String thumbnailSaveName;
+  private String thumbnailSavePath;
 }

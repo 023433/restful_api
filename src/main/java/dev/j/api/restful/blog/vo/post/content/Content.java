@@ -28,25 +28,25 @@ import lombok.ToString;
 @Table(name = "b_post_content")
 public class Content {
 
-    @Id
-    @Column(name = "b_post_no", nullable = false, unique = true)
-    private Long postNo;
+  @Id
+  @Column(name = "b_post_no", nullable = false, unique = true)
+  private Long postNo;
 
-    @MapsId
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "b_post_no", insertable = false, updatable = false)
-    @JsonManagedReference
-    private Post post;
+  @MapsId
+  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JoinColumn(name = "b_post_no", insertable = false, updatable = false)
+  @JsonManagedReference
+  private Post post;
 
-    @Lob
-    @Column(name = "b_content", nullable = false)
-    private String content;
-    
-    @OneToMany(mappedBy = "post")
-    @JsonManagedReference
-    private List<PostCategory> category = new ArrayList<>();
+  @Lob
+  @Column(name = "b_content", nullable = false)
+  private String content;
+  
+  @OneToMany(mappedBy = "post")
+  @JsonManagedReference
+  private List<PostCategory> category = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post")
-    @JsonManagedReference
-    private List<PostTag> tag = new ArrayList<>();
+  @OneToMany(mappedBy = "post")
+  @JsonManagedReference
+  private List<PostTag> tag = new ArrayList<>();
 }

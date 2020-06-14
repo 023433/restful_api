@@ -12,39 +12,39 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 public class CustomRepositoryCategoryImpl implements CustomRepositoryCategory {
-    @PersistenceContext
-    private EntityManager entityManager;
+  @PersistenceContext
+  private EntityManager entityManager;
 
-    @Override
-    public CategoryParent findByCategories(List<String> categories) {
-        
-        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
-        CriteriaQuery<CategoryParent> query = criteriaBuilder.createQuery(CategoryParent.class);
-        Root<CategoryParent> root = query.from(CategoryParent.class);
-        int size = categories.size();
+  @Override
+  public CategoryParent findByCategories(List<String> categories) {
+      
+    CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+    CriteriaQuery<CategoryParent> query = criteriaBuilder.createQuery(CategoryParent.class);
+    Root<CategoryParent> root = query.from(CategoryParent.class);
+    int size = categories.size();
 
-        Predicate[] predicates = new Predicate[size];
-        predicates[0] = criteriaBuilder.equal(root.get("title"), categories.get(size-1));
+    Predicate[] predicates = new Predicate[size];
+    predicates[0] = criteriaBuilder.equal(root.get("title"), categories.get(size-1));
 
-        if(size > 1){
-    
-            Join<CategoryParent, CategoryParent> parent = null;
+    if(size > 1){
 
-            for(int i = size-1; i >= 1; --i){
-                
-                if(parent == null){
-                    parent = root.join("parent", JoinType.INNER);
-                }else{
-                    parent = parent.join("parent", JoinType.INNER);
-                }
+      Join<CategoryParent, CategoryParent> parent = null;
 
-                predicates[size - i] = criteriaBuilder.equal(parent.get("title"), categories.get(i-1));
-            }
-
+      for(int i = size-1; i >= 1; --i){
+          
+        if(parent == null){
+          parent = root.join("parent", JoinType.INNER);
+        }else{
+          parent = parent.join("parent", JoinType.INNER);
         }
 
-        query.where(predicates);
+        predicates[size - i] = criteriaBuilder.equal(parent.get("title"), categories.get(i-1));
+      }
 
-        return entityManager.createQuery(query).getSingleResult();
     }
+
+    query.where(predicates);
+
+    return entityManager.createQuery(query).getSingleResult();
+  }
 }

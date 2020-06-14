@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface RepositoryTag extends JpaRepository<Tag, Long>, JpaSpecificationExecutor<Tag>{
-    Tag findByTitle(String title);
+  Tag findByTitle(String title);
 }

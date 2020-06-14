@@ -22,65 +22,64 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/auth")
 public class ControllerAuthorize {
 
-    @Autowired
-    private ServiceAuthorize serviceAuthorize;
+  @Autowired
+  private ServiceAuthorize serviceAuthorize;
+
+  @ApiOperation(
+    value = "로그인",
+    response = ResponseEntity.class
+  )
+  @ApiImplicitParams({
+    @ApiImplicitParam(
+      name = "X-Auth-Token", 
+      required = false, 
+      paramType = "header", 
+      dataTypeClass = String.class
+    ) 
+  })
+  @PostMapping("/login")
+  public ResponseEntity<String> login(
+    @ApiParam(value = "사용자 아이디", required = true) 
+    @RequestParam(value = "userId", required = true)
+    String userId, 
     
-    @ApiOperation(
-        value = "로그인",
-        response = ResponseEntity.class
-    )
-    @ApiImplicitParams({
-        @ApiImplicitParam(
-            name = "X-Auth-Token", 
-            required = false, 
-            paramType = "header", 
-            dataTypeClass = String.class
-        ) 
-    })
-    @PostMapping("/login")
-    public ResponseEntity<String> login(
-        @ApiParam(value = "사용자 아이디", required = true) 
-        @RequestParam(value = "userId", required = true)
-        String userId, 
+    @ApiParam(value = "사용자 비밀번호", required = true) 
+    @RequestParam(value = "userPwd", required = true)
+    String userPwd) {
+
+    String jwtToken = serviceAuthorize.getJwtToken(userId, userPwd);
         
-        @ApiParam(value = "사용자 비밀번호", required = true) 
-        @RequestParam(value = "userPwd", required = true)
-        String userPwd) {
+    HttpStatus http = HttpStatus.BAD_REQUEST;
 
-        String jwtToken = serviceAuthorize.getJwtToken(userId, userPwd);
-            
-        HttpStatus http = HttpStatus.BAD_REQUEST;
-
-        if(jwtToken != null){
-            http = HttpStatus.OK;
-        }
-
-        return new ResponseEntity<>(jwtToken, http);
-        
+    if(jwtToken != null){
+        http = HttpStatus.OK;
     }
 
-    @ApiOperation(
-        value = "권한 확인",
-        response = ResponseEntity.class
-    )
-    @ApiImplicitParams({
-        @ApiImplicitParam(
-            name = "X-Auth-Token", 
-            required = true, 
-            paramType = "header", 
-            dataTypeClass = String.class
-        ) 
-    })
-    @GetMapping("/validate/admin")
-    public ResponseEntity<String> validate(HttpServletRequest request) {
+    return new ResponseEntity<>(jwtToken, http);
+  }
 
-        String jwtToken = request.getHeader(PropertyJwtToken.STR_TOKEN);
+  @ApiOperation(
+    value = "권한 확인",
+    response = ResponseEntity.class
+  )
+  @ApiImplicitParams({
+    @ApiImplicitParam(
+      name = "X-Auth-Token", 
+      required = true, 
+      paramType = "header", 
+      dataTypeClass = String.class
+    ) 
+  })
+  @GetMapping("/validate/admin")
+  public ResponseEntity<String> validate(HttpServletRequest request) {
 
-        if(serviceAuthorize.validateAdmin(request)){
-            return new ResponseEntity<String>(jwtToken, HttpStatus.OK);
-        }
+    String jwtToken = request.getHeader(PropertyJwtToken.STR_TOKEN);
 
-        return new ResponseEntity<String>(jwtToken, HttpStatus.BAD_REQUEST);
+    if(serviceAuthorize.validateAdmin(request)){
+      return new ResponseEntity<String>(jwtToken, HttpStatus.OK);
     }
-    
+
+    return new ResponseEntity<String>(jwtToken, HttpStatus.BAD_REQUEST);
+  }
+
 }

@@ -23,66 +23,66 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RestControllerEndpoint(id = "sysinfo")
 public class ActuatorOsUseStorage {
     
-    @Autowired
-    private ComponentStorage componentStorage;
+  @Autowired
+  private ComponentStorage componentStorage;
 
-    @Autowired
-    private DaoDbStatus daoDbStatus;
+  @Autowired
+  private DaoDbStatus daoDbStatus;
 
-    @ApiOperation(
-        value = "폴더별 사용량 요청",
-        response = ResponseEntity.class
-    )
-    @ApiImplicitParams({
-        @ApiImplicitParam(
-            name = "X-Auth-Token", 
-            required = true, 
-            paramType = "header", 
-            dataTypeClass = String.class
-        ) 
-    })
-    @GetMapping("/storage")
-    public @ResponseBody ResponseEntity<List<Map<String, Object>>> getServerInfo(
-        @ApiParam(value = "폴더명", required = true) 
-        @RequestParam(value = "dir", required = true)
-        String[] dir) {
+  @ApiOperation(
+    value = "폴더별 사용량 요청",
+    response = ResponseEntity.class
+  )
+  @ApiImplicitParams({
+    @ApiImplicitParam(
+      name = "X-Auth-Token", 
+      required = true, 
+      paramType = "header", 
+      dataTypeClass = String.class
+    ) 
+  })
+  @GetMapping("/storage")
+  public @ResponseBody ResponseEntity<List<Map<String, Object>>> getServerInfo(
+    @ApiParam(value = "폴더명", required = true) 
+    @RequestParam(value = "dir", required = true)
+    String[] dir) {
 
-        List<Map<String, Object>> result = new ArrayList<>();
+    List<Map<String, Object>> result = new ArrayList<>();
 
-        if(dir == null){
-            return new ResponseEntity<List<Map<String, Object>>>(result, HttpStatus.BAD_REQUEST);
-        }
-
-        for (String str : dir) {
-            Map<String, Object> tMap = new HashMap<>();
-            tMap.put("size", componentStorage.getDirSize(str));
-            tMap.put("name", str);
-
-            result.add(tMap);
-        }
-
-        return new ResponseEntity<List<Map<String, Object>>>(result, HttpStatus.OK);
+    if(dir == null){
+      return new ResponseEntity<List<Map<String, Object>>>(result, HttpStatus.BAD_REQUEST);
     }
 
+    for (String str : dir) {
+      Map<String, Object> tMap = new HashMap<>();
+      tMap.put("size", componentStorage.getDirSize(str));
+      tMap.put("name", str);
 
-    @ApiOperation(
-        value = "DB 사용량 요청",
-        response = ResponseEntity.class
-    )
-    @ApiImplicitParams({
-        @ApiImplicitParam(
-            name = "X-Auth-Token", 
-            required = true, 
-            paramType = "header", 
-            dataTypeClass = String.class
-        ) 
-    })
-    @GetMapping("/db")
-    public @ResponseBody ResponseEntity<List<Map<String, Object>>> getDbTableStatus() {
-
-        List<Map<String, Object>> map = daoDbStatus.getDbTableStatus();
-
-        return new ResponseEntity<List<Map<String, Object>>>(map, HttpStatus.OK);
+      result.add(tMap);
     }
+
+    return new ResponseEntity<List<Map<String, Object>>>(result, HttpStatus.OK);
+  }
+
+
+  @ApiOperation(
+    value = "DB 사용량 요청",
+    response = ResponseEntity.class
+  )
+  @ApiImplicitParams({
+    @ApiImplicitParam(
+      name = "X-Auth-Token", 
+      required = true, 
+      paramType = "header", 
+      dataTypeClass = String.class
+    ) 
+  })
+  @GetMapping("/db")
+  public @ResponseBody ResponseEntity<List<Map<String, Object>>> getDbTableStatus() {
+
+    List<Map<String, Object>> map = daoDbStatus.getDbTableStatus();
+
+    return new ResponseEntity<List<Map<String, Object>>>(map, HttpStatus.OK);
+  }
 
 }

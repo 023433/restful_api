@@ -17,11 +17,11 @@ import lombok.ToString;
 @Table(name = "b_category")
 public class CategoryParent extends AbstractCategory{
 
-    @ManyToOne(
-        fetch = FetchType.EAGER
-    )
-    @JsonManagedReference
-    @JoinColumn(name = "b_parent_no", insertable = false, updatable = false, nullable = true)
-    private CategoryParent parent;
+  @ManyToOne(
+    fetch = FetchType.EAGER
+  )
+  @JsonManagedReference
+  @JoinColumn(name = "b_parent_no", insertable = false, updatable = false, nullable = true)
+  private CategoryParent parent;
 
 }

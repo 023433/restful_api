@@ -14,14 +14,14 @@ import lombok.ToString;
 @ToString
 @MappedSuperclass
 public class AbstractCategory {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "b_no", nullable = false)
-    private Long no;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "b_no", nullable = false)
+  private Long no;
 
-    @Column(name = "b_title", nullable = false)
-    private String title;
+  @Column(name = "b_title", nullable = false)
+  private String title;
 
-    @Column(name = "b_parent_no")
-    private Long parentNo;
+  @Column(name = "b_parent_no")
+  private Long parentNo;
 }

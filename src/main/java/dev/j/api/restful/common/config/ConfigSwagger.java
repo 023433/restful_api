@@ -18,33 +18,33 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class ConfigSwagger {
 
-    @Bean
-    public Docket swaggerConfig(){
-        return new Docket(DocumentationType.SWAGGER_2)
-                    .globalOperationParameters(
-                        Arrays.asList(
-                            new ParameterBuilder()
-                                .name("X-Auth-Token")
-                                .description("accessToken")
-                                .modelRef(new ModelRef("string"))
-                                .parameterType("header")
-                                .required(true)
-                                .build()
-                        )
+  @Bean
+  public Docket swaggerConfig(){
+    return new Docket(DocumentationType.SWAGGER_2)
+                .globalOperationParameters(
+                    Arrays.asList(
+                        new ParameterBuilder()
+                            .name("X-Auth-Token")
+                            .description("accessToken")
+                            .modelRef(new ModelRef("string"))
+                            .parameterType("header")
+                            .required(true)
+                            .build()
                     )
-                    .apiInfo(swaggerInfo())
-                    .select()
-                    .apis(RequestHandlerSelectors.any())              
-                    .paths(PathSelectors.any())
-                    .build()
-                    .useDefaultResponseMessages(false);
-    }
+                )
+                .apiInfo(swaggerInfo())
+                .select()
+                .apis(RequestHandlerSelectors.any())              
+                .paths(PathSelectors.any())
+                .build()
+                .useDefaultResponseMessages(false);
+  }
 
-    private ApiInfo swaggerInfo() {
-        return new ApiInfoBuilder()
-                    .title("REST API Documentation")
-                    .description("서버 API 연동 문서")
-                    .build();
-    }
+  private ApiInfo swaggerInfo() {
+    return new ApiInfoBuilder()
+                .title("REST API Documentation")
+                .description("서버 API 연동 문서")
+                .build();
+  }
 
 }

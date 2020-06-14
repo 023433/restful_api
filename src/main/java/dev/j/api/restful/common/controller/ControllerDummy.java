@@ -11,9 +11,9 @@ import io.swagger.annotations.Api;
 @RequestMapping(value = "/dummy")
 public class ControllerDummy {
 
-    @GetMapping(value="/dummy")
-    public String dummy(){
-        return "dummy";
-    }
+  @GetMapping(value="/dummy")
+  public String dummy(){
+    return "dummy";
+  }
 
 }

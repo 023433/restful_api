@@ -8,10 +8,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface RepositoryCommentPostLoad extends JpaRepository<CommentPostLoad, Long>, JpaSpecificationExecutor<CommentPostLoad>{
-    @EntityGraph(attributePaths = {"auth", "guest"}, type = EntityGraph.EntityGraphType.LOAD)
-    Page<CommentPostLoad> findAllWithByPostPublish(Pageable pageable, Boolean publish);
+  @EntityGraph(attributePaths = {"auth", "guest"}, type = EntityGraph.EntityGraphType.LOAD)
+  Page<CommentPostLoad> findAllWithByPostPublish(Pageable pageable, Boolean publish);
 
-    @EntityGraph(attributePaths = {"auth", "guest"}, type = EntityGraph.EntityGraphType.LOAD)
-    Page<CommentPostLoad> findAllWithByPostNoAndPostPublish(Pageable pageable, Long postNo, Boolean publish);
-
+  @EntityGraph(attributePaths = {"auth", "guest"}, type = EntityGraph.EntityGraphType.LOAD)
+  Page<CommentPostLoad> findAllWithByPostNoAndPostPublish(Pageable pageable, Long postNo, Boolean publish);
 }

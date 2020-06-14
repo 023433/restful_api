@@ -7,29 +7,29 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 public class AbstractService {
 
-    @Autowired
-    protected ComponentJwtToken componentJwtToken;
+  @Autowired
+  protected ComponentJwtToken componentJwtToken;
 
-    @Autowired
-    protected ComponentEncrypt componentEncrypt;
+  @Autowired
+  protected ComponentEncrypt componentEncrypt;
 
-    @Autowired
-    protected ComponentFileUpload componentFileUpload;
+  @Autowired
+  protected ComponentFileUpload componentFileUpload;
 
-    protected Boolean isNullOrEmpty(String str){
-      return str == null || str.isEmpty();
-    }
+  protected Boolean isNullOrEmpty(String str){
+    return str == null || str.isEmpty();
+  }
 
-    protected Boolean isNullOrEmpty(String[] str){
-      return str == null || str.length == 0;
-    }
+  protected Boolean isNullOrEmpty(String[] str){
+    return str == null || str.length == 0;
+  }
 
-    protected Boolean isNotNullOrEmpty(String[] str){
-      return !isNullOrEmpty(str);
-    }
+  protected Boolean isNotNullOrEmpty(String[] str){
+    return !isNullOrEmpty(str);
+  }
 
-    protected Boolean isNotNullOrEmpty(String str){
-      return !isNullOrEmpty(str);
-    }
+  protected Boolean isNotNullOrEmpty(String str){
+    return !isNullOrEmpty(str);
+  }
     
 }

@@ -23,77 +23,77 @@ import org.springframework.web.multipart.MultipartFile;
 @Component
 public class ComponentFileUpload {
 
-    @Value("${ENV}")
-    String env;
+  @Value("${ENV}")
+  String env;
 
-    private final Marker marker = MarkerFactory.getMarker(PropertyLog.MARKER_BLOG);
+  private final Marker marker = MarkerFactory.getMarker(PropertyLog.MARKER_BLOG);
 
-    private String DIR_IMG_PATH;
-    private String URL_IMG_PATH;
+  private String DIR_IMG_PATH;
+  private String URL_IMG_PATH;
 
-    private final String dateFormat = "yyyyMMdd";
-    private final SimpleDateFormat format = new SimpleDateFormat(dateFormat, Locale.KOREA);
+  private final String dateFormat = "yyyyMMdd";
+  private final SimpleDateFormat format = new SimpleDateFormat(dateFormat, Locale.KOREA);
 
-    @PostConstruct
-    public void init() {
-        if (env == "PRD" || env.equals("PRD")) {
-            // 운영
-            DIR_IMG_PATH = PropertyPath.IMG_PRD;
-            URL_IMG_PATH = PropertyUrl.URL_IMG_PRD;
-        } else if (env == "DEV" || env.equals("DEV")) {
-            // 개발
-            DIR_IMG_PATH = PropertyPath.IMG_DEV;
-            URL_IMG_PATH = PropertyUrl.URL_IMG_DEV;
+  @PostConstruct
+  public void init() {
+    if (env == "PRD" || env.equals("PRD")) {
+      // 운영
+      DIR_IMG_PATH = PropertyPath.IMG_PRD;
+      URL_IMG_PATH = PropertyUrl.URL_IMG_PRD;
+    } else if (env == "DEV" || env.equals("DEV")) {
+      // 개발
+      DIR_IMG_PATH = PropertyPath.IMG_DEV;
+      URL_IMG_PATH = PropertyUrl.URL_IMG_DEV;
 
-        }
+    }
+  }
+
+  public String saveImageFile(String savePath, MultipartFile file) {
+
+    String uuid = UUID.randomUUID().toString().replace("-", "");
+    String fileExtension = FilenameUtils.getExtension(file.getOriginalFilename());
+    String saveName = uuid + "." + fileExtension;
+
+    mkDirs(DIR_IMG_PATH + File.separator + savePath);
+
+    File saveFile = new File(DIR_IMG_PATH + File.separator + savePath, saveName);
+    
+    try {
+      file.transferTo(saveFile);
+    } catch (IOException e) {
+      log.error(marker, "ComponentFileUpload.saveImageFile.IOException : " + e.getMessage());
+      return null;
     }
 
-    public String saveImageFile(String savePath, MultipartFile file) {
+    return saveName;
+  }
 
-        String uuid = UUID.randomUUID().toString().replace("-", "");
-        String fileExtension = FilenameUtils.getExtension(file.getOriginalFilename());
-        String saveName = uuid + "." + fileExtension;
+  public Boolean moveTo(String source, String destination){
+    try {
+      File sourceFile = new File(DIR_IMG_PATH + source);
+      File destinationFile = new File(DIR_IMG_PATH + destination);
 
-        mkDirs(DIR_IMG_PATH + File.separator + savePath);
-
-        File saveFile = new File(DIR_IMG_PATH + File.separator + savePath, saveName);
-        
-        try {
-            file.transferTo(saveFile);
-        } catch (IOException e) {
-            log.error(marker, "ComponentFileUpload.saveImageFile.IOException : " + e.getMessage());
-            return null;
-        }
-
-        return saveName;
+      FileUtils.moveFile(sourceFile, destinationFile);
+      return true;
+    } catch (IOException e) {
+      log.error(marker, "ComponentFileUpload.moveTo.IOException : " + e.getMessage());
+      return false;
     }
+  }
 
-    public Boolean moveTo(String source, String destination){
-        try {
-            File sourceFile = new File(DIR_IMG_PATH + source);
-            File destinationFile = new File(DIR_IMG_PATH + destination);
+  private void mkDirs(String path){
+    File dir = new File(path);
 
-            FileUtils.moveFile(sourceFile, destinationFile);
-            return true;
-        } catch (IOException e) {
-            log.error(marker, "ComponentFileUpload.moveTo.IOException : " + e.getMessage());
-            return false;
-        }
+    if(!dir.exists()){
+      dir.mkdirs();
     }
+  }
 
-    private void mkDirs(String path){
-        File dir = new File(path);
+  public String getUrl(){
+    return URL_IMG_PATH;
+  }
 
-        if(!dir.exists()){
-            dir.mkdirs();
-        }
-    }
-
-    public String getUrl(){
-        return URL_IMG_PATH;
-    }
-
-    public String getToday(){
-        return format.format(Calendar.getInstance().getTime());
-    }
+  public String getToday(){
+    return format.format(Calendar.getInstance().getTime());
+  }
 }

@@ -24,25 +24,25 @@ import lombok.ToString;
 @Table(name = "b_comment_guest")
 public class CommentGuest {
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "b_no", nullable = false)
-    private Long no;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "b_no", nullable = false)
+  private Long no;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "b_comment_no", insertable = false, updatable = false)
-    @JsonBackReference
-    private Comment comment;
+  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JoinColumn(name = "b_comment_no", insertable = false, updatable = false)
+  @JsonBackReference
+  private Comment comment;
 
-    @Column(name = "b_comment_no", nullable = false)
-    private Long commentNo;
+  @Column(name = "b_comment_no", nullable = false)
+  private Long commentNo;
 
-    @Column(name = "b_name", nullable = false)
-    private String name;
+  @Column(name = "b_name", nullable = false)
+  private String name;
 
-    @Column(name = "b_ip_address", nullable = false)
-    private String ipAddress;
-    
-    @Column(name = "b_pw", nullable = false)
-    private String pw;
+  @Column(name = "b_ip_address", nullable = false)
+  private String ipAddress;
+  
+  @Column(name = "b_pw", nullable = false)
+  private String pw;
 }

@@ -5,6 +5,6 @@ import java.util.List;
 
 public interface CustomRepositoryCategory {
 
-    CategoryParent findByCategories(List<String> categories);
+  CategoryParent findByCategories(List<String> categories);
 
 }

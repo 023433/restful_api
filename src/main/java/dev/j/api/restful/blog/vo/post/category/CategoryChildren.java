@@ -21,19 +21,19 @@ import lombok.ToString;
 @Table(name = "b_category")
 public class CategoryChildren extends AbstractCategory{
 
-    @ManyToOne(
-        fetch = FetchType.EAGER
-    )
-    @JsonBackReference
-    @JoinColumn(name = "b_parent_no", insertable = false, updatable = false, nullable = true)
-    private CategoryChildren parent;
-    
-    @OneToMany(
-        mappedBy = "parent"
-    )
-    @JsonManagedReference
-    private List<CategoryChildren> children;
+  @ManyToOne(
+    fetch = FetchType.EAGER
+  )
+  @JsonBackReference
+  @JoinColumn(name = "b_parent_no", insertable = false, updatable = false, nullable = true)
+  private CategoryChildren parent;
+  
+  @OneToMany(
+    mappedBy = "parent"
+  )
+  @JsonManagedReference
+  private List<CategoryChildren> children;
 
-    @Transient
-    private int count;
+  @Transient
+  private int count;
 }

@@ -23,55 +23,55 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping(value = "/attach")
 public class ControllerAttach {
+
+  @Autowired
+  private ServiceAttach serviceAttach;
+
+
+  @ApiOperation(
+    value = "썸네일 이미지 업로드",
+    response = ResponseEntity.class
+  )
+  @ApiImplicitParams({
+    @ApiImplicitParam(
+      name = "X-Auth-Token", 
+      required = true, 
+      paramType = "header", 
+      dataTypeClass = String.class
+    ) 
+  })
+  @PreAuthorize ("hasRole('ROLE_ADMIN')")
+  @PostMapping("/thumbnail")
+  public ResponseEntity<Thumbnail> attachThumbnail(
+    @ApiParam(value = "첨부파일(이미지)", required = true) 
+    @RequestParam MultipartFile attachImage, 
     
-    @Autowired
-    private ServiceAttach serviceAttach;
-
-
-    @ApiOperation(
-        value = "썸네일 이미지 업로드",
-        response = ResponseEntity.class
-    )
-    @ApiImplicitParams({
-        @ApiImplicitParam(
-            name = "X-Auth-Token", 
-            required = true, 
-            paramType = "header", 
-            dataTypeClass = String.class
-        ) 
-    })
-    @PreAuthorize ("hasRole('ROLE_ADMIN')")
-    @PostMapping("/thumbnail")
-    public ResponseEntity<Thumbnail> attachThumbnail(
-        @ApiParam(value = "첨부파일(이미지)", required = true) 
-        @RequestParam MultipartFile attachImage, 
+    HttpServletRequest request) {
         
-        HttpServletRequest request) {
-            
-        return new ResponseEntity<Thumbnail>(serviceAttach.attachThumbnail(request, attachImage), HttpStatus.OK);
-    }
+    return new ResponseEntity<Thumbnail>(serviceAttach.attachThumbnail(request, attachImage), HttpStatus.OK);
+  }
 
 
-    @ApiOperation(
-        value = "포스트 이미지 업로드",
-        response = ResponseEntity.class
-    )
-    @ApiImplicitParams({
-        @ApiImplicitParam(
-            name = "X-Auth-Token", 
-            required = true, 
-            paramType = "header", 
-            dataTypeClass = String.class
-        ) 
-    })
-    @PreAuthorize ("hasRole('ROLE_ADMIN')")
-    @PostMapping("/post/image")
-    public PostImage attachPostImage(
-        @ApiParam(value = "첨부파일(이미지)", required = true) 
-        @RequestParam(name = "upload") MultipartFile upload, 
+  @ApiOperation(
+    value = "포스트 이미지 업로드",
+    response = ResponseEntity.class
+  )
+  @ApiImplicitParams({
+    @ApiImplicitParam(
+      name = "X-Auth-Token", 
+      required = true, 
+      paramType = "header", 
+      dataTypeClass = String.class
+    ) 
+  })
+  @PreAuthorize ("hasRole('ROLE_ADMIN')")
+  @PostMapping("/post/image")
+  public PostImage attachPostImage(
+    @ApiParam(value = "첨부파일(이미지)", required = true) 
+    @RequestParam(name = "upload") MultipartFile upload, 
+    
+    HttpServletRequest request) {
         
-        HttpServletRequest request) {
-            
-        return serviceAttach.attachPostImage(request, upload);
-    }
+    return serviceAttach.attachPostImage(request, upload);
+  }
 }

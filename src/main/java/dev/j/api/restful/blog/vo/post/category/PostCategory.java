@@ -27,32 +27,32 @@ import lombok.ToString;
 @AllArgsConstructor
 public class PostCategory {
 
-    public PostCategory(Long categoryNo, Long count){
-        this.categoryNo = categoryNo;
-        this.count = count;
-    }
+  public PostCategory(Long categoryNo, Long count){
+    this.categoryNo = categoryNo;
+    this.count = count;
+  }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "b_no", nullable = false)
-    private Long no;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "b_no", nullable = false)
+  private Long no;
 
-    @ManyToOne
-    @JoinColumn(name = "b_post_no", nullable = false, insertable = false, updatable = false)
-    @JsonBackReference
-    private Post post;
+  @ManyToOne
+  @JoinColumn(name = "b_post_no", nullable = false, insertable = false, updatable = false)
+  @JsonBackReference
+  private Post post;
 
-    @ManyToOne
-    @JoinColumn(name = "b_category_no", nullable = false, insertable = false, updatable = false)
-    private CategoryParent category;
-       
-    @Column(name = "b_post_no", nullable = false)
-    private Long postNo;
+  @ManyToOne
+  @JoinColumn(name = "b_category_no", nullable = false, insertable = false, updatable = false)
+  private CategoryParent category;
+      
+  @Column(name = "b_post_no", nullable = false)
+  private Long postNo;
 
-    @Column(name = "b_category_no", nullable = false)
-    private Long categoryNo;
+  @Column(name = "b_category_no", nullable = false)
+  private Long categoryNo;
 
-    @Transient
-    private Long count;
+  @Transient
+  private Long count;
 
 }

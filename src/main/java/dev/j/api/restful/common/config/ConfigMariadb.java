@@ -24,31 +24,31 @@ import dev.j.api.restful.common.component.ComponentEncrypt;
 public class ConfigMariadb {
 
   @Autowired
-	private ComponentEncrypt encryptor;
+  private ComponentEncrypt encryptor;
 
-	@Value("${ENV}")
-	String env;
+  @Value("${ENV}")
+  String env;
 
-	@Bean
-	public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
-		SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
-		sqlSessionFactoryBean.setDataSource(dataSource);
-		PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
-		sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath:/mapper/*.xml"));
-		return sqlSessionFactoryBean.getObject();
+  @Bean
+  public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
+    SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
+    sqlSessionFactoryBean.setDataSource(dataSource);
+    PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+    sqlSessionFactoryBean.setMapperLocations(resolver.getResources("classpath:/mapper/*.xml"));
 
-	}
+    return sqlSessionFactoryBean.getObject();
+  }
 
-	@Bean
-	public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
-		return new SqlSessionTemplate(sqlSessionFactory);
-	}
+  @Bean
+  public SqlSessionTemplate sqlSessionTemplate(SqlSessionFactory sqlSessionFactory) {
+    return new SqlSessionTemplate(sqlSessionFactory);
+  }
 
   @Bean
   public DataSource dataSource(){
-      
+    
     BasicDataSource basicDataSource = new BasicDataSource();
-  
+
     basicDataSource.setDriverClassName("org.mariadb.jdbc.Driver");
 
     if(env == "PRD" || env.equals("PRD")){
@@ -64,33 +64,33 @@ public class ConfigMariadb {
       basicDataSource.setUsername("root");
     }
 
-    
+
     basicDataSource.setDefaultAutoCommit(false);
 
     return basicDataSource;
   }
 
   @Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
-		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-		em.setDataSource(dataSource());
-		em.setPackagesToScan(new String[] { "dev.j.api.restful.common.vo", "dev.j.api.restful.blog.vo"});
+  public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
+    LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
+    em.setDataSource(dataSource());
+    em.setPackagesToScan(new String[] { "dev.j.api.restful.common.vo", "dev.j.api.restful.blog.vo"});
 
-		JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-		em.setJpaVendorAdapter(vendorAdapter);
-		
-		Properties properties = new Properties();
-		properties.setProperty("hibernate.hbm2ddl.auto", "update");
-		// properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
-		// properties.setProperty("hibernate.show_sql", "true");
-		// properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-		properties.setProperty("hibernate.format_sql", "true");
-		properties.setProperty("hibernate.jdbc.lob.non_contextual_creation", "true");
-		properties.setProperty("hibernate.default_schema", "temp");
-		
-		em.setJpaProperties(properties);
+    JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
+    em.setJpaVendorAdapter(vendorAdapter);
 
-		return em;
-	}
+    Properties properties = new Properties();
+    properties.setProperty("hibernate.hbm2ddl.auto", "update");
+    // properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
+    // properties.setProperty("hibernate.show_sql", "true");
+    // properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
+    properties.setProperty("hibernate.format_sql", "true");
+    properties.setProperty("hibernate.jdbc.lob.non_contextual_creation", "true");
+    properties.setProperty("hibernate.default_schema", "temp");
+
+    em.setJpaProperties(properties);
+
+    return em;
+  }
     
 }

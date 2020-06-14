@@ -8,8 +8,8 @@ import lombok.ToString;
 @Setter
 @ToString
 public class PostImage {
-    String originalFileName;
-    String saveFileName;
-    String savePath;
-    String url;
+  String originalFileName;
+  String saveFileName;
+  String savePath;
+  String url;
 }

@@ -10,15 +10,15 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface RepositorySummaryCategory extends JpaRepository<SummaryCategory, Long>, JpaSpecificationExecutor<SummaryCategory>{
 
-    @EntityGraph(attributePaths = {"post"}, type = EntityGraph.EntityGraphType.LOAD)
-    Page<SummaryCategory> findAllWithByPostPublish(Pageable pageable, Boolean publish);
+  @EntityGraph(attributePaths = {"post"}, type = EntityGraph.EntityGraphType.LOAD)
+  Page<SummaryCategory> findAllWithByPostPublish(Pageable pageable, Boolean publish);
 
-    @EntityGraph(attributePaths = {"post"}, type = EntityGraph.EntityGraphType.LOAD)
-    Page<SummaryCategory> findAllWithByPostPublishAndCategoryCategoryNo(Pageable pageable, Boolean publish, Long categoryNo);
+  @EntityGraph(attributePaths = {"post"}, type = EntityGraph.EntityGraphType.LOAD)
+  Page<SummaryCategory> findAllWithByPostPublishAndCategoryCategoryNo(Pageable pageable, Boolean publish, Long categoryNo);
 
-    @EntityGraph(attributePaths = {"post"}, type = EntityGraph.EntityGraphType.LOAD)
-    Page<SummaryCategory> findAllWithByPostPublishAndPostSubjectContains(Pageable pageable, Boolean publish, String subject);
+  @EntityGraph(attributePaths = {"post"}, type = EntityGraph.EntityGraphType.LOAD)
+  Page<SummaryCategory> findAllWithByPostPublishAndPostSubjectContains(Pageable pageable, Boolean publish, String subject);
 
-    @EntityGraph(attributePaths = {"post"}, type = EntityGraph.EntityGraphType.LOAD)
-    Page<SummaryCategory> findAllWithByPostPublishAndPostCreateDateBetween(Pageable pageable, Boolean publish, LocalDateTime start, LocalDateTime end);
+  @EntityGraph(attributePaths = {"post"}, type = EntityGraph.EntityGraphType.LOAD)
+  Page<SummaryCategory> findAllWithByPostPublishAndPostCreateDateBetween(Pageable pageable, Boolean publish, LocalDateTime start, LocalDateTime end);
 }

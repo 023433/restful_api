@@ -20,22 +20,22 @@ import lombok.ToString;
 @MappedSuperclass
 public class AbstractSummary {
 
-    @Id
-    @Column(name = "b_post_no", nullable = false, unique = true)
-    protected Long postNo;
+  @Id
+  @Column(name = "b_post_no", nullable = false, unique = true)
+  protected Long postNo;
 
-    @MapsId
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "b_post_no", insertable = false, updatable = false)
-    @JsonManagedReference
-    protected Post post;
+  @MapsId
+  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JoinColumn(name = "b_post_no", insertable = false, updatable = false)
+  @JsonManagedReference
+  protected Post post;
 
-    @Column(name = "b_thumbnail", nullable = false)
-    protected String thumbnail;
+  @Column(name = "b_thumbnail", nullable = false)
+  protected String thumbnail;
 
-    @Column(name = "b_save_path", nullable = false)
-    protected String savePath;
+  @Column(name = "b_save_path", nullable = false)
+  protected String savePath;
 
-    @Column(name = "b_summary", nullable = false)
-    protected String summary;
+  @Column(name = "b_summary", nullable = false)
+  protected String summary;
 }

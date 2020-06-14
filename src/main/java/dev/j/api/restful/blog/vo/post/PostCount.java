@@ -13,6 +13,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostCount {
-    private LocalDateTime createDate;
-    private Long count;
+  private LocalDateTime createDate;
+  private Long count;
 }

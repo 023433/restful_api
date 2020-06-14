@@ -11,19 +11,19 @@ import dev.j.api.restful.common.property.PropertyEncrypt;
 @Configuration
 public class ConfigDecrypt {
 
-    @Value("${ENC_PWD}")
-	String encryptorPassword;
+  @Value("${ENC_PWD}")
+  String encryptorPassword;
 
-    @Bean
-	public StandardPBEStringEncryptor decryptService() {
-		StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
+  @Bean
+  public StandardPBEStringEncryptor decryptService() {
+    StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
 
-		EnvironmentPBEConfig config = new EnvironmentPBEConfig();
-		config.setAlgorithm(PropertyEncrypt.ENC_ALGORITHM);
-        config.setPassword(encryptorPassword);
-		encryptor.setConfig(config);
-		
-		return encryptor;
-	}
+    EnvironmentPBEConfig config = new EnvironmentPBEConfig();
+    config.setAlgorithm(PropertyEncrypt.ENC_ALGORITHM);
+    config.setPassword(encryptorPassword);
+    encryptor.setConfig(config);
+
+    return encryptor;
+  }
     
 }

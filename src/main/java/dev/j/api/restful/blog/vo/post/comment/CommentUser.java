@@ -27,24 +27,24 @@ import lombok.ToString;
 @Table(name = "b_comment_user")
 public class CommentUser {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "b_no", nullable = false)
-    private Long no;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "b_no", nullable = false)
+  private Long no;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "b_comment_no", insertable = false, updatable = false)
-    @JsonBackReference
-    private Comment comment;
+  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JoinColumn(name = "b_comment_no", insertable = false, updatable = false)
+  @JsonBackReference
+  private Comment comment;
 
-    @Column(name = "b_comment_no", nullable = false)
-    private Long commentNo;
+  @Column(name = "b_comment_no", nullable = false)
+  private Long commentNo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "b_author", nullable = false, insertable = false, updatable = false)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private User user;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "b_author", nullable = false, insertable = false, updatable = false)
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+  private User user;
 
-    @Column(name = "b_author", nullable = false)
-    private String author;
+  @Column(name = "b_author", nullable = false)
+  private String author;
 }

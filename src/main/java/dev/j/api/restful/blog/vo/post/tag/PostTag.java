@@ -21,23 +21,23 @@ import lombok.ToString;
 @Table(name = "b_post_tag")
 public class PostTag {
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "b_no", nullable = false)
-    private Long no;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "b_no", nullable = false)
+  private Long no;
 
-    @ManyToOne
-    @JoinColumn(name = "b_post_no", nullable = false, insertable = false, updatable = false)
-    @JsonBackReference
-    private Post post;
+  @ManyToOne
+  @JoinColumn(name = "b_post_no", nullable = false, insertable = false, updatable = false)
+  @JsonBackReference
+  private Post post;
 
-    @ManyToOne
-    @JoinColumn(name = "b_tag_no", nullable = false, insertable = false, updatable = false)
-    private Tag tag;
+  @ManyToOne
+  @JoinColumn(name = "b_tag_no", nullable = false, insertable = false, updatable = false)
+  private Tag tag;
 
-    @Column(name = "b_post_no", nullable = false)
-    private Long postNo;
+  @Column(name = "b_post_no", nullable = false)
+  private Long postNo;
 
-    @Column(name = "b_tag_no", nullable = false)
-    private Long tagNo;
+  @Column(name = "b_tag_no", nullable = false)
+  private Long tagNo;
 }

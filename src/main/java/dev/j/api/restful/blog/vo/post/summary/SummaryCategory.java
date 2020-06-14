@@ -22,12 +22,12 @@ import lombok.ToString;
 @Table(name = "b_post_summary")
 public class SummaryCategory extends AbstractSummary {
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "b_post_no", insertable = false, updatable = false)
-    @JsonManagedReference
-    private Post post;
-    
-    @OneToMany(mappedBy = "post")
-    @JsonManagedReference
-    private List<PostCategory> category = new ArrayList<>();
+  @OneToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "b_post_no", insertable = false, updatable = false)
+  @JsonManagedReference
+  private Post post;
+  
+  @OneToMany(mappedBy = "post")
+  @JsonManagedReference
+  private List<PostCategory> category = new ArrayList<>();
 }

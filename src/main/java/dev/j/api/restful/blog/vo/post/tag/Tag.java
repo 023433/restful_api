@@ -19,23 +19,22 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Tag {
 
+  public Tag(String title){
+    this.title = title;
+  }
 
-    public Tag(String title){
-        this.title = title;
-    }
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "b_no", nullable = false)
+  private Long no;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "b_no", nullable = false)
-    private Long no;
+  @Column(name = "b_title", nullable = false, unique = true)
+  private String title;
 
-    @Column(name = "b_title", nullable = false, unique = true)
-    private String title;
-
-    @Override
-    public boolean equals(Object obj) {
-        Tag temp = (Tag) obj;
-        return title.equals(temp.getTitle());
-    }
+  @Override
+  public boolean equals(Object obj) {
+    Tag temp = (Tag) obj;
+    return title.equals(temp.getTitle());
+  }
 
 }

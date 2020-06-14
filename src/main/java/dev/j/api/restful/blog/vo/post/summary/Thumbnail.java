@@ -8,8 +8,8 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Thumbnail {
-    String originalFileName;
-    String saveFileName;
-    String savePath;
-    String url;
+  String originalFileName;
+  String saveFileName;
+  String savePath;
+  String url;
 }

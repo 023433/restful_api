@@ -11,25 +11,22 @@ import org.springframework.util.StringUtils;
 @Converter
 public class LocalDateAttributeConverter implements AttributeConverter<LocalDate, String>{
 
-	@Override
-	public String convertToDatabaseColumn(LocalDate attribute) {
-        if(attribute == null) {
-            return "";
-        } else {
-            return attribute.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        }
-	}
+  @Override
+  public String convertToDatabaseColumn(LocalDate attribute) {
+    if(attribute == null) {
+      return "";
+    } else {
+      return attribute.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    }
+  }
 
-	@Override
-	public LocalDate convertToEntityAttribute(String dbData) {
-        if(StringUtils.isEmpty(dbData)) {
-            return null;
-        } else {
-            return LocalDate.parse(dbData, DateTimeFormatter.ISO_LOCAL_DATE);
-        }
-	}
-
-
-
+  @Override
+  public LocalDate convertToEntityAttribute(String dbData) {
+    if(StringUtils.isEmpty(dbData)) {
+      return null;
+    } else {
+      return LocalDate.parse(dbData, DateTimeFormatter.ISO_LOCAL_DATE);
+    }
+  }
     
 }

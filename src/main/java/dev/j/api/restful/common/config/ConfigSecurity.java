@@ -20,41 +20,41 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true) 
 public class ConfigSecurity extends WebSecurityConfigurerAdapter{
 
-    @Autowired
-    private JwtAuthorizationFilter authorizationFilter;
+  @Autowired
+  private JwtAuthorizationFilter authorizationFilter;
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.cors();
-        http.csrf().disable();
-        http.httpBasic().disable();
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.cors();
+    http.csrf().disable();
+    http.httpBasic().disable();
 
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        http.authorizeRequests().antMatchers("/auth/**").permitAll();
+    http.authorizeRequests().antMatchers("/auth/**").permitAll();
 
-        http.authorizeRequests().requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("ADMIN");
+    http.authorizeRequests().requestMatchers(EndpointRequest.toAnyEndpoint()).hasRole("ADMIN");
 
-        http.antMatcher("/**")
-            .authorizeRequests()
-            .anyRequest().authenticated()
-            .and()
-            .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
+    http.antMatcher("/**")
+        .authorizeRequests()
+        .anyRequest().authenticated()
+        .and()
+        .addFilterBefore(authorizationFilter, UsernamePasswordAuthenticationFilter.class);
 
-    }
+  }
 
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
+  @Bean
+  CorsConfigurationSource corsConfigurationSource() {
+    CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.addAllowedOrigin("*");
-        configuration.addAllowedHeader("*");
-        configuration.addAllowedMethod("*");
-        configuration.setAllowCredentials(true);
+    configuration.addAllowedOrigin("*");
+    configuration.addAllowedHeader("*");
+    configuration.addAllowedMethod("*");
+    configuration.setAllowCredentials(true);
 
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+    return source;
+  }
 
 }

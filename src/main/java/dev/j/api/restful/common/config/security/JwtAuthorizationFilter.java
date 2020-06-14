@@ -15,25 +15,25 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Component
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
-    @Autowired
-    @Qualifier("authenticationBlog")
-    private JwtAuthenticationProvider authenticationBlog;
+  @Autowired
+  @Qualifier("authenticationBlog")
+  private JwtAuthenticationProvider authenticationBlog;
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws ServletException, IOException {
+  @Override
+  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    throws ServletException, IOException {
 
 
-        String uri = request.getRequestURI();
-        if(uri.startsWith("/auth")){
-            filterChain.doFilter(request, response);
-            return;
-        }
-        
-        Authentication auth = authenticationBlog.getAuthentication(request);
-        SecurityContextHolder.getContext().setAuthentication(auth);
-        
-        filterChain.doFilter(request, response);
+    String uri = request.getRequestURI();
+    if(uri.startsWith("/auth")){
+      filterChain.doFilter(request, response);
+      return;
     }
+    
+    Authentication auth = authenticationBlog.getAuthentication(request);
+    SecurityContextHolder.getContext().setAuthentication(auth);
+    
+    filterChain.doFilter(request, response);
+  }
     
 }

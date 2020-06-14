@@ -28,42 +28,42 @@ import lombok.ToString;
 @Table(name = "b_post")
 public class Post {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "b_no", nullable = false)
-    private Long no;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "b_no", nullable = false)
+  private Long no;
 
-    @Column(name = "b_subject", nullable = false)
-    private String subject;
+  @Column(name = "b_subject", nullable = false)
+  private String subject;
 
-    @Column(name = "b_publish", nullable = false)
-    private Boolean publish = true;
+  @Column(name = "b_publish", nullable = false)
+  private Boolean publish = true;
 
-    @Column(name = "b_view_count", nullable = false)
-    private int viewCount;
+  @Column(name = "b_view_count", nullable = false)
+  private int viewCount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "b_author", nullable = false, insertable = false, updatable = false)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private User user;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "b_author", nullable = false, insertable = false, updatable = false)
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+  private User user;
 
-    @Column(name = "b_author", nullable = false)
-    private String author;
-    
-    @Column(
-        name = "b_create_date", 
-        columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", 
-        updatable = false
-    )
-    private LocalDateTime createDate;
+  @Column(name = "b_author", nullable = false)
+  private String author;
 
-    @Column(
-        name = "b_update_date", 
-        columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
-    )
-    private LocalDateTime updateDate;
+  @Column(
+    name = "b_create_date", 
+    columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", 
+    updatable = false
+  )
+  private LocalDateTime createDate;
 
-    @OneToMany(mappedBy = "post")
-    @JsonBackReference
-    private List<PostCategory> category = new ArrayList<>();
+  @Column(
+    name = "b_update_date", 
+    columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP"
+  )
+  private LocalDateTime updateDate;
+
+  @OneToMany(mappedBy = "post")
+  @JsonBackReference
+  private List<PostCategory> category = new ArrayList<>();
 }
