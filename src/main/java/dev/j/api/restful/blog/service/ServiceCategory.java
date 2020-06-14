@@ -72,7 +72,7 @@ public class ServiceCategory extends AbstractService {
     return root;
   }
 
-	public List<CategoryChildren> getCategories() {
+  public List<CategoryChildren> getCategories() {
     List<CategoryChildren> categories = repositoryCategoryChildren.findAll();
 
     List<CategoryChildren> root = new ArrayList<>();
@@ -115,8 +115,8 @@ public class ServiceCategory extends AbstractService {
     return null;
   }
 
-	public List<CategoryParent> getCategoriess() {
-		return repositoryCategoryParent.findAll();
-	}
+  public List<CategoryParent> getCategoriess() {
+    return repositoryCategoryParent.findAll();
+  }
 
 }

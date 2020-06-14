@@ -62,7 +62,7 @@ public class ServicePost extends AbstractService {
 
   @Autowired
   private RepositoryTag repositoryTag;
-  
+
   @Autowired
   private RepositoryPostTag repositoryPostTag;
 

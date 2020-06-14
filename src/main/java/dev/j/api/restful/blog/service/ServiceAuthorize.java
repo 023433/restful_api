@@ -13,52 +13,52 @@ import org.springframework.stereotype.Service;
 @Service
 public class ServiceAuthorize extends AbstractService {
 
-	@Autowired
-	private RepositoryUser repositoryUser;
+  @Autowired
+  private RepositoryUser repositoryUser;
 
-	public String createJwtToken(String userId) {
-		return componentJwtToken.createToken(userId);
-	}
+  public String createJwtToken(String userId) {
+    return componentJwtToken.createToken(userId);
+  }
 
-	public String getJwtToken(String userId, String userPw) {
+  public String getJwtToken(String userId, String userPw) {
 
-		if(userId.isEmpty() || userPw.isEmpty()){
-			return null;
-		}
-		
-		Optional<User> userOp = repositoryUser.findById(userId);
-		
-		if( !userOp.isPresent() ){
-			return null;
-		}
+    if(userId.isEmpty() || userPw.isEmpty()){
+      return null;
+    }
+    
+    Optional<User> userOp = repositoryUser.findById(userId);
+    
+    if( !userOp.isPresent() ){
+      return null;
+    }
 
-		User user = userOp.get();
+    User user = userOp.get();
 
-		String savedUserPw = user.getUserPw();
+    String savedUserPw = user.getUserPw();
 
-		if(componentEncrypt.matches(userPw, savedUserPw)){
-			List<String> roles = user.getRoles();
-			return componentJwtToken.createToken(userId, roles);
-		}
+    if(componentEncrypt.matches(userPw, savedUserPw)){
+      List<String> roles = user.getRoles();
+      return componentJwtToken.createToken(userId, roles);
+    }
 
-		return null;
-	}
+    return null;
+  }
 
-	public boolean validateAdmin(HttpServletRequest request) {
+  public boolean validateAdmin(HttpServletRequest request) {
 
     String jwtToken = request.getHeader(PropertyJwtToken.STR_TOKEN);
-		String userId = componentJwtToken.getUserId(jwtToken);
-		
-		Optional<User> userOp = repositoryUser.findById(userId);
-		
-		if( !userOp.isPresent() ){
-			return false;
-		}
-		
-		User user = userOp.get();
-		List<String> roles = user.getRoles();
+    String userId = componentJwtToken.getUserId(jwtToken);
+    
+    Optional<User> userOp = repositoryUser.findById(userId);
+    
+    if( !userOp.isPresent() ){
+      return false;
+    }
+    
+    User user = userOp.get();
+    List<String> roles = user.getRoles();
 
-		return roles.contains(EnumRole.ADMIN.label());
-	}
+    return roles.contains(EnumRole.ADMIN.label());
+  }
 
 }

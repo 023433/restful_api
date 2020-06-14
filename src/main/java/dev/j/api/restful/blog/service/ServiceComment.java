@@ -25,7 +25,7 @@ public class ServiceComment extends AbstractService{
 
   @Autowired
   private RepositoryComment repositoryComment;
-  
+
   @Autowired
   private RepositoryCommentPostLoad repositoryCommentPostLoad;
 
@@ -41,7 +41,7 @@ public class ServiceComment extends AbstractService{
     Sort sort = Sort.by(Order.asc("groupNo"), Order.asc("orderNo"));
     
     Pageable pageable = PageRequest.of(page, size, sort);
-  
+
     return repositoryCommentPostLoad.findAllWithByPostNoAndPostPublish(pageable, Long.valueOf(postNo), true);
   }
 
@@ -50,13 +50,13 @@ public class ServiceComment extends AbstractService{
     Sort sort = Sort.by(Order.desc("createDate"), Order.desc("no"));
     
     Pageable pageable = PageRequest.of(0, 5, sort);
-  
+
     return repositoryCommentPostLoad.findAllWithByPostPublish(pageable, true);
-	}
+  }
 
 
   @Transactional
-	public Comment saveComment(HttpServletRequest request, Comment comment) {
+  public Comment saveComment(HttpServletRequest request, Comment comment) {
     System.out.println(comment);
     Comment parent = new Comment();
 
@@ -137,12 +137,12 @@ public class ServiceComment extends AbstractService{
       
       comment.setAuth(auth);
     }
-  
+
     return comment;
-	}
+  }
 
 
-	public Comment updateComment(HttpServletRequest request, Comment comment) {
+  public Comment updateComment(HttpServletRequest request, Comment comment) {
 
     Comment savedComment = new Comment();
     CommentGuest guest = comment.getGuest();
@@ -182,11 +182,11 @@ public class ServiceComment extends AbstractService{
 
     repositoryComment.save(savedComment);
 
-		return savedComment;
-	}
+    return savedComment;
+  }
 
 
-	public Comment getComment(HttpServletRequest request, String no, String password) {
+  public Comment getComment(HttpServletRequest request, String no, String password) {
 
     Optional<Comment> saved = repositoryComment.findById(Long.parseLong(no));
     
@@ -224,6 +224,6 @@ public class ServiceComment extends AbstractService{
       return savedComment;
     }
 
-		return null;
-	}
+    return null;
+  }
 }
