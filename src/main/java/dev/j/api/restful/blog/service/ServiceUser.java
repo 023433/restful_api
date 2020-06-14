@@ -10,28 +10,28 @@ import org.springframework.stereotype.Service;
 @Service
 public class ServiceUser extends AbstractService {
 
-    @Autowired
-    private RepositoryUser repositoryUser;
+  @Autowired
+  private RepositoryUser repositoryUser;
 
-    public List<String> getUserRoles(String userId){
+  public List<String> getUserRoles(String userId){
 
-        Optional<User> optionalUser = repositoryUser.findById(userId);
+    Optional<User> optionalUser = repositoryUser.findById(userId);
 
-        if(optionalUser.isPresent()){
-            User user = optionalUser.get();
+    if(optionalUser.isPresent()){
+      User user = optionalUser.get();
 
-            return user.getRoles();
-        }
-
-        return null;
+      return user.getRoles();
     }
 
-	public void save(User user) {
-        String userPw = user.getUserPw();
-        userPw = componentEncrypt.encrypt(userPw);
-        user.setUserPw(userPw);
-        
-        repositoryUser.save(user);
-	}
+    return null;
+  }
+
+  public void save(User user) {
+    String userPw = user.getUserPw();
+    userPw = componentEncrypt.encrypt(userPw);
+    user.setUserPw(userPw);
+    
+    repositoryUser.save(user);
+  }
     
 }

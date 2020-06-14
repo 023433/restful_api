@@ -45,7 +45,8 @@ public class ServiceAuthorize extends AbstractService {
 	}
 
 	public boolean validateAdmin(HttpServletRequest request) {
-        String jwtToken = request.getHeader(PropertyJwtToken.STR_TOKEN);
+
+    String jwtToken = request.getHeader(PropertyJwtToken.STR_TOKEN);
 		String userId = componentJwtToken.getUserId(jwtToken);
 		
 		Optional<User> userOp = repositoryUser.findById(userId);

@@ -64,7 +64,7 @@ public class ServicePost extends AbstractService {
   private RepositoryTag repositoryTag;
   
   @Autowired
-	private RepositoryPostTag repositoryPostTag;
+  private RepositoryPostTag repositoryPostTag;
 
   public Page<SummaryCategory> getPostsSummary(String pageNo, String pageSize) {
     int page = Integer.parseInt(pageNo);
@@ -72,7 +72,7 @@ public class ServicePost extends AbstractService {
     Sort sort = Sort.by(Order.desc("postNo"));
     
     Pageable pageable = PageRequest.of(page, size, sort);
-  
+
     return repositorySummaryCategory.findAllWithByPostPublish(pageable, true);
   }
 
@@ -96,7 +96,7 @@ public class ServicePost extends AbstractService {
     return repositoryPost.findAllByPublish(pageable, true);
   }
 
-	public Page<Post> getPostsNewestCategory(String category, String pageNo, String pageSize) {
+  public Page<Post> getPostsNewestCategory(String category, String pageNo, String pageSize) {
     int page = Integer.parseInt(pageNo);
     int size = Integer.parseInt(pageSize);
     Sort sort = Sort.by(Order.desc("no"));
@@ -104,9 +104,9 @@ public class ServicePost extends AbstractService {
     Pageable pageable = PageRequest.of(page, size, sort);
 
     return repositoryPost.findAllWithByCategoryCategoryNo(pageable, Long.valueOf(category));
-	}
+  }
 
-	public Page<SummaryCategory> getPostsSummaryWithCategory(String pageNo, String pageSize, List<String> categories) {
+  public Page<SummaryCategory> getPostsSummaryWithCategory(String pageNo, String pageSize, List<String> categories) {
 
     int page = Integer.parseInt(pageNo);
     int size = Integer.parseInt(pageSize);
@@ -129,9 +129,9 @@ public class ServicePost extends AbstractService {
     }
 
     return repositorySummaryCategory.findAllWithByPostPublishAndCategoryCategoryNo(pageable, true, category.getNo());
-	}
+  }
 
-	public Page<SummaryTag> getPostsSummaryWithTag(String pageNo, String pageSize, String tag) {
+  public Page<SummaryTag> getPostsSummaryWithTag(String pageNo, String pageSize, String tag) {
 
     int page = Integer.parseInt(pageNo);
     int size = Integer.parseInt(pageSize);
@@ -139,24 +139,24 @@ public class ServicePost extends AbstractService {
 
     Pageable pageable = PageRequest.of(page, size, sort);
 
-		return repositorySummaryTag.findAllWithByPostPublishAndTagTagTitle(pageable, true, tag);
-	}
+    return repositorySummaryTag.findAllWithByPostPublishAndTagTagTitle(pageable, true, tag);
+  }
 
-	public Page<SummaryCategory> getPostsSummaryWithSearch(String pageNo, String pageSize, String searchVal) {
+  public Page<SummaryCategory> getPostsSummaryWithSearch(String pageNo, String pageSize, String searchVal) {
     int page = Integer.parseInt(pageNo);
     int size = Integer.parseInt(pageSize);
     Sort sort = Sort.by(Order.desc("postNo"));
 
     Pageable pageable = PageRequest.of(page, size, sort);
 
-		return repositorySummaryCategory.findAllWithByPostPublishAndPostSubjectContains(pageable, true, searchVal);
-	}
+    return repositorySummaryCategory.findAllWithByPostPublishAndPostSubjectContains(pageable, true, searchVal);
+  }
 
-	public List<PostCount> getCountGroupByCreateDate(String date) {
-		return repositoryPost.findGroupByCreateDate(date);
-	}
+  public List<PostCount> getCountGroupByCreateDate(String date) {
+    return repositoryPost.findGroupByCreateDate(date);
+  }
 
-	public Page<SummaryCategory> getPostsByCreateDate(String pageNo, String pageSize, String date) {
+  public Page<SummaryCategory> getPostsByCreateDate(String pageNo, String pageSize, String date) {
     int page = Integer.parseInt(pageNo);
     int size = Integer.parseInt(pageSize);
     Sort sort = Sort.by(Order.desc("postNo"));
@@ -173,10 +173,10 @@ public class ServicePost extends AbstractService {
     LocalDateTime end = LocalDateTime.of(year, month, dayOfMonth, 23, 59);
     
     return repositorySummaryCategory.findAllWithByPostPublishAndPostCreateDateBetween(pageable, true, start, end);
-	}
+  }
 
   @Transactional
-	public String addPost(HttpServletRequest request, PostParam postParam) {
+  public String addPost(HttpServletRequest request, PostParam postParam) {
     String jwtToken = request.getHeader(PropertyJwtToken.STR_TOKEN);
     String userId = componentJwtToken.getUserId(jwtToken);
     
@@ -275,8 +275,8 @@ public class ServicePost extends AbstractService {
       
     }
 
-		return null;
-	}
+    return null;
+  }
 
   public boolean addPostValidate(HttpServletRequest request, PostParam post) {
     if(isNullOrEmpty(post.getSubject())){

@@ -9,42 +9,42 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ServiceAttach extends AbstractService {
+
     public Thumbnail attachThumbnail(HttpServletRequest request, MultipartFile attachImage) {
-        String today = componentFileUpload.getToday();
-        String url = componentFileUpload.getUrl();
+      String today = componentFileUpload.getToday();
+      String url = componentFileUpload.getUrl();
 
-        String originalFileName = attachImage.getOriginalFilename();
-        String savePath = PropertyPath.TEMP + "thumbnail/" + today + "/";
+      String originalFileName = attachImage.getOriginalFilename();
+      String savePath = PropertyPath.TEMP + "thumbnail/" + today + "/";
 
-        String saveFileName = componentFileUpload.saveImageFile(savePath, attachImage);
-  
+      String saveFileName = componentFileUpload.saveImageFile(savePath, attachImage);
 
-        Thumbnail thumbnail = new Thumbnail();
 
-        thumbnail.setOriginalFileName(originalFileName);
-        thumbnail.setSaveFileName(saveFileName);
-        thumbnail.setSavePath(savePath);
-        thumbnail.setUrl(url);
+      Thumbnail thumbnail = new Thumbnail();
+
+      thumbnail.setOriginalFileName(originalFileName);
+      thumbnail.setSaveFileName(saveFileName);
+      thumbnail.setSavePath(savePath);
+      thumbnail.setUrl(url);
 		return thumbnail;
 	}
 
 
-
 	public PostImage attachPostImage(HttpServletRequest request, MultipartFile attachImage) {
-		String today = componentFileUpload.getToday();
-        String url = componentFileUpload.getUrl();
+		  String today = componentFileUpload.getToday();
+      String url = componentFileUpload.getUrl();
 
-        String originalFileName = attachImage.getOriginalFilename();
-        String savePath = PropertyPath.TEMP + "postimage/" + today + "/";
+      String originalFileName = attachImage.getOriginalFilename();
+      String savePath = PropertyPath.TEMP + "postimage/" + today + "/";
 
-        String saveFileName = componentFileUpload.saveImageFile(savePath, attachImage);
+      String saveFileName = componentFileUpload.saveImageFile(savePath, attachImage);
 
-		PostImage postImage = new PostImage();
+		  PostImage postImage = new PostImage();
    
-        postImage.setOriginalFileName(originalFileName);
-        postImage.setSaveFileName(saveFileName);
-        postImage.setSavePath(savePath);
-        postImage.setUrl(url + savePath + saveFileName);
+      postImage.setOriginalFileName(originalFileName);
+      postImage.setSaveFileName(saveFileName);
+      postImage.setSavePath(savePath);
+      postImage.setUrl(url + savePath + saveFileName);
 		return postImage;
 	}
 

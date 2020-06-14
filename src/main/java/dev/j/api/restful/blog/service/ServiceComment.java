@@ -23,215 +23,206 @@ import org.springframework.stereotype.Service;
 @Service
 public class ServiceComment extends AbstractService{
 
-    @Autowired
-    private RepositoryComment repositoryComment;
-    
-    @Autowired
-    private RepositoryCommentPostLoad repositoryCommentPostLoad;
+  @Autowired
+  private RepositoryComment repositoryComment;
+  
+  @Autowired
+  private RepositoryCommentPostLoad repositoryCommentPostLoad;
 
-    @Autowired
-    private RepositoryCommentGuest repositoryCommentGuest;
+  @Autowired
+  private RepositoryCommentGuest repositoryCommentGuest;
 
-    @Autowired
-    private RepositoryCommentUser repositoryCommentUser;
+  @Autowired
+  private RepositoryCommentUser repositoryCommentUser;
     
-    public Page<CommentPostLoad> getComments(String postNo, String pageNo, String pageSize) {
-        int page = Integer.parseInt(pageNo);
-        int size = Integer.parseInt(pageSize);
-        Sort sort = Sort.by(Order.asc("groupNo"), Order.asc("orderNo"));
-        
-        Pageable pageable = PageRequest.of(page, size, sort);
-      
-        return repositoryCommentPostLoad.findAllWithByPostNoAndPostPublish(pageable, Long.valueOf(postNo), true);
+  public Page<CommentPostLoad> getComments(String postNo, String pageNo, String pageSize) {
+    int page = Integer.parseInt(pageNo);
+    int size = Integer.parseInt(pageSize);
+    Sort sort = Sort.by(Order.asc("groupNo"), Order.asc("orderNo"));
+    
+    Pageable pageable = PageRequest.of(page, size, sort);
+  
+    return repositoryCommentPostLoad.findAllWithByPostNoAndPostPublish(pageable, Long.valueOf(postNo), true);
+  }
+
+
+  public Page<CommentPostLoad> getCommentsNewest() {
+    Sort sort = Sort.by(Order.desc("createDate"), Order.desc("no"));
+    
+    Pageable pageable = PageRequest.of(0, 5, sort);
+  
+    return repositoryCommentPostLoad.findAllWithByPostPublish(pageable, true);
+	}
+
+
+  @Transactional
+	public Comment saveComment(HttpServletRequest request, Comment comment) {
+    System.out.println(comment);
+    Comment parent = new Comment();
+
+    int depthNo = 0;
+    int orderNo = 0;
+    int groupNo = 0;
+    Long postNo = 0L;
+
+    Long parentNo = comment.getParentNo();
+
+    if(parentNo != null){
+      Optional<Comment> optParent = repositoryComment.findById(parentNo);
+
+      if(optParent.isPresent()){
+        parent = optParent.get();
+        depthNo = parent.getDepthNo();
+        orderNo = parent.getOrderNo();
+        groupNo = parent.getGroupNo();
+        postNo = parent.getPostNo();
+      }
+
+      orderNo = repositoryComment.getMinOrderNo(groupNo, orderNo, depthNo);
     }
 
+    if(orderNo == 0){
+      orderNo = repositoryComment.getMaxOrderNo(groupNo) + 1;
+    }
 
-    public Page<CommentPostLoad> getCommentsNewest() {
+    if(comment.getPostNo() == null){
+      comment.setPostNo(postNo);
+    }
 
-        Sort sort = Sort.by(Order.desc("createDate"), Order.desc("no"));
-        
-        Pageable pageable = PageRequest.of(0, 5, sort);
+    comment.setOrderNo(orderNo);
+    comment.setDepthNo(depthNo + 1);
+    comment.setGroupNo(groupNo);
+
+    if(orderNo > 1){
+      repositoryComment.updateOrderNo(groupNo, orderNo);
+    }
+
+    CommentGuest guest = comment.getGuest();
+
+    comment.setGuest(null);
+
+    repositoryComment.save(comment);
+
+    if(parentNo == null){
+      comment.setGroupNo(comment.getNo().intValue());
+      comment.setDepthNo(1);
+      comment.setOrderNo(1);
+      repositoryComment.save(comment);
+    }
+
+    if(guest != null){
+      guest.setComment(comment);
+      guest.setCommentNo(comment.getNo());
+      guest.setIpAddress(request.getRemoteAddr());
+      guest.setPw(componentEncrypt.encrypt(guest.getPw()));
       
-        return repositoryCommentPostLoad.findAllWithByPostPublish(pageable, true);
+      repositoryCommentGuest.save(guest);
+
+      comment.setGuest(guest);
+
+      return comment;
+    }
+    
+    String jwtToken = request.getHeader(PropertyJwtToken.STR_TOKEN);
+    String userId = componentJwtToken.getUserId(jwtToken);
+
+    if(userId != null){
+      CommentUser auth = new CommentUser();
+
+      auth.setAuthor(userId);
+      auth.setComment(comment);
+      auth.setCommentNo(comment.getNo());
+
+      repositoryCommentUser.save(auth);
+      
+      comment.setAuth(auth);
+    }
+  
+    return comment;
 	}
 
 
-    @Transactional
-	public Comment saveComment(HttpServletRequest request, Comment comment) {
-        System.out.println(comment);
-        Comment parent = new Comment();
-
-        int depthNo = 0;
-        int orderNo = 0;
-        int groupNo = 0;
-        Long postNo = 0L;
-
-        Long parentNo = comment.getParentNo();
-
-        if(parentNo != null){
-            Optional<Comment> optParent = repositoryComment.findById(parentNo);
-
-            if(optParent.isPresent()){
-                parent = optParent.get();
-                depthNo = parent.getDepthNo();
-                orderNo = parent.getOrderNo();
-                groupNo = parent.getGroupNo();
-                postNo = parent.getPostNo();
-            }
-
-            orderNo = repositoryComment.getMinOrderNo(groupNo, orderNo, depthNo);
-        }
-
-        if(orderNo == 0){
-            orderNo = repositoryComment.getMaxOrderNo(groupNo) + 1;
-        }
-
-        if(comment.getPostNo() == null){
-            comment.setPostNo(postNo);
-        }
-
-        comment.setOrderNo(orderNo);
-        comment.setDepthNo(depthNo + 1);
-        comment.setGroupNo(groupNo);
-
-        if(orderNo > 1){
-            repositoryComment.updateOrderNo(groupNo, orderNo);
-        }
-
-        CommentGuest guest = comment.getGuest();
-
-        comment.setGuest(null);
-
-        repositoryComment.save(comment);
-
-        if(parentNo == null){
-            comment.setGroupNo(comment.getNo().intValue());
-            comment.setDepthNo(1);
-            comment.setOrderNo(1);
-            repositoryComment.save(comment);
-        }
-
-        if(guest != null){
-            guest.setComment(comment);
-            guest.setCommentNo(comment.getNo());
-            guest.setIpAddress(request.getRemoteAddr());
-            guest.setPw(componentEncrypt.encrypt(guest.getPw()));
-            
-            repositoryCommentGuest.save(guest);
-    
-            comment.setGuest(guest);
-
-            return comment;
-        }
-        
-        String jwtToken = request.getHeader(PropertyJwtToken.STR_TOKEN);
-        String userId = componentJwtToken.getUserId(jwtToken);
-
-        if(userId != null){
-            CommentUser auth = new CommentUser();
-
-            auth.setAuthor(userId);
-            auth.setComment(comment);
-            auth.setCommentNo(comment.getNo());
-    
-            repositoryCommentUser.save(auth);
-            
-            comment.setAuth(auth);
-        }
-
-      
-        return comment;
-
-	}
-
-
-    @Transactional
 	public Comment updateComment(HttpServletRequest request, Comment comment) {
 
-        Comment savedComment = new Comment();
-        CommentGuest guest = comment.getGuest();
+    Comment savedComment = new Comment();
+    CommentGuest guest = comment.getGuest();
 
-        Optional<Comment> saved = repositoryComment.findById(comment.getNo());
+    Optional<Comment> saved = repositoryComment.findById(comment.getNo());
 
-        if(saved.isPresent()){
-            savedComment = saved.get();
-        }else{
-            return null;
-        }
-        System.out.println(savedComment);
+    if(saved.isPresent()){
+      savedComment = saved.get();
+    }else{
+      return null;
+    }
 
-        if(guest != null){
-            String pw = guest.getPw();
-            String savedPw = savedComment.getGuest().getPw();
+    if(guest != null){
+      String pw = guest.getPw();
+      String savedPw = savedComment.getGuest().getPw();
 
-            if( !componentEncrypt.matches(pw, savedPw)){
-                return null;
-            }
-  
-        }
+      if( !componentEncrypt.matches(pw, savedPw)){
+        return null;
+      }
+    }
 
-        String jwtToken = request.getHeader(PropertyJwtToken.STR_TOKEN);
-        String userId = componentJwtToken.getUserId(jwtToken);
+    String jwtToken = request.getHeader(PropertyJwtToken.STR_TOKEN);
+    String userId = componentJwtToken.getUserId(jwtToken);
 
-        if(userId != null && !userId.isEmpty()){
-            CommentUser auth = savedComment.getAuth();
+    if(userId != null && !userId.isEmpty()){
+      CommentUser auth = savedComment.getAuth();
 
-            String savedUserId = auth.getAuthor();
+      String savedUserId = auth.getAuthor();
 
-            if( !userId.equals(savedUserId)){
-                return null;
-            }
-        }
+      if( !userId.equals(savedUserId)){
+        return null;
+      }
+    }
 
-        savedComment.setContent(comment.getContent());
-        savedComment.setSecret(comment.getSecret());
+    savedComment.setContent(comment.getContent());
+    savedComment.setSecret(comment.getSecret());
 
-        repositoryComment.save(savedComment);
+    repositoryComment.save(savedComment);
 
 		return savedComment;
 	}
 
 
 	public Comment getComment(HttpServletRequest request, String no, String password) {
-        System.out.println("getComment");
-        System.out.println(no);
-        System.out.println(password);
 
-        Optional<Comment> saved = repositoryComment.findById(Long.parseLong(no));
+    Optional<Comment> saved = repositoryComment.findById(Long.parseLong(no));
+    
+    if( !saved.isPresent()){
+    return null;
+    }
+
+    Comment savedComment = saved.get();
+
+    String jwtToken = request.getHeader(PropertyJwtToken.STR_TOKEN);
+    String userId = componentJwtToken.getUserId(jwtToken);
+
+    if((password == null || password.isEmpty()) 
+      && userId != null && !userId.isEmpty()){
         
-        if( !saved.isPresent()){
-		    return null;
-        }
+      CommentUser auth = savedComment.getAuth();
 
-        Comment savedComment = saved.get();
+      if(auth == null){
+        return null;
+      }
 
-        String jwtToken = request.getHeader(PropertyJwtToken.STR_TOKEN);
-        String userId = componentJwtToken.getUserId(jwtToken);
+      String savedUserId = auth.getAuthor();
 
-        if(
-            (password == null || password.isEmpty()) &&
-            userId != null && !userId.isEmpty()){
-            CommentUser auth = savedComment.getAuth();
+      if( !userId.equals(savedUserId)){
+        return null;
+      }
 
-            if(auth == null){
-                return null;
-            }
+      return savedComment;
+    }
 
-            String savedUserId = auth.getAuthor();
+    CommentGuest guest = savedComment.getGuest();
+    String savedPwd = guest.getPw();
 
-            if( !userId.equals(savedUserId)){
-                return null;
-            }
-
-            return savedComment;
-        }
-
-        CommentGuest guest = savedComment.getGuest();
-        String savedPwd = guest.getPw();
-
-        if(componentEncrypt.matches(password, savedPwd)){
-            return savedComment;
-        }
+    if(componentEncrypt.matches(password, savedPwd)){
+      return savedComment;
+    }
 
 		return null;
 	}

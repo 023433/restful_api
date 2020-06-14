@@ -14,21 +14,21 @@ import org.springframework.stereotype.Service;
 @Service
 public class ServiceTag extends AbstractService{
 
-    @Autowired
-	private RepositoryTag repositoryTag;
-	
-	public List<Tag> getTags() {
-		return repositoryTag.findAll();
-	}
+  @Autowired
+  private RepositoryTag repositoryTag;
 
-	public Page<Tag> getTags(String pageNo, String pageSize) {
-		int page = Integer.parseInt(pageNo);
-		int size = Integer.parseInt(pageSize);
-		Sort sort = Sort.by(Order.desc("no"));
-		
-		Pageable pageable = PageRequest.of(page, size, sort);
+  public List<Tag> getTags() {
+    return repositoryTag.findAll();
+  }
 
-		return repositoryTag.findAll(pageable);
-	}
+  public Page<Tag> getTags(String pageNo, String pageSize) {
+    int page = Integer.parseInt(pageNo);
+    int size = Integer.parseInt(pageSize);
+    Sort sort = Sort.by(Order.desc("no"));
+    
+    Pageable pageable = PageRequest.of(page, size, sort);
+
+    return repositoryTag.findAll(pageable);
+  }
 
 }

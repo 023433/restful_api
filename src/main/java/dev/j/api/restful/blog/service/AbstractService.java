@@ -8,30 +8,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class AbstractService {
 
     @Autowired
-	protected ComponentJwtToken componentJwtToken;
+    protected ComponentJwtToken componentJwtToken;
 
-	@Autowired
+    @Autowired
     protected ComponentEncrypt componentEncrypt;
 
     @Autowired
     protected ComponentFileUpload componentFileUpload;
 
     protected Boolean isNullOrEmpty(String str){
-        return str == null || str.isEmpty();
+      return str == null || str.isEmpty();
     }
 
     protected Boolean isNullOrEmpty(String[] str){
-        return str == null || str.length == 0;
+      return str == null || str.length == 0;
     }
 
     protected Boolean isNotNullOrEmpty(String[] str){
-        return !isNullOrEmpty(str);
+      return !isNullOrEmpty(str);
     }
 
     protected Boolean isNotNullOrEmpty(String str){
-        return !isNullOrEmpty(str);
+      return !isNullOrEmpty(str);
     }
-
-    
     
 }

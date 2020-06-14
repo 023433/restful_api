@@ -17,102 +17,103 @@ import org.springframework.stereotype.Service;
 @Service
 public class ServiceCategory extends AbstractService {
 
-    @Autowired
-    private RepositoryCategoryChildren repositoryCategoryChildren;
+  @Autowired
+  private RepositoryCategoryChildren repositoryCategoryChildren;
 
-    @Autowired
-    private RepositoryCategoryParent repositoryCategoryParent;
+  @Autowired
+  private RepositoryCategoryParent repositoryCategoryParent;
 
-    @Autowired
-    private RepositoryPostCategory repositoryPostCategory;
+  @Autowired
+  private RepositoryPostCategory repositoryPostCategory;
 
-    public List<CategoryChildren> getCategoriesWithCount() {
+  public List<CategoryChildren> getCategoriesWithCount() {
 
-        List<CategoryChildren> categories = repositoryCategoryChildren.findAll();
-        List<PostCategory> postCategories = repositoryPostCategory.findPostCount();
+    List<CategoryChildren> categories = repositoryCategoryChildren.findAll();
+    List<PostCategory> postCategories = repositoryPostCategory.findPostCount();
 
-        List<CategoryChildren> root = new ArrayList<>();
-        Map<Long, CategoryChildren> all = new HashMap<>();
-        Map<Long, Long> allCount = new HashMap<>();
+    List<CategoryChildren> root = new ArrayList<>();
+    Map<Long, CategoryChildren> all = new HashMap<>();
+    Map<Long, Long> allCount = new HashMap<>();
 
-        for (PostCategory category : postCategories) {
-            allCount.put(category.getCategoryNo(), category.getCount());
-        }
-
-        for (CategoryChildren category : categories) {
-            category.setChildren(null);
-
-            Long no = category.getNo();
-            Long count = allCount.get(no);
-
-            if(count != null && count != 0){
-                category.setCount(count.intValue());
-            }
-
-            all.put(no, category);
-        }
-
-        for (CategoryChildren category : categories) {
-            category.setChildren(new ArrayList<>());
-            if(category.getParentNo() == null){
-                root.add(category);
-            }else{
-                CategoryChildren parent = all.get(category.getParentNo());
-
-                List<CategoryChildren> childrens = parent.getChildren();
-
-                if(childrens == null){
-                    childrens = new ArrayList<>();
-                }
-
-                childrens.add(category);
-            }
-        }
-        
-        return root;
+    for (PostCategory category : postCategories) {
+      allCount.put(category.getCategoryNo(), category.getCount());
     }
 
-	public List<CategoryChildren> getCategories() {
-        List<CategoryChildren> categories = repositoryCategoryChildren.findAll();
+    for (CategoryChildren category : categories) {
+      category.setChildren(null);
 
-        List<CategoryChildren> root = new ArrayList<>();
-        
-        Map<Long, CategoryChildren> all = new HashMap<>();
+      Long no = category.getNo();
+      Long count = allCount.get(no);
 
-        for (CategoryChildren category : categories) {
-            category.setChildren(null);
-            all.put(category.getNo(), category);
+      if(count != null && count != 0){
+        category.setCount(count.intValue());
+      }
+
+      all.put(no, category);
+    }
+
+    for (CategoryChildren category : categories) {
+      category.setChildren(new ArrayList<>());
+      if(category.getParentNo() == null){
+        root.add(category);
+      }else{
+        CategoryChildren parent = all.get(category.getParentNo());
+
+        List<CategoryChildren> childrens = parent.getChildren();
+
+        if(childrens == null){
+          childrens = new ArrayList<>();
         }
 
-        for (CategoryChildren category : categories) {
-            category.setChildren(new ArrayList<>());
-            if(category.getParentNo() == null){
-                root.add(category);
-            }else{
-                CategoryChildren parent = all.get(category.getParentNo());
-
-                List<CategoryChildren> childrens = parent.getChildren();
-
-                if(childrens == null){
-                    childrens = new ArrayList<>();
-                }
-                childrens.add(category);
-            }
-        }
-        
-		return root;
+        childrens.add(category);
+      }
     }
     
-    public CategoryParent getCategory(String id){
-        Long lId = Long.valueOf(id);
-        Optional<CategoryParent> opCategory =  repositoryCategoryParent.findById(lId);
+    return root;
+  }
 
-        if(opCategory.isPresent()){
-            return opCategory.get();
-        }
+	public List<CategoryChildren> getCategories() {
+    List<CategoryChildren> categories = repositoryCategoryChildren.findAll();
 
-        return null;
+    List<CategoryChildren> root = new ArrayList<>();
+    
+    Map<Long, CategoryChildren> all = new HashMap<>();
+
+    for (CategoryChildren category : categories) {
+      category.setChildren(null);
+      all.put(category.getNo(), category);
     }
+
+    for (CategoryChildren category : categories) {
+      category.setChildren(new ArrayList<>());
+
+      if(category.getParentNo() == null){
+        root.add(category);
+      }else{
+        CategoryChildren parent = all.get(category.getParentNo());
+
+        List<CategoryChildren> childrens = parent.getChildren();
+
+        if(childrens == null){
+          childrens = new ArrayList<>();
+        }
+        childrens.add(category);
+      }
+    }
+    
+    return root;
+  }
+    
+  public CategoryParent getCategory(String id){
+    Long lId = Long.valueOf(id);
+    Optional<CategoryParent> opCategory =  repositoryCategoryParent.findById(lId);
+
+    if(opCategory.isPresent()){
+      return opCategory.get();
+    }
+
+    return null;
+  }
 
 	public List<CategoryParent> getCategoriess() {
 		return repositoryCategoryParent.findAll();
