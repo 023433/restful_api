@@ -294,5 +294,15 @@ public class ServicePost extends AbstractService {
     return true;
   }
 
+  public Page<Post> getPosts(String pageNo, String pageSize) {
+    int page = Integer.parseInt(pageNo);
+    int size = Integer.parseInt(pageSize);
+    Sort sort = Sort.by(Order.desc("no"));
+    
+    Pageable pageable = PageRequest.of(page, size, sort);
+
+    return repositoryPost.findAll(pageable);
+  }
+
     
 }

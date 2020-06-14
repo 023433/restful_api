@@ -298,6 +298,33 @@ public class ControllerPost {
         return new ResponseEntity<String>("", HttpStatus.BAD_REQUEST);
             
     }
+
+
+
+    @ApiOperation(
+        value = "포스트 요약 정보 요청",
+        response = ResponseEntity.class
+    )
+    @ApiImplicitParams({
+        @ApiImplicitParam(
+            name = "X-Auth-Token", 
+            required = false, 
+            paramType = "header", 
+            dataTypeClass = String.class
+        ) 
+    })
+    @GetMapping("/posts")
+    public ResponseEntity<Page<Post>> getPosts(
+        @ApiParam(value = "페이지 번호") 
+        @RequestParam(value = "pageNo", defaultValue = "0")
+        String pageNo, 
+        
+        @ApiParam(value = "한 페이지에 보여질 게시글 갯수") 
+        @RequestParam(value = "pageSize", defaultValue = "10")
+        String pageSize) {
+            
+        return new ResponseEntity<Page<Post>>(servicePost.getPosts(pageNo, pageSize), HttpStatus.OK);
+    }
     
     
 }
