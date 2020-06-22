@@ -34,6 +34,9 @@ public class User {
   @Column(name = "b_user_name", length = 20, nullable = false)
   private String userName;
 
+  @Column(name = "b_activate", nullable = false)
+  private boolean activate = true;
+
   @Column(
     name = "b_create_date", 
     columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP", 

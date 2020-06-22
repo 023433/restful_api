@@ -5,6 +5,11 @@ import dev.j.api.restful.blog.vo.User;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,6 +37,16 @@ public class ServiceUser extends AbstractService {
     user.setUserPw(userPw);
     
     repositoryUser.save(user);
+  }
+
+  public Page<User> getUsers(String pageNo, String pageSize) {
+    int page = Integer.parseInt(pageNo);
+    int size = Integer.parseInt(pageSize);
+    Sort sort = Sort.by(Order.desc("createDate"));
+    
+    Pageable pageable = PageRequest.of(page, size, sort);
+
+    return repositoryUser.findAll(pageable);
   }
     
 }

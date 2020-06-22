@@ -40,7 +40,7 @@ public class ControllerAttach {
       dataTypeClass = String.class
     ) 
   })
-  @PreAuthorize ("hasRole('ROLE_ADMIN')")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @PostMapping("/thumbnail")
   public ResponseEntity<Thumbnail> attachThumbnail(
     @ApiParam(value = "첨부파일(이미지)", required = true) 
@@ -64,7 +64,7 @@ public class ControllerAttach {
       dataTypeClass = String.class
     ) 
   })
-  @PreAuthorize ("hasRole('ROLE_ADMIN')")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   @PostMapping("/post/image")
   public PostImage attachPostImage(
     @ApiParam(value = "첨부파일(이미지)", required = true) 
